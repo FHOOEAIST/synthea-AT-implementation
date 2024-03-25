@@ -41,6 +41,7 @@ public class App {
     System.out.println("         [-t updateTimePeriodInDays]");
     System.out.println("         [-f fixedRecordPath]");
     System.out.println("         [-k keepMatchingPatientsPath]");
+    System.out.println("         [-li readImplementationGuidelineForLocalUse]");
     System.out.println("         [--config*=value]");
     System.out.println("          * any setting from src/main/resources/synthea.properties");
     System.out.println("Examples:");
@@ -236,7 +237,14 @@ public class App {
               throw new FileNotFoundException(String.format(
                   "Specified IG directory (%s) does not exist", value));
             }
-          } else if (currArg.startsWith("--")) {
+          }else if(currArg.equals("-li")){
+            System.out.println("Local implemantation");
+            String value = argsQ.poll();
+            System.out.println(value);
+            File localConfigFile = new File(value);
+            Config.load(localConfigFile);
+          }
+           else if (currArg.startsWith("--")) {
             String configSetting;
             String value;
             // accept either:
