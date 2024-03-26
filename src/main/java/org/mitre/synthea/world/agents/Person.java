@@ -179,6 +179,23 @@ public class Person implements Serializable, RandomNumberGenerator, QuadTreeElem
     this.initializeDefaultHealthRecords();
     coverage = new CoverageRecord(this);
   }
+  public Person(long seed,Map<String, Object> localImplementationMap) {
+    System.out.println(localImplementationMap);
+    random = new DefaultRandomNumberGenerator(seed);
+    attributes = new ConcurrentHashMap<String, Object>();
+    vitalSigns = new ConcurrentHashMap<VitalSign, ValueGenerator>();
+    symptoms = new ConcurrentHashMap<String, ExpressedSymptom>();
+    /* initialized the onsetConditions field */
+    onsetConditionRecord = new ExpressedConditionRecord(this);
+    /* Chronic Medications which will be renewed at each Wellness Encounter */
+    chronicMedications = new ConcurrentHashMap<String, HealthRecord.Medication>();
+    hasMultipleRecords = Config.getAsBoolean("exporter.split_records", false);
+    if (hasMultipleRecords) {
+      records = new ConcurrentHashMap<String, HealthRecord>();
+    }
+    this.initializeDefaultHealthRecords();
+    coverage = new CoverageRecord(this);
+  }
 
   /**
    * Initializes person's default health records. May need to be called if attributes

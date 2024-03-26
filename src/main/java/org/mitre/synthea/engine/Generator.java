@@ -142,6 +142,8 @@ public class Generator {
     public int daysToTravelForward = -1;
     /** Path to a module defining which patients should be kept and exported. */
     public Path keepPatientsModulePath;
+    public Map<String, Object> localImplementationMap;
+
   }
 
   /**
@@ -453,11 +455,15 @@ public class Generator {
    * @return generated Person
    */
   public Person generatePerson(int index, long personSeed) {
-
-    Person person = new Person(personSeed);
     boolean wasExported = true;
-
+      Person person = new Person(personSeed);
+      if (this.options.localImplementationMap == null || this.options.localImplementationMap.isEmpty()){
+        person = new Person(personSeed);
+      } else {
+        person = new Person(personSeed,this.options.localImplementationMap);
+      }
     try {
+
       int tryNumber = 0; // Number of tries to create these demographics
 
       Map<String, Object> demoAttributes;
