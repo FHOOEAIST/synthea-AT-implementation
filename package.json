@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "file-system": "^2.2.2",
+    "fs": "^0.0.1-security",
+    "jsonfile": "^6.1.0",
+    "lowdb": "^7.0.1"
+  }
+}

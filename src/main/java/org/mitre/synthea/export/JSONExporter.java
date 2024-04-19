@@ -114,6 +114,7 @@ public class JSONExporter {
       } else {
         personOut.add("record", context.serialize(src.record));
       }
+      System.out.println("PersonSeriqliwer:" + personOut.getAsJsonObject());
       return personOut;
     }
 

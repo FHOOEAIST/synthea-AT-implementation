@@ -1,0 +1,90 @@
+---
+name: AT-coreprofile-mapping
+
+applicability: true
+
+actions:
+ - name: Apply to AT Core Profiles
+   profiles:
+   - profile: https://fhir.hl7.at/r5-core-main/StructureDefinition-at-core-patient.html
+     applicability: Patient
+
+
+ - name: create AT-Patient
+   create_resource: 
+    - resourceType: Patient
+      based_on:
+        resource: Patient
+      fields:
+        - location: Patient.id
+          value: $getField([Patient.id])
+        - location: Patient.meta
+          value: $getField([Patient.meta])
+        - location: Patient.text
+          value: $getField([Patient.text])
+        - location: Patient.identifier
+          value: $getField([Patient.identifier])
+        - location: Patient.active
+          value: $getField([Patient.active])
+        - location: Patient.name.family
+          value: $getField([Patient.name.family])
+        - location: Patient.name.given
+          value: $getField([Patient.name.given])
+        - location: Patient.name.prefix
+          value: $getField([Patient.name.prefix])
+        - location: Patient.telecom
+          value: $getField([Patient.telecom])
+#        - location: Patient.PatientReligion
+#          value: 
+        - location: Patient.gender
+          value: $getField([Patient.gender])
+        - location: Patient.birthDate
+          value: $getField([Patient.birthDate])
+        - location: 'Patient.deceased[x]'
+          value: $getField(['Patient.deceased[x]'])
+        - location: Patient.address
+          value: $getField([Patient.address])
+        - location: Patient.maritalStatus
+          value: $getField([Patient.MaritalStatus])
+        - location: Patient.multipleBirth
+          value: $getField([Patient.multipleBirth])
+        - location: Patient.contact
+          value: $getField([Patient.contact])
+        - location: Patient.communication
+          value: $getField([Patient.cummunication])
+        - location: Patient.generalPractitioner
+          value: $getField([Patient.generalPractitioner])
+        - location: Patient.managingOrganization
+          value: $getField([Patient.managingOrganization])
+        - location: Patient.link
+          value: $getField([Patient.link])
+
+ - name: testExecuteScript
+   execute_script:
+     - apply_to: bundle
+       function_name: apply2
+       function: |
+         function apply2(bundle) {
+         bundle.entry = [bundle.entry.slice(-1)[0]];
+         }
+
+ - name: testExecute2Script
+   execute_script:
+     - apply_to: bundle
+       function_name: apply
+       function: |
+         function apply(bundle) {
+            bundle.entry[0].resource.PatientReligion = 'Christian';
+            patientResource = bundle.entry[0].resource;
+            console.log(JSON.stringify(patientResource));
+            var File = Java.type("java.io.File");
+            var Writer = Java.type("java.io.FileWriter"); 
+            var Math = Java.type("java.lang.Math")
+            console.log(Math.PI)
+            var myWriter = new Writer("test.json");
+            myWriter.write(JSON.stringify(patientResource));
+            myWriter.close();
+         }
+
+
+...

@@ -2,12 +2,18 @@ package org.mitre.synthea.export.flexporter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
-
+import java.io.StringWriter;
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 public class FlexporterJavascriptContext {
   private final Context jsContext;
 
@@ -16,8 +22,22 @@ public class FlexporterJavascriptContext {
   /**
    * Default constructor for a Javascript Context.
    */
+  @SuppressWarnings("deprecation")
   public FlexporterJavascriptContext() {
-    jsContext = Context.create("js");
+
+    jsContext = Context.newBuilder("js")    .allowHostAccess(HostAccess.ALL)
+    //allows access to all Java classes
+    .allowHostClassLookup(className -> true)
+    .build();
+//    try {
+//      String command = "npm install fs";
+//      Runtime.getRuntime().exec("cmd /c start cmd.exe /K " + command);
+//  } catch (IOException e) {
+//      e.printStackTrace();
+//  }
+   // jsContext.eval("js", "require('lowdb');");
+
+    // Expose a Java function to JavaScript environment
     // TODO: if we want to add custom libraries like fhirpath or fhir-mapper, do it here
     // try {
 
@@ -90,9 +110,12 @@ public class FlexporterJavascriptContext {
    * @param fnName Function name to invoke
    */
   public void applyFunctionToBundle(String fnName) {
+    // Create a StringWriter to capture console output
+
+
     // assumption is the fn has already been loaded by loadFunction.
     // good news -- based on testing, if the bundle is modified in-place
-    //   in the JS context then our variable "sees" those updates.
+    // in the JS context then our variable "sees" those updates.
     // (the variable maintains a reference to the object within the JS VM)
 
     Value applyFn = jsContext.getBindings("js").getMember(fnName);
@@ -131,4 +154,16 @@ public class FlexporterJavascriptContext {
       applyFn.execute(resource, workingBundleAsJSObject);
     }
   }
+
+  static class WriteJsonToFile {
+    @HostAccess.Export
+    public void write(Value jsonData, String filename) {
+        try (FileWriter file = new FileWriter(filename)) {
+            file.write(jsonData.toString());
+            System.out.println("Successfully wrote JSON to " + filename);
+        } catch (IOException e) {
+            System.err.println("Error writing JSON to file: " + e.getMessage());
+        }
+    }
+}
 }

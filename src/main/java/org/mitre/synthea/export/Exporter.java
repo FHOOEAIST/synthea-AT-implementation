@@ -232,6 +232,7 @@ public abstract class Exporter {
    */
   private static boolean exportRecord(Person person, String fileTag, long stopTime,
           ExporterRuntimeOptions options) {
+    System.out.println("Exporter " + person.toString());
     boolean wasExported = true;
     if (options.terminologyService) {
       // Resolve any coded values within the record that are specified using a ValueSet URI.
@@ -317,6 +318,7 @@ public abstract class Exporter {
     }
     if (Config.getAsBoolean("exporter.json.export")) {
       String json = JSONExporter.export(person);
+      System.out.println("Exporter" + person);
       File outDirectory = getOutputFolder("json", person);
       Path outFilePath = outDirectory.toPath().resolve(filename(person, fileTag, "json"));
       writeNewFile(outFilePath, json);
@@ -410,6 +412,8 @@ public abstract class Exporter {
         e.printStackTrace();
       }
     }
+    System.out.println("Exporter" + wasExported);
+
     return wasExported;
   }
 
@@ -447,7 +451,7 @@ public abstract class Exporter {
    */
   public static void appendToFile(Path file, String contents) {
     PrintWriter writer = fileWriters.get(file);
-
+    System.out.println(contents);
     if (writer == null) {
       synchronized (fileWriters) {
         writer = fileWriters.get(file);
