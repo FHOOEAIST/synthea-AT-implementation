@@ -1,0 +1,43 @@
+[
+    {
+        "extension": [
+            {
+                "url": "code",
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.at/fhir/HL7ATCoreProfiles/4.0.1/CodeSystem/at-core-cs-religion",
+                            "code": "101",
+                            "display": ""
+                        }
+                    ]
+                }
+            }
+        ],
+        "url": "http://hl7.at/fhir/HL7ATCoreProfiles/5.0.0/StructureDefinition/at-core-ext-patient-religion"
+    },
+    {
+        "extension": [
+            {
+                "url": "code",
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.at/fhir/HL7ATCoreProfiles/4.0.1/CodeSystem/at-core-cs-iso-3166-1-alpha-3",
+                            "code": "AUT",
+                            "display": "Österreich"
+                        }
+                    ]
+                }
+            },
+            {
+                "url": "period",
+                "valuePeriod": {
+                    "start": "2016-07-30T08:30:00+01:00",
+                    "end": "2022-07-30T08:35:00+01:00"
+                }
+            }
+        ],
+        "url": "http://hl7.org/fhir/StructureDefinition/patient-citizenship"
+    }
+]

@@ -9,6 +9,25 @@ actions:
    - profile: https://fhir.hl7.at/r5-core-main/StructureDefinition-at-core-patient.html
      applicability: Patient
 
+ - name: KeepResources
+   keep_resources:
+     - Patient
+     - Encounter
+
+
+ - name: create AuditEvent
+   create_resource: 
+    - resourceType: AuditEvent
+      based_on:
+        resource: Encounter
+      fields:
+        - location: AuditEvent.code
+          value: "1"
+
+ #- name: testDeleteResources
+ #  delete_resources:
+ #    - Patient
+ #    - Encounter
 
  - name: create AT-Patient
    create_resource: 
@@ -19,11 +38,24 @@ actions:
         - location: Patient.id
           value: $getField([Patient.id])
         - location: Patient.meta
-          value: $getField([Patient.meta])
+          value: $getField([Patient.meta[0]])
         - location: Patient.text
           value: $getField([Patient.text])
         - location: Patient.identifier
           value: $getField([Patient.identifier])
+#              use: "official"
+#              type:
+#                  coding:
+#                      system: "http://terminology.hl7.org/CodeSystem/v2-0203"
+#                      code: "SS"
+#                      display: "Social Security Number"
+#              system: "urn:oid:1.2.40.0.10.1.4.3.1"
+#              value: ""
+#              assigner:
+#                  display: "Dachverband der österreichischen Sozialversicherungsträger"
+#          value:
+#              test: "test"
+            
         - location: Patient.active
           value: $getField([Patient.active])
         - location: Patient.name.family
@@ -42,16 +74,34 @@ actions:
           value: $getField([Patient.birthDate])
         - location: 'Patient.deceased[x]'
           value: $getField(['Patient.deceased[x]'])
-        - location: Patient.address
-          value: $getField([Patient.address])
+        - location: Patient.address.use
+          value: "home"
+        - location: Patient.address.line
+          value: $getField([Patient.address.line])
+        - location: Patient.address.city
+          value: $getField([Patient.address.city])
+        - location: Patient.address.state
+          value: $getField([Patient.address.state])
+        - location: Patient.address.postalCode
+          value: $getField([Patient.address.postalCode])
+        - location: Patient.address.country
+          value: $getField([Patient.address.country])
         - location: Patient.maritalStatus
-          value: $getField([Patient.MaritalStatus])
-        - location: Patient.multipleBirth
-          value: $getField([Patient.multipleBirth])
+          value: $getField([Patient.maritalStatus])
+        - location: Patient.multipleBirthBoolean
+          value: $getField([Patient.multipleBirthBoolean])
+        - location: Patient.photo
+          value:
+              contentType: "image/jpeg"
+              url: "https://thispersondoesnotexist.tools/"
         - location: Patient.contact
           value: $getField([Patient.contact])
-        - location: Patient.communication
-          value: $getField([Patient.cummunication])
+        - location: Patient.communication.language.coding
+          value:
+              system: "urn:ietf:bcp:47"
+              code: "de"
+        - location: Patient.communication.preferred
+          value: "true"
         - location: Patient.generalPractitioner
           value: $getField([Patient.generalPractitioner])
         - location: Patient.managingOrganization
@@ -59,14 +109,6 @@ actions:
         - location: Patient.link
           value: $getField([Patient.link])
 
- - name: testExecuteScript
-   execute_script:
-     - apply_to: bundle
-       function_name: apply2
-       function: |
-         function apply2(bundle) {
-         bundle.entry = [bundle.entry.slice(-1)[0]];
-         }
 
  - name: testExecute2Script
    execute_script:
@@ -85,6 +127,92 @@ actions:
             myWriter.write(JSON.stringify(patientResource));
             myWriter.close();
          }
+
+ - name: applyIdentifier
+   execute_script:
+     - apply_to: resource
+       function_name: applyIdentifier
+       function: |
+         function applyIdentifier(resource, bundle) {
+          if(resource.resourceType == "Patient"){
+            var BufferedReader = Java.type("java.io.BufferedReader");
+            var FileReader = Java.type("java.io.FileReader");
+            var Math = Java.type("java.lang.Math")
+            // Create a FileReader to read the JSON file
+            var reader = new BufferedReader(new FileReader("src/main/resources/templates/mappings/AT-identifier.json"));
+            // Read the JSON content
+            var jsonContent = "";
+            var line;
+            while ((line = reader.readLine()) !== null) {
+                jsonContent += line;
+            }
+            var jsonObject = JSON.parse(jsonContent);
+            var min = Math.pow(10, 9);
+            var max = Math.pow(10, 10) - 1; 
+            var number = Math.floor(Math.random() * (max - min + 1)) + min;
+            var SocialSecurityNumber = jsonObject[0]
+            var NationalUniqueIndividualIdentifier = jsonObject[1]
+            var PatientInternalIdentifier = jsonObject[2]
+            SocialSecurityNumber.value = number.toString();
+            min = Math.pow(4, 3);
+            max = Math.pow(4, 4) - 1; 
+            number = Math.floor(Math.random() * (max - min + 1)) + min;
+            PatientInternalIdentifier.value = number.toString();
+            resource.identifier = [SocialSecurityNumber,NationalUniqueIndividualIdentifier,PatientInternalIdentifier]
+          }
+          return resource
+          }
+
+ - name: applyExtensions
+   execute_script:
+     - apply_to: resource
+       function_name: applyExtensions
+       function: |
+         function applyExtensions(resource, bundle) {
+          var BufferedReader = Java.type("java.io.BufferedReader");
+          var FileReader = Java.type("java.io.FileReader");
+          var Math = Java.type("java.lang.Math")
+          var ArrayList = Java.type("java.util.ArrayList");
+          if(resource.resourceType == "Patient"){
+            var data = new ArrayList();
+            // Create a FileReader to read the JSON file
+            var reader = new BufferedReader(new FileReader("src/main/resources/templates/mappings/AT-extensions.json"));
+            // Read the JSON content
+            var jsonContent = "";
+            var line;
+            while ((line = reader.readLine()) !== null) {
+                jsonContent += line;
+            }
+            var jsonObject = JSON.parse(jsonContent);
+            var PatientReligion = jsonObject[0]
+            var citizenship = jsonObject[1]
+            var reader = new BufferedReader(new FileReader("src/main/resources/AT-religion.csv"));
+            while ((line = reader.readLine()) !== null) {
+                var values = line.split(",");
+                data.add(values);
+            }
+            var religionData = [];
+            for (var i = 0; i < data.size(); i++) {
+                religionData.push(data.get(i));
+            }
+            var randomNumber = Math.random() * 100;
+            var chosenReligion = "Römisch-Katholisch";
+            var chosenReligionCode = 101;
+            var cumulativePercentage = 0;
+            for (var i = 0; i < religionData.length; i++) {
+                cumulativePercentage += parseFloat(religionData[i][2]);
+                if (randomNumber <= cumulativePercentage) {
+                    chosenReligionCode = religionData[i][0];
+                    chosenReligion = religionData[i][1];
+                    break;
+                }
+            }
+            console.log(chosenReligion)
+            console.log(chosenReligionCode)
+            PatientReligion.extension[0].coding
+          }
+          return resource
+          }
 
 
 ...
