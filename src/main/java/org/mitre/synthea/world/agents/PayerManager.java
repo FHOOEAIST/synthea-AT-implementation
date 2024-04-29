@@ -134,7 +134,7 @@ public class PayerManager {
     while (csv.hasNext()) {
       Map<String, String> row = csv.next();
       String payerStates = row.get(STATES_COVERED).toUpperCase();
-      String abbreviation = Location.getAbbreviation(location.state).toUpperCase();
+      String abbreviation = "";
 
       // For now, only allow one U.S. state at a time.
       if (payerStates.contains(abbreviation) || payerStates.contains("*")) {
@@ -263,17 +263,17 @@ public class PayerManager {
     BigDecimal defaultCoinsurance = new BigDecimal(line.remove(COINSURANCE).trim());
     BigDecimal defaultCopay = new BigDecimal(line.remove(COPAY).trim());
     BigDecimal monthlyPremium = new BigDecimal(line.remove(MONTHLY_PREMIUM).trim());
-    boolean medicareSupplement = Boolean.parseBoolean(line.remove(MEDICARE_SUPPLEMENT).trim());
-    boolean isACA = Boolean.parseBoolean(line.remove(ACA).trim());
-    boolean incomeBasedPremium = Boolean.parseBoolean(line.remove(INCOME_BASED_PREMIUM).trim());
+    boolean medicareSupplement = true;
+    boolean isACA = true;
+    boolean incomeBasedPremium = true;
     String yearStartStr = line.remove(START_YEAR).trim();
     int yearStart = yearStartStr.equals("") ? 0 : Integer.parseInt(yearStartStr);
     String yearEndStr = line.remove(END_YEAR).trim();
     int yearEnd = StringUtils.isBlank(yearEndStr)
         ? Integer.MAX_VALUE : Integer.parseInt(yearEndStr);
-    BigDecimal maxOutOfPocket = new BigDecimal(line.remove(MAX_OOP).trim());
+    BigDecimal maxOutOfPocket = BigDecimal.valueOf(10000);
     // If the priority is blank, give it minimum priority (maximum int value).
-    String priorityString = line.remove(PRIORITY_LEVEL).trim();
+    String priorityString = "3";
     int priority = StringUtils.isBlank(priorityString)
         ? Integer.MAX_VALUE : Integer.parseInt(priorityString);
     String eligibilityName = line.remove(ELIGIBILITY_POLICY);

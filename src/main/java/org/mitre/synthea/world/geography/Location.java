@@ -60,7 +60,7 @@ public class Location implements Serializable {
     try {
       this.city = city;
       this.state = state;
-
+      //System.out.println(city);
       Table<String,String,Demographics> allDemographics = Demographics.load(state);
 
       // this still works even if only 1 city given,
@@ -264,10 +264,10 @@ public class Location implements Serializable {
    */
   private String randomCityId(RandomNumberGenerator random) {
     long targetPop = (long) (random.rand() * totalPopulation);
-
+    //return "1350";
     for (Map.Entry<String, Long> city : populationByCityId.entrySet()) {
       targetPop -= city.getValue();
-
+      //System.out.println(city.getValue());
       if (targetPop < 0) {
         return city.getKey();
       }

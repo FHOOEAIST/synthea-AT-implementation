@@ -24,7 +24,7 @@ actions:
         - location: AuditEvent.code
           value: "1"
 
- #- name: testDeleteResources
+ #- name: DeleteResources
  #  delete_resources:
  #    - Patient
  #    - Encounter
@@ -207,12 +207,14 @@ actions:
                     break;
                 }
             }
+            console.log(JSON.stringify(PatientReligion))
             console.log(chosenReligion)
             console.log(chosenReligionCode)
-            PatientReligion.extension[0].coding
+            PatientReligion.extension[0].valueCodeableConcept.coding[0].code = chosenReligionCode
+            PatientReligion.extension[0].valueCodeableConcept.coding[0].display = chosenReligion
+            PatientRelgigion = {PatientReligion}
+            extension = [PatientReligion,citizenship]
+            resource.extension = extension
           }
           return resource
           }
-
-
-...
