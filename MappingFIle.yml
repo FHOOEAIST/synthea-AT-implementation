@@ -88,7 +88,7 @@ actions:
           value: $getField([Patient.address.country])
         - location: Patient.maritalStatus
           value: $getField([Patient.maritalStatus])
-        - location: Patient.Patient.multipleBirth[x]
+        - location: Patient.multipleBirth[x]
           value: $getField([Patient.multipleBirth[x]])
         - location: Patient.photo
           value:
@@ -111,7 +111,7 @@ actions:
       writeback:
         - location: Patient.deceased
           value: $getField([Patient.deceased])
-        - location: Patient.Patient.multipleBirth[x]
+        - location: Patient.multipleBirth[x]
           value: $getField([Patient.multipleBirth[x]])
 
 
@@ -123,7 +123,6 @@ actions:
          function apply(bundle) {
             bundle.entry[0].resource.PatientReligion = 'Christian';
             patientResource = bundle.entry[0].resource;
-            console.log(JSON.stringify(patientResource));
             var File = Java.type("java.io.File");
             var Writer = Java.type("java.io.FileWriter"); 
             var Math = Java.type("java.lang.Math")
@@ -131,6 +130,38 @@ actions:
             myWriter.write(JSON.stringify(patientResource));
             myWriter.close();
          }
+ - name: applyBoolean
+   execute_script:
+     - apply_to: bundle
+       function_name: applyBoolean
+       function: |
+        function applyBoolean(bundle) {
+            bundle.entry.forEach(entry => {
+                if (entry.resource.resourceType === "Patient") {
+                    console.log(JSON.stringify(entry.resource.multipleBirthBoolean))
+                    if (entry.resource.multipleBirthBoolean != "undefined") {
+                        bundle.entry.filter(e => e.resource.resourceType === "Patient")
+                            .forEach(patientEntry => {
+                                console.log(patientEntry)
+                                patientEntry.resource.multipleBirthBoolean = entry.resource.multipleBirthBoolean;
+                                if (entry.resource.multipleBirthBoolean){
+                                   patientEntry.resource.multipleBirthInteger = entry.resource.multipleBirthInteger;
+                                }
+                            });
+                    }
+                    if (entry.resource.deceasedBoolean != "undefined") {
+                        bundle.entry.filter(e => e.resource.resourceType === "Patient")
+                            .forEach(patientEntry => {
+                                patientEntry.resource.deceased = entry.resource.deceased;
+                                  if (entry.resource.deceasedBoolean){
+                                   patientEntry.resource.deceasedDateTime = entry.resource.deceasedDateTime;
+                                }
+                            });
+                    }
+                }
+            });
+            return bundle;
+        }
 
  - name: applyIdentifier
    execute_script:
@@ -163,8 +194,8 @@ actions:
             number = Math.floor(Math.random() * (max - min + 1)) + min;
             PatientInternalIdentifier.value = number.toString();
             resource.identifier = [SocialSecurityNumber,NationalUniqueIndividualIdentifier,PatientInternalIdentifier]
+            return resource
           }
-          return resource
           }
 
  - name: applyExtensions

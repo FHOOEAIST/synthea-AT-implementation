@@ -608,9 +608,14 @@ public class Provider implements QuadTreeElement, Serializable {
     if (clinicians == null || clinicians.isEmpty()) {
       clinicians = this.clinicianMap.get(ClinicianSpecialty.GENERAL_PRACTICE);
     }
-    Clinician doc = clinicians.get(rand.randInt(clinicians.size()));
-    doc.incrementEncounters();
-    return doc;
+    if (clinicians != null){
+      Clinician doc = clinicians.get(rand.randInt(clinicians.size()));
+      doc.incrementEncounters();
+      return doc;
+    } else{
+      Clinician doc = new Clinician(loaded, rand, loaded, null);
+      return doc;
+    }
   }
 
   private static String toProviderNPI(String idStr, long defaultId) {
