@@ -72,8 +72,8 @@ actions:
           value: $getField([Patient.gender])
         - location: Patient.birthDate
           value: $getField([Patient.birthDate])
-        - location: 'Patient.deceased[x]'
-          value: $getField(['Patient.deceased[x]'])
+        - location: Patient.deceased
+          value: $getField([Patient.deceased])
         - location: Patient.address.use
           value: "home"
         - location: Patient.address.line
@@ -88,8 +88,8 @@ actions:
           value: $getField([Patient.address.country])
         - location: Patient.maritalStatus
           value: $getField([Patient.maritalStatus])
-        - location: Patient.multipleBirthBoolean
-          value: $getField([Patient.multipleBirthBoolean])
+        - location: Patient.Patient.multipleBirth[x]
+          value: $getField([Patient.multipleBirth[x]])
         - location: Patient.photo
           value:
               contentType: "image/jpeg"
@@ -108,6 +108,11 @@ actions:
           value: $getField([Patient.managingOrganization])
         - location: Patient.link
           value: $getField([Patient.link])
+      writeback:
+        - location: Patient.deceased
+          value: $getField([Patient.deceased])
+        - location: Patient.Patient.multipleBirth[x]
+          value: $getField([Patient.multipleBirth[x]])
 
 
  - name: testExecute2Script
@@ -122,7 +127,6 @@ actions:
             var File = Java.type("java.io.File");
             var Writer = Java.type("java.io.FileWriter"); 
             var Math = Java.type("java.lang.Math")
-            console.log(Math.PI)
             var myWriter = new Writer("test.json");
             myWriter.write(JSON.stringify(patientResource));
             myWriter.close();
@@ -207,9 +211,6 @@ actions:
                     break;
                 }
             }
-            console.log(JSON.stringify(PatientReligion))
-            console.log(chosenReligion)
-            console.log(chosenReligionCode)
             PatientReligion.extension[0].valueCodeableConcept.coding[0].code = chosenReligionCode
             PatientReligion.extension[0].valueCodeableConcept.coding[0].display = chosenReligion
             PatientRelgigion = {PatientReligion}
