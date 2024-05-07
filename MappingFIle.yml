@@ -9,25 +9,15 @@ actions:
    - profile: https://fhir.hl7.at/r5-core-main/StructureDefinition-at-core-patient.html
      applicability: Patient
 
- - name: KeepResources
+ - name: testKeepResources
    keep_resources:
      - Patient
      - Encounter
-
-
- - name: create AuditEvent
-   create_resource: 
-    - resourceType: AuditEvent
-      based_on:
-        resource: Encounter
-      fields:
-        - location: AuditEvent.code
-          value: "1"
-
- #- name: DeleteResources
- #  delete_resources:
- #    - Patient
- #    - Encounter
+     - Condition
+     - Procedure
+     - Observation
+     - ImagingStudy
+     - DiagnosticReport
 
  - name: create AT-Patient
    create_resource: 
@@ -42,20 +32,7 @@ actions:
         - location: Patient.text
           value: $getField([Patient.text])
         - location: Patient.identifier
-          value: $getField([Patient.identifier])
-#              use: "official"
-#              type:
-#                  coding:
-#                      system: "http://terminology.hl7.org/CodeSystem/v2-0203"
-#                      code: "SS"
-#                      display: "Social Security Number"
-#              system: "urn:oid:1.2.40.0.10.1.4.3.1"
-#              value: ""
-#              assigner:
-#                  display: "Dachverband der österreichischen Sozialversicherungsträger"
-#          value:
-#              test: "test"
-            
+          value: $getField([Patient.identifier]) 
         - location: Patient.active
           value: $getField([Patient.active])
         - location: Patient.name.family
@@ -66,8 +43,6 @@ actions:
           value: $getField([Patient.name.prefix])
         - location: Patient.telecom
           value: $getField([Patient.telecom])
-#        - location: Patient.PatientReligion
-#          value: 
         - location: Patient.gender
           value: $getField([Patient.gender])
         - location: Patient.birthDate
@@ -114,22 +89,6 @@ actions:
         - location: Patient.multipleBirth[x]
           value: $getField([Patient.multipleBirth[x]])
 
-
- - name: testExecute2Script
-   execute_script:
-     - apply_to: bundle
-       function_name: apply
-       function: |
-         function apply(bundle) {
-            bundle.entry[0].resource.PatientReligion = 'Christian';
-            patientResource = bundle.entry[0].resource;
-            var File = Java.type("java.io.File");
-            var Writer = Java.type("java.io.FileWriter"); 
-            var Math = Java.type("java.lang.Math")
-            var myWriter = new Writer("test.json");
-            myWriter.write(JSON.stringify(patientResource));
-            myWriter.close();
-         }
  - name: applyBoolean
    execute_script:
      - apply_to: bundle
@@ -138,11 +97,9 @@ actions:
         function applyBoolean(bundle) {
             bundle.entry.forEach(entry => {
                 if (entry.resource.resourceType === "Patient") {
-                    console.log(JSON.stringify(entry.resource.multipleBirthBoolean))
                     if (entry.resource.multipleBirthBoolean != "undefined") {
                         bundle.entry.filter(e => e.resource.resourceType === "Patient")
                             .forEach(patientEntry => {
-                                console.log(patientEntry)
                                 patientEntry.resource.multipleBirthBoolean = entry.resource.multipleBirthBoolean;
                                 if (entry.resource.multipleBirthBoolean){
                                    patientEntry.resource.multipleBirthInteger = entry.resource.multipleBirthInteger;
@@ -245,8 +202,52 @@ actions:
             PatientReligion.extension[0].valueCodeableConcept.coding[0].code = chosenReligionCode
             PatientReligion.extension[0].valueCodeableConcept.coding[0].display = chosenReligion
             PatientRelgigion = {PatientReligion}
-            extension = [PatientReligion,citizenship]
-            resource.extension = extension
           }
           return resource
           }
+
+# - name: create AuditEvent
+#   create_resource: 
+#    - resourceType: AuditEvent
+#      based_on:
+#        resource: Encounter
+#      fields:
+#        - location: AuditEvent.action
+#          value: "C"
+#        - location: AuditEvent.recorded
+#          value: $getField([Encounter.period.start])
+#        - location: AuditEvent.occuredDateTime
+#          value: $getField([Encounter.period.start])
+#        - location: AuditEvent.outcome.code
+#          value: "0"
+#        - location: AuditEvent.encounter
+#         value: $getField([Encounter.fullUrl])
+
+# - name: applyReference
+#   execute_script:
+#     - apply_to: resource
+#       function_name: applyReference
+#       function: |
+#         function applyReference(resource, bundle) {
+#          var BufferedReader = Java.type("java.io.BufferedReader");
+#          var FileReader = Java.type("java.io.FileReader");
+#          var Math = Java.type("java.lang.Math")
+#          var ArrayList = Java.type("java.util.ArrayList");
+#          if(resource.resourceType == "AuditEvent"){  
+#            let patientReference;
+#            let type;
+#            for (const ent of bundle.entry){
+#              if (ent.resource.resourceType == "Patient"){
+#                patientReference = ent.fullUrl
+#                console.log("AUDITEVENNTTTT")
+#                break;
+#              }
+#            }
+#            entity = {what:patientReference}
+#            entity = {entity:entity}
+#            resource.entity = entity
+#           console.log(JSON.stringify(resource))
+#         }
+#         return resource
+#         }
+

@@ -738,6 +738,7 @@ public abstract class Actions {
 
     String flag = StringUtils.substringBetween(valueDef, "$", "(");
     String flagValue = StringUtils.substringBetween(valueDef, "([", "])");
+    System.out.println(valueDef.toString());
     String[] flagValues = flagValue.split(",");
 
 
