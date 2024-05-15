@@ -1,0 +1,19 @@
+{
+  "runID": "58723fa6-ba73-4ce8-ae0c-d2da9fb12272",
+  "seed": 1714394656096,
+  "clinicianSeed": 1714394656096,
+  "referenceTime": "20240429",
+  "endTime": "20240429",
+  "version": "9cb3fe3d\n",
+  "patientCount": 1,
+  "providerCount": 405,
+  "payerCount": 1,
+  "javaVersion": "21.0.2",
+  "generate.thread_pool_size": -1,
+  "generatorThreads": 4,
+  "runStartTime": "2024-04-29T12:44:16Z",
+  "runTimeInSeconds": 41,
+  "exporter.years_of_history": "10",
+  "state": "Oberösterreich",
+  "modules": "*"
+}

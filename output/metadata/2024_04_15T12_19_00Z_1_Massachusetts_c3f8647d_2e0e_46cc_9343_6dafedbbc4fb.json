@@ -1,0 +1,19 @@
+{
+  "runID": "c3f8647d-2e0e-46cc-9343-6dafedbbc4fb",
+  "seed": 1713183540055,
+  "clinicianSeed": 1713183540055,
+  "referenceTime": "20240415",
+  "endTime": "20240415",
+  "version": "be2a3c0e\n",
+  "patientCount": 1,
+  "providerCount": 1327,
+  "payerCount": 9,
+  "javaVersion": "21.0.2",
+  "generate.thread_pool_size": -1,
+  "generatorThreads": 4,
+  "runStartTime": "2024-04-15T12:19:00Z",
+  "runTimeInSeconds": 23,
+  "exporter.years_of_history": "10",
+  "state": "Massachusetts",
+  "modules": "*"
+}
