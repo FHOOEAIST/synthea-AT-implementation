@@ -16,8 +16,9 @@ actions:
      - Condition
      - Procedure
      - Observation
-     - ImagingStudy
      - DiagnosticReport
+     - CarePlan
+     - MedicationRequest
 
  - name: create AT-Patient
    create_resource: 

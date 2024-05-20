@@ -1,7 +1,9 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -244,9 +246,7 @@ public class App {
                   "Specified IG directory (%s) does not exist", value));
             }
           }else if(currArg.equals("-li")){
-            System.out.println("Local implemantation");
             String value = argsQ.poll();
-            System.out.println(value);
             File localConfigFile = new File(value);
             Config.load(localConfigFile);
             JSONParser parser = new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE);
@@ -263,8 +263,6 @@ public class App {
             }
 
             // Print the HashMap
-            System.out.println("HashMap with keys and empty values:");
-            System.out.println(implementation);
             options.localImplementationMap = implementation;
           }
            else if (currArg.startsWith("--")) {
@@ -301,7 +299,45 @@ public class App {
       Generator generator = new Generator(options, exportOptions);
       generator.run();
     }
-  }
+     // Relative path to the Python script
+        String pythonScriptPath = "src/main/resources/Bundle2AuditEvent.py";
+
+
+        // Command to execute the Python script
+        String[] command = {"python", pythonScriptPath};
+
+        try {
+            // Create a ProcessBuilder
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+
+            // Set the working directory (optional, defaults to current directory)
+            // processBuilder.directory(new File("relative/path/to/working/directory"));
+
+            // Start the process
+            Process process = processBuilder.start();
+
+            // Capture the output of the process
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            // Capture any errors from the process
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            while ((line = errorReader.readLine()) != null) {
+                System.err.println(line);
+            }
+
+            // Wait for the process to finish and get the exit code
+            int exitCode = process.waitFor();
+            System.out.println("Process exited with code: " + exitCode);
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
   private static boolean validateConfig(Generator.GeneratorOptions options,
           boolean overrideFutureDateError) {

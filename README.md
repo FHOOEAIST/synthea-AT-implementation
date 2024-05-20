@@ -1,8 +1,17 @@
-# Synthea<sup>TM</sup> Patient Generator ![Build Status](https://github.com/synthetichealth/synthea/workflows/.github/workflows/ci-build-test.yml/badge.svg?branch=master) [![codecov](https://codecov.io/gh/synthetichealth/synthea/branch/master/graph/badge.svg)](https://codecov.io/gh/synthetichealth/synthea)
+# Synthea<sup>TM</sup> Patient Generator with AT Core Profile Implementation ![Build Status](https://github.com/synthetichealth/synthea/workflows/.github/workflows/ci-build-test.yml/badge.svg?branch=master) [![codecov](https://codecov.io/gh/synthetichealth/synthea/branch/master/graph/badge.svg)](https://codecov.io/gh/synthetichealth/synthea)
 
 Synthea<sup>TM</sup> is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats.
 
-Read our [wiki](https://github.com/synthetichealth/synthea/wiki) and [Frequently Asked Questions](https://github.com/synthetichealth/synthea/wiki/Frequently-Asked-Questions) for more information.
+This repository is a fork of the Synthea<sup>TM</sup> Patient Generator, enhanced for the implementation of the AT Core Profile with its extensions and demographic data. It also includes the generation of the AuditEvent FHIR resource for process mining purposes in the PICA project and specific modules for local implementation of medical processes.
+
+#### PICA - Process Intelligence and Conformance Auditing.
+
+The project is concerned with the development and establishment of a process analytics connection for medical information systems, which can be used to create a “digital twin” of organizational processes. The development is based on internationally established communication standards in healthcare and in coordination with the Austrian affiliate organization HL7 Austria. Among other things, this will result in a publicly available implementation guideline that will be further developed on an ongoing basis. The implementation guide can be found at [AIST PICA Implementation Guide](https://fhir.hl7.at/r5-pica-5-deployment/index.html) 
+
+#### Read about Synthea
+
+Read the Synthea [wiki](https://github.com/synthetichealth/synthea/wiki) and [Frequently Asked Questions](https://github.com/synthetichealth/synthea/wiki/Frequently-Asked-Questions) for more information. 
+
 
 Currently, Synthea<sup>TM</sup> features include:
 - Birth to Death Lifecycle
@@ -19,6 +28,19 @@ Currently, Synthea<sup>TM</sup> features include:
   - CSV (set `exporter.csv.export = true` to activate)
   - CPCDS (set `exporter.cpcds.export = true` to activate)
 - Rendering Rules and Disease Modules with Graphviz
+
+## Table of Contents
+- [Developer Quick Start](#developer-quick-start)
+  - [Installation](#installation)
+  - [Changing the default properties](#changing-the-default-properties)
+  - [Generate Synthetic Patients](#generate-synthetic-patients)
+  - [Synthea<sup>TM</sup> GraphViz](#syntheatm-graphviz)
+  - [Concepts and Attributes](#concepts-and-attributes)
+- [Generic Modules Framework](#generic-modules-framework)
+- [AT Core Profile Implementation](#at-core-profile-implementation)
+- [Demographic Data](#demographic-data)
+- [AuditEvent Resource Creation](#auditevent-resource-creation)
+
 
 ## Developer Quick Start
 
@@ -47,14 +69,15 @@ for more details, or use our [guided customizer tool](https://synthetichealth.gi
 
 
 ### Generate Synthetic Patients
-Generating the population one at a time...
+Generating the population one at a time following the Austrian implementation guideline...
 ```
-./run_synthea
+./run_synthea -fm MappingFile.yml -ig AT-IG
 ```
+Where -fm references a mapping yml file that applies the extensions following the Austrian Core profile. and -ig references the Austrian Core Implementation Guideline.
 
 Command-line arguments may be provided to specify a state, city, population size, or seed for randomization.
 ```
-run_synthea [-s seed] [-p populationSize] [state [city]]
+run_synthea ./run_synthea -fm MappingFile.yml -ig AT-IG [-s seed] [-p populationSize] [state [city]]
 ```
 
 Full usage info can be printed by passing the `-h` option.
@@ -80,16 +103,6 @@ Options: [-s seed]
          [--config*=value]
           * any setting from src/main/resources/synthea.properties
 
-Examples:
-run_synthea Massachusetts
-run_synthea Alaska Juneau
-run_synthea -s 12345
-run_synthea -p 1000
-run_synthea -s 987 Washington Seattle
-run_synthea -s 21 -p 100 Utah "Salt Lake City"
-run_synthea -g M -a 60-65
-run_synthea -p 10 --exporter.fhir.export=true
-run_synthea --exporter.baseDirectory="./output_tx/" Texas
 ```
 
 Some settings can be changed in `./src/main/resources/synthea.properties`.
@@ -108,6 +121,23 @@ Generate a list of concepts (used in the records) or attributes (variables on ea
 ./gradlew concepts
 ./gradlew attributes
 ```
+
+## Generic Modules Framework
+
+This [link](GMF.md) describes the implementation and usage of the Generic Modules Framework designed for the local implementation of medical processes. It provides guidelines on creating and integrating custom modules to simulate specific healthcare scenarios and workflows. This flexibility allows users to tailor the synthetic data generation to their unique requirements and research goals.
+
+## AT Core Profile Implementation
+
+This [link](Flexporter.md) describes the implementation of the AT Core Profile, including the integration of its extensions to enhance the synthetic patient data generated by Synthea. The AT Core Profile is designed to ensure compatibility with specific healthcare standards in Austria.
+
+## Demographic Data
+
+This [link](Demographic.md) outlines the Austrian demographic data and implementation.
+
+## AuditEvent Resource Creation
+
+This [link](Flexporter.md) details the creation of the AuditEvent FHIR resource for process mining purposes within the Synthea Patient Generator using a rule based system. AuditEvent resources are generated to log significant actions and events within the synthetic data generation process, enabling detailed analysis and tracking of patient clinical patheways. This functionality is essential for auditing and validating the synthetic data for compliance and research needs.
+
 
 # License
 
