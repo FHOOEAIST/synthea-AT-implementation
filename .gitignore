@@ -11,9 +11,12 @@ bin/**
 /bin/
 
 /failed_exports/
+<<<<<<< HEAD
 /output/
 /out/
 /Dataset/
+=======
+>>>>>>> fe5e504b70ef75115e98c93a51890fbef670ebff
 
 **/*.log
 

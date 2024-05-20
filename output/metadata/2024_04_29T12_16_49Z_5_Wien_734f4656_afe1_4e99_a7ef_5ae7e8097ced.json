@@ -1,0 +1,19 @@
+{
+  "runID": "734f4656-afe1-4e99-a7ef-5ae7e8097ced",
+  "seed": 1714393009203,
+  "clinicianSeed": 1714393009203,
+  "referenceTime": "20240429",
+  "endTime": "20240429",
+  "version": "9cb3fe3d\n",
+  "patientCount": 1,
+  "providerCount": 99,
+  "payerCount": 1,
+  "javaVersion": "21.0.2",
+  "generate.thread_pool_size": -1,
+  "generatorThreads": 4,
+  "runStartTime": "2024-04-29T12:16:49Z",
+  "runTimeInSeconds": 93,
+  "exporter.years_of_history": "10",
+  "state": "Wien",
+  "modules": "*"
+}
