@@ -1,0 +1,60 @@
+{
+  "name": "Advanced_diagnosis",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Perform_labooratorytests"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Perform_labooratorytests": {
+      "type": "CallSubmodule",
+      "submodule": "hernia/collect_laboratory_results",
+      "direct_transition": "Perform_cardiopulmonarytest"
+    },
+    "Perform_cardiopulmonarytest": {
+      "type": "CallSubmodule",
+      "submodule": "hernia/cardiac_diagnosis",
+      "direct_transition": "Other_medical_reports"
+    },
+    "Other_medical_reports": {
+      "type": "Simple",
+      "direct_transition": "interdisciplinary optimisation needed"
+    },
+    "interdisciplinary optimisation needed": {
+      "type": "Simple",
+      "remarks": [
+        "When an interdisciplinary optimisation is needed?",
+        "* inherent coagulation disorder",
+        "* obscure blood coagulation results",
+        "* pathological cardiopulmonary test results ",
+        ""
+      ],
+      "distributed_transition": [
+        {
+          "transition": "Perform_interdisciplinary_optimisation",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Set_Advanced_Diagnosis",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Perform_interdisciplinary_optimisation": {
+      "type": "Simple",
+      "direct_transition": "Set_Advanced_Diagnosis"
+    },
+    "Set_Advanced_Diagnosis": {
+      "type": "SetAttribute",
+      "attribute": "advancedDiagnosis",
+      "direct_transition": "Terminal",
+      "value": true
+    }
+  },
+  "gmf_version": 2
+}

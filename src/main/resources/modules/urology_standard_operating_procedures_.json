@@ -1,0 +1,69 @@
+{
+  "name": "Urology Standard Operating Procedures ",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "No Radiology or Special Services Required"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "No Radiology or Special Services Required": {
+      "type": "Simple",
+      "direct_transition": "Transurethral Resection of the Bladder (TURB)"
+    },
+    "flush out any potential bleeding": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 3
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Terminal"
+    },
+    "Transurethral Resection of the Bladder (TURB)": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 386792000,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Placement of a Triple-Lumen Catheter "
+    },
+    "Placement of a Triple-Lumen Catheter ": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 45211000,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "flush out any potential bleeding"
+    }
+  },
+  "gmf_version": 2
+}

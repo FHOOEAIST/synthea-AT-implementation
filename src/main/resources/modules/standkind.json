@@ -1,0 +1,1380 @@
+{
+  "name": "Standkind",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Age"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Diagnosis": {
+      "type": "Simple",
+      "direct_transition": "Respiratory_disorder"
+    },
+    "Respiratory_disorder": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Observation for other abnormalities",
+          "distribution": 0.5
+        },
+        {
+          "transition": "draw_blood",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "blood-tests": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Counting_breathing_frequency"
+    },
+    "Re-introduction_3Days": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Observation for other abnormalities"
+    },
+    "Observation for other abnormalities": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "draw_blood",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Conjunktivitis",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Counting_breathing_frequency": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "9289-0",
+          "display": "Respiratory rate 24 hour"
+        },
+        {
+          "system": "LOINC",
+          "code": "103209-3",
+          "display": "Mean oxygen saturation"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Oxygen_saturation_rate"
+    },
+    "Oxygen_saturation_rate": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "103209-3",
+          "display": "Mean oxygen saturation"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Re-introduction_3Days"
+    },
+    "Conjunktivitis": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Re-introduction",
+          "distribution": 0.01
+        },
+        {
+          "transition": "CMV_infection_mother",
+          "distribution": 0.99
+        }
+      ]
+    },
+    "Re-introduction": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Eye_swab"
+    },
+    "Eye_swab": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 145507006,
+          "display": "Eye swab"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Eye_drops"
+    },
+    "CMV_infection_mother": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "draw_blood_2",
+          "distribution": 0.04
+        },
+        {
+          "transition": "Dehydration_birth_weight_loss>10%",
+          "distribution": 0.96
+        }
+      ]
+    },
+    "Urinalysis": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": 24356,
+          "display": "Urinalysis complete panel - Urine"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "PCR-Throat_swab"
+    },
+    "Eye-consil": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 36228007,
+          "display": "Ophthalmic examination and evaluation"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Cranial_onography_3",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 15,
+          "high": 60
+        }
+      }
+    },
+    "blood-test2": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Urinalysis"
+    },
+    "PCR-Throat_swab": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 9718006,
+          "display": "Polymerase chain reaction analysis"
+        },
+        {
+          "system": "SNOMED-CT",
+          "code": 258529004,
+          "display": "Throat swab"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 48,
+          "low": 1
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "Eye-consil"
+    },
+    "weight _increase": {
+      "type": "SetAttribute",
+      "attribute": "weight_increase",
+      "direct_transition": "Breastfeeding_management",
+      "value": true
+    },
+    "Re_introduction2": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "weight _increase"
+    },
+    "Down_Syndrom": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "distribution": 0.5,
+          "transition": "Dystrophy_according_to_percentile_curve"
+        },
+        {
+          "transition": "Re_introduction2_2",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Re_introduction2_2": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "draw_blood_3"
+    },
+    "Re_introduction_3": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "draw_blood_4"
+    },
+    "Blood_glucose": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "2339-0",
+          "display": "Glucose [Mass/volume] in Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Cranial_onography"
+    },
+    "Cranial_onography": {
+      "type": "Simple",
+      "direct_transition": "Breastfeeding_management_4"
+    },
+    "Breastfeeding_management": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 406213009,
+          "display": "Breastfeeding performance"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "frequent_drinking_early_supplementary_feeding"
+    },
+    "Re_introduction_4": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Vomiting"
+    },
+    "Start_Therapy": {
+      "type": "Simple",
+      "direct_transition": "Re_introduction_4"
+    },
+    "Vomiting": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Re_introduction_5",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Diseases_of_the_musculoskeletal_system",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Breastfeeding_management_2": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 406213009,
+          "display": "Breastfeeding performance"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Diseases_of_the_musculoskeletal_system"
+    },
+    "Re_introduction_5": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "draw_blood_5"
+    },
+    "Physiotherapy": {
+      "type": "Simple",
+      "direct_transition": "Heart_diseases"
+    },
+    "ECG ": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 164854000,
+          "display": "ECG normal"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "RR",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 5,
+          "high": 10
+        }
+      }
+    },
+    "Echocardiogram": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 401000009,
+          "display": "Echocardiogram requested"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "ECG ",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 15,
+          "high": 60
+        }
+      }
+    },
+    "RR": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 17146006,
+          "display": "Arterial pressure monitoring, non-invasive method"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "premature birth"
+    },
+    "premature birth": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Re_introduction_3days",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "birth_type",
+            "operator": "==",
+            "value": "premature"
+          }
+        },
+        {
+          "transition": "Cleft_palate"
+        }
+      ]
+    },
+    "Blood_glucose_2": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "2339-0",
+          "display": "Glucose [Mass/volume] in Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Cranial_onography_2"
+    },
+    "Cranial_onography_2": {
+      "type": "Simple",
+      "direct_transition": "Cleft_palate"
+    },
+    "Re_introduction_3days": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "draw_blood_6"
+    },
+    "Re_introduction_7": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Hearing_test"
+    },
+    "HNO_Cons": {
+      "type": "Simple",
+      "direct_transition": "Hyperbilirubinemia"
+    },
+    "Hyperbilirubinemia": {
+      "type": "CallSubmodule",
+      "submodule": "gyn/hyperbilirubinemia",
+      "direct_transition": "Hypoglycemia"
+    },
+    "Hypoglycemia": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Re_introduction_8",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Hypoglycemia24",
+            "operator": "<",
+            "value": 35
+          }
+        },
+        {
+          "transition": "Cataract",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Hypoglycemia24",
+            "operator": ">=",
+            "value": 35
+          }
+        },
+        {
+          "transition": "Re_introduction_8",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Hypoglycemia48",
+            "operator": "<",
+            "value": 45
+          }
+        },
+        {
+          "transition": "Cataract",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Hypoglycemia48",
+            "operator": ">=",
+            "value": 45
+          }
+        }
+      ]
+    },
+    "Re_introduction_8": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "draw_blood_8"
+    },
+    "Blood_glucose_3": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "2339-0",
+          "display": "Glucose [Mass/volume] in Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Breastfeeding_management_3"
+    },
+    "Breastfeeding_management_3": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 406213009,
+          "display": "Breastfeeding performance"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Cataract"
+    },
+    "Cataract": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Re_introduction_eye",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Clubfoot",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Re_introduction_eye": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Clubfoot"
+    },
+    "Clubfoot": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Application_of_plaster_cast",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Macrosomia",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Macrosomia": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Re_introduction_3days_10",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Orthopaedic_diseases",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Re_introduction_3days_10": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "conditional_transition": [
+        {
+          "transition": "Blood_glucose_4",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "CardiacUltrasound",
+            "operator": ">=",
+            "value": 4500
+          }
+        },
+        {
+          "transition": "Orthopaedic_diseases"
+        }
+      ]
+    },
+    "Blood_glucose_4": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "2339-0",
+          "display": "Glucose [Mass/volume] in Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Orthopaedic_diseases"
+    },
+    "Orthopaedic_diseases": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Orthopedic_examination",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Temperature_disturbance",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Orthopedic_examination": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 113010000,
+          "display": "Orthopedic examination"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Tübinger-Splint"
+    },
+    "Tübinger-Splint": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 211368001,
+          "display": "Splinter of hip, without major open wound"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Temperature_disturbance"
+    },
+    "Re_introduction_12": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "draw_blood_9"
+    },
+    "Oxygen_saturation_rate_2": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "103209-3",
+          "display": "Mean oxygen saturation"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Zyanose"
+    },
+    "Oxygen_saturation_rate_3": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "103209-3",
+          "display": "Mean oxygen saturation"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Oxygen_saturation"
+    },
+    "cardiac ultrasound": {
+      "type": "Simple",
+      "direct_transition": "Re_introduction_13"
+    },
+    "Re_introduction_13": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Oxygen_saturation_rate_2"
+    },
+    "Zyanose": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "SO2",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Re_introduction": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Examination - action"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Blood_glucose_5"
+    },
+    "Oxygen_saturation_rate_4": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "103209-3",
+          "display": "Mean oxygen saturation"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Terminal"
+    },
+    "Blood_glucose_5": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "2339-0",
+          "display": "Glucose [Mass/volume] in Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Oxygen_saturation_rate_4"
+    },
+    "SO2": {
+      "type": "Simple",
+      "direct_transition": "Re_introduction"
+    },
+    "draw_blood": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "blood-tests"
+    },
+    "Dehydration_birth_weight_loss>10%": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Re_introduction2",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Down_Syndrom",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Eye_drops": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 225698005,
+          "display": "Instillation of eye drops to eye"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "CMV_infection_mother"
+    },
+    "draw_blood_2": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "blood-test2"
+    },
+    "draw_blood_3": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "blood_test_3"
+    },
+    "blood_test_3": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Breastfeeding_support "
+    },
+    "draw_blood_4": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "blood_test_4"
+    },
+    "blood_test_4": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Blood_glucose"
+    },
+    "Cranial_onography_3": {
+      "type": "Simple",
+      "direct_transition": "Dehydration_birth_weight_loss>10%"
+    },
+    "draw_blood_5": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "blood_test_5"
+    },
+    "blood_test_5": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Breastfeeding_management_2"
+    },
+    "draw_blood_6": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "blood_test_6"
+    },
+    "blood_test_6": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Blood_glucose_2"
+    },
+    "draw_blood_8": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "blood_test_8"
+    },
+    "blood_test_8": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Blood_glucose_3"
+    },
+    "draw_blood_9": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "blood_test_9"
+    },
+    "blood_test_9": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Body_temperature"
+    },
+    "frequent_drinking_early_supplementary_feeding": {
+      "type": "Simple",
+      "direct_transition": "Down_Syndrom"
+    },
+    "Breastfeeding_support ": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 408886005,
+          "display": "Breastfeeding support assessment"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Dystrophy_according_to_percentile_curve"
+    },
+    "Dystrophy_according_to_percentile_curve": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Re_introduction_3",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Withdrawal_symptoms(nicotine)",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Withdrawal_symptoms(nicotine)": {
+      "type": "Simple",
+      "direct_transition": "Start_Therapy"
+    },
+    "Diseases_of_the_musculoskeletal_system": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Physiotherapy",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Heart_diseases",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Heart_diseases": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Echocardiogram",
+          "distribution": 0.5
+        },
+        {
+          "transition": "premature birth",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Cleft_palate": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Re_introduction_7",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Hearing_test",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Hearing_test": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "HNO_Cons",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Hyperbilirubinemia",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Application_of_plaster_cast": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 180289009,
+          "display": "Application of plaster cast"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Macrosomia",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 20,
+          "high": 30
+        }
+      }
+    },
+    "Temperature_disturbance": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Re_introduction_12",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Temperature",
+            "operator": ">=",
+            "value": 38
+          }
+        },
+        {
+          "transition": "Oxygen_saturation"
+        }
+      ]
+    },
+    "Body_temperature": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 50177009,
+          "display": "Body temperature above reference range"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Oxygen_saturation_rate_3"
+    },
+    "Oxygen_saturation": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Re_introduction_13",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "OxygenSaturation",
+            "operator": "<=",
+            "value": 89
+          }
+        },
+        {
+          "transition": "cardiac ultrasound",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "OxygenSaturation",
+            "operator": "<=",
+            "value": 95
+          }
+        },
+        {
+          "transition": "Zyanose"
+        }
+      ]
+    },
+    "Age": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Diagnosis",
+          "condition": {
+            "condition_type": "Age",
+            "operator": "<=",
+            "quantity": 1,
+            "unit": "months",
+            "value": 0
+          }
+        },
+        {
+          "transition": "Terminal"
+        }
+      ]
+    },
+    "Breastfeeding_management_4": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 406213009,
+          "display": "Breastfeeding performance"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Withdrawal_symptoms(nicotine)"
+    }
+  },
+  "gmf_version": 2
+}

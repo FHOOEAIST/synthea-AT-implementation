@@ -1,0 +1,792 @@
+{
+  "name": "PERIOPERATIVE MANAGEMENT TOTAL KNEE ARTHROPLASTY (= KTEP)",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "interview"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "x-ray patella tang": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 168669007,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 30,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "x-ray knee"
+    },
+    "x-ray knee": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 74016001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 30,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Blood draw"
+    },
+    "postoperative physiotherapy": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 91251008,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 13,
+          "low": 11
+        }
+      },
+      "unit": "weeks",
+      "direct_transition": "delay 7-10 weeks"
+    },
+    "Blood draw": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396540005,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 10,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "orthopedic examination"
+    },
+    "orthopedic examination": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 363215001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Marking of the affected limb"
+    },
+    "Marking of the affected limb": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 225135006,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 10,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Proton pump inhibitors "
+    },
+    "Proton pump inhibitors ": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 372525000,
+          "display": "RxNorm Code"
+        }
+      ],
+      "remarks": [
+        "o\tProton pump inhibitors (currently commonly Pantip® 40mg) (oral) for premedication.",
+        "",
+        ""
+      ],
+      "prescription": {
+        "dosage": {
+          "amount": 40,
+          "frequency": 1,
+          "period": 1,
+          "unit": "days"
+        },
+        "duration": {
+          "quantity": 1,
+          "unit": "days"
+        }
+      },
+      "direct_transition": "Antibiotic"
+    },
+    "Antibiotic": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 255631004,
+          "display": "RxNorm Code"
+        }
+      ],
+      "direct_transition": "Drug thrombosis prophylaxis",
+      "prescription": {
+        "dosage": {
+          "amount": 1500,
+          "frequency": 1,
+          "period": 1,
+          "unit": "days"
+        },
+        "duration": {
+          "quantity": 1,
+          "unit": "days"
+        }
+      }
+    },
+    "Drug thrombosis prophylaxis": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 421728001,
+          "display": "RxNorm Code"
+        }
+      ],
+      "direct_transition": "anesthesia",
+      "prescription": {
+        "dosage": {
+          "amount": 4000,
+          "frequency": 1,
+          "period": 1,
+          "unit": "days"
+        },
+        "duration": {
+          "quantity": 1,
+          "unit": "days"
+        }
+      }
+    },
+    "NSAIDs (Diclofenac Kps 100 mg retard)": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 7034005,
+          "display": "RxNorm Code"
+        }
+      ],
+      "direct_transition": "Vital sign control",
+      "prescription": {
+        "dosage": {
+          "amount": 100,
+          "frequency": 1,
+          "period": 1,
+          "unit": "days"
+        },
+        "duration": {
+          "quantity": 1,
+          "unit": "days"
+        }
+      }
+    },
+    "Proton pump inhibitors day 1": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 372525000,
+          "display": "RxNorm Code"
+        }
+      ],
+      "remarks": [
+        "o\tProton pump inhibitors (currently commonly Pantip® 40mg) (oral) for premedication.",
+        "",
+        ""
+      ],
+      "prescription": {
+        "dosage": {
+          "amount": 20,
+          "frequency": 1,
+          "period": 1,
+          "unit": "days"
+        },
+        "duration": {
+          "quantity": 1,
+          "unit": "days"
+        }
+      },
+      "direct_transition": "NSAIDs Diclofenac Kps 50 mg retard day 1"
+    },
+    "NSAIDs Diclofenac Kps 50 mg retard day 1": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 7034005,
+          "display": "RxNorm Code"
+        }
+      ],
+      "prescription": {
+        "dosage": {
+          "amount": 50,
+          "frequency": 1,
+          "period": 1,
+          "unit": "days"
+        },
+        "duration": {
+          "quantity": 1,
+          "unit": "days"
+        }
+      },
+      "direct_transition": "blood draw day 1"
+    },
+    "paracetamol": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 387517004,
+          "display": "RxNorm Code"
+        }
+      ],
+      "prescription": {
+        "dosage": {
+          "amount": 1000,
+          "frequency": 2,
+          "period": 4,
+          "unit": "hours"
+        },
+        "duration": {
+          "quantity": 1,
+          "unit": "days"
+        }
+      },
+      "direct_transition": "lactate"
+    },
+    "paracetamol day 1-2": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 387517004,
+          "display": "RxNorm Code"
+        }
+      ],
+      "direct_transition": "lactate day 1",
+      "prescription": {
+        "dosage": {
+          "amount": 1000,
+          "frequency": 4,
+          "period": 4,
+          "unit": "hours"
+        },
+        "duration": {
+          "quantity": 2,
+          "unit": "days"
+        }
+      }
+    },
+    "paracetamol day 3": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 387517004,
+          "display": "RxNorm Code"
+        }
+      ],
+      "direct_transition": "Dressing change",
+      "prescription": {
+        "dosage": {
+          "amount": 1000,
+          "frequency": 3,
+          "period": 6,
+          "unit": "hours"
+        },
+        "duration": {
+          "quantity": 1,
+          "unit": "days"
+        }
+      }
+    },
+    "paracetamol day 4": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 387517004,
+          "display": "RxNorm Code"
+        }
+      ],
+      "prescription": {
+        "dosage": {
+          "amount": 1000,
+          "frequency": 2,
+          "period": 8,
+          "unit": "hours"
+        },
+        "duration": {
+          "quantity": 1,
+          "unit": "days"
+        }
+      },
+      "direct_transition": "Blood draw day 4"
+    },
+    "lactate": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 83036002,
+          "display": "RxNorm Code"
+        }
+      ],
+      "direct_transition": "NSAIDs (Diclofenac Kps 100 mg retard)",
+      "prescription": {
+        "dosage": {
+          "amount": 500,
+          "frequency": 2,
+          "period": 12,
+          "unit": "hours"
+        },
+        "duration": {
+          "quantity": 1,
+          "unit": "days"
+        }
+      }
+    },
+    "lactate day 1": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 83036002,
+          "display": "RxNorm Code"
+        }
+      ],
+      "prescription": {
+        "dosage": {
+          "amount": 500,
+          "frequency": 1,
+          "period": 1,
+          "unit": "days"
+        },
+        "duration": {
+          "quantity": 1,
+          "unit": "days"
+        }
+      },
+      "direct_transition": "Proton pump inhibitors day 1"
+    },
+    "anesthesia": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 50697003,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 10,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Perform operation"
+    },
+    "Perform operation": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 179342005,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Control x ray"
+    },
+    "Control x ray": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 74016001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "paracetamol"
+    },
+    "Vital sign control": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 410188000,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "Administer oxygen",
+          "distribution": 0.5
+        },
+        {
+          "transition": "delay to 1st postOP day",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Control x ray day 5": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 74016001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "delay to dismissal"
+    },
+    "Administer oxygen": {
+      "type": "Simple",
+      "direct_transition": "delay to 1st postOP day"
+    },
+    "delay to 1st postOP day": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "paracetamol day 1-2"
+    },
+    "blood draw day 1": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396540005,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Pain therapy"
+    },
+    "Pain therapy": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Mobilization by the doctor",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Physiotherapy",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Physiotherapy": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 91251008,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "delay to 3rd day"
+    },
+    "Mobilization by the doctor": {
+      "type": "Simple",
+      "direct_transition": "Physiotherapy"
+    },
+    "delay to 3rd day": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "paracetamol day 3"
+    },
+    "Dressing change": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 18949003,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 15,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "delay to 4th day"
+    },
+    "delay to 4th day": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "paracetamol day 4"
+    },
+    "Blood draw day 4": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396540005,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 15,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "delay to 5th day"
+    },
+    "delay to 5th day": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Control x ray day 5"
+    },
+    "Removal of staples": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 35963001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Dismissal"
+    },
+    "Dismissal": {
+      "type": "Simple",
+      "direct_transition": "postoperative physiotherapy"
+    },
+    "delay to dismissal": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 2,
+          "low": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Removal of staples"
+    },
+    "Follow-up appointment": {
+      "type": "Simple",
+      "direct_transition": "Orthopaedic check-up"
+    },
+    "delay 3 years": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 3
+        }
+      },
+      "unit": "years",
+      "direct_transition": "x-ray check up after 3 years"
+    },
+    "x-ray check up after 3 years": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 74016001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "delay 2 years"
+    },
+    "delay 2 years": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 2
+        }
+      },
+      "unit": "years",
+      "direct_transition": "x-ray check up after 5 years"
+    },
+    "x-ray check up after 5 years": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 74016001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Terminal"
+    },
+    "Orthopaedic check-up": {
+      "type": "Simple",
+      "direct_transition": "delay 3 years"
+    },
+    "delay 7-10 weeks": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 10,
+          "low": 7
+        }
+      },
+      "unit": "weeks",
+      "direct_transition": "Follow-up appointment"
+    },
+    "Delay interview -> procedure": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 93,
+          "low": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "x-ray patella tang"
+    },
+    "interview": {
+      "type": "Simple",
+      "direct_transition": "Delay interview -> procedure"
+    }
+  },
+  "gmf_version": 2
+}

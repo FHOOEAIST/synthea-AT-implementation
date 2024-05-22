@@ -1,0 +1,173 @@
+{
+  "name": "Operation Clearance",
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Anesthesiologist Control Surgical Clearance Start"
+    },
+    "Anesthesiologist Control Surgical Clearance Start": {
+      "type": "Simple",
+      "direct_transition": "Start Airway Control"
+    },
+    "Thyromental Distance": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 427422008,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "MellampatiScore",
+          "distribution": 0.98
+        },
+        {
+          "transition": "Operation not clear",
+          "distribution": 0.020000000000000018
+        }
+      ]
+    },
+    "MellampatiScore": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 273585005,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "Mandibular Protrusion Test",
+          "distribution": 0.98
+        },
+        {
+          "transition": "Operation not clear",
+          "distribution": 0.020000000000000018
+        }
+      ]
+    },
+    "Mandibular Protrusion Test": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 426915001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "Orientation Assessment of Tooth Status",
+          "distribution": 0.98
+        },
+        {
+          "transition": "Operation not clear",
+          "distribution": 0.020000000000000018
+        }
+      ]
+    },
+    "Orientation Assessment of Tooth Status": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 39868003,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 10,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "Inspection of Appropriate Anatomical Region",
+          "distribution": 0.98
+        },
+        {
+          "transition": "Operation not clear",
+          "distribution": 0.020000000000000018
+        }
+      ]
+    },
+    "Inspection of Appropriate Anatomical Region": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 32750006,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "Operation clear",
+          "distribution": 0.98
+        },
+        {
+          "transition": "Operation not clear",
+          "distribution": 0.020000000000000018
+        }
+      ]
+    },
+    "Anesthesiologist Control Surgery Release End": {
+      "type": "Terminal"
+    },
+    "Start Airway Control": {
+      "type": "Simple",
+      "direct_transition": "Thyromental Distance"
+    },
+    "Operation clear": {
+      "type": "SetAttribute",
+      "attribute": "Op_Clearance",
+      "direct_transition": "Anesthesiologist Control Surgery Release End",
+      "value": "Yes"
+    },
+    "Operation not clear": {
+      "type": "SetAttribute",
+      "attribute": "Op_Clearance",
+      "value": "No",
+      "direct_transition": "Anesthesiologist Control Surgery Release End"
+    }
+  },
+  "gmf_version": 2
+}

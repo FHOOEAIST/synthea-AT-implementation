@@ -1,0 +1,570 @@
+{
+  "name": "Inpatient_admission_pregnant_woman",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "pregnant?"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Status": {
+      "type": "Simple",
+      "direct_transition": "Ultrasound_examinations _longer_than_2weeks_ago"
+    },
+    "Blood_Observation": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "50610-5",
+          "display": "Alpha-1-Fetoprotein [Multiple of the median] adjusted for multiple gestations in Serum or Plasma"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Inconspicuous_pregnancy"
+    },
+    "Blood_Observation_2": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "50610-5",
+          "display": "Alpha-1-Fetoprotein [Multiple of the median] adjusted for multiple gestations in Serum or Plasma"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Ultrasound_examinations _longer_than_2weeks_ago"
+    },
+    "Blood_Observation_3": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "81324-6",
+          "display": "Glucose tolerance 2 hours gestational panel - Serum or Plasma LHC-Forms"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Ultrasound_examination"
+    },
+    "Blood_Observation_4": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "57904-5",
+          "display": "Bg sup(a) Ag [Presence] on Red Blood Cells"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "CoombsTest"
+    },
+    "CoombsTest": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 16742006,
+          "display": "Indirect Coombs test"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Record_choice"
+    },
+    "Standacillin": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": "58085-2",
+          "display": "58085-2"
+        }
+      ],
+      "direct_transition": "Terminal"
+    },
+    "Dalacin": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": "4189-7",
+          "display": "Clindamycin [Mass] of Dose"
+        }
+      ],
+      "direct_transition": "Terminal"
+    },
+    " <12h": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 12,
+          "low": 0
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "Antibiotic_administration-Penecillin?"
+    },
+    "SOP Sectio": {
+      "type": "CallSubmodule",
+      "submodule": "gyn/sectio",
+      "direct_transition": "SOP"
+    },
+    "Blood_Observation_5": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "81324-6",
+          "display": "Glucose tolerance 2 hours gestational panel - Serum or Plasma LHC-Forms"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Terminal"
+    },
+    "Administrative_recording": {
+      "type": "Simple",
+      "direct_transition": "Medical_admission"
+    },
+    "Medical_admission": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "29463-7",
+          "display": "Body weight"
+        },
+        {
+          "system": "LOINC",
+          "code": "81323-8",
+          "display": "Urine collection associated observations panel - 24 hour Urine"
+        },
+        {
+          "system": "LOINC",
+          "code": "8310-5",
+          "display": "Body temperature"
+        },
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood LHC-Forms"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Inpatient_admission"
+    },
+    "Inpatient_admission": {
+      "type": "Simple",
+      "direct_transition": "Anamnesis"
+    },
+    "Anamnesis": {
+      "type": "CallSubmodule",
+      "submodule": "anamnesis/anamnesis_medical_status",
+      "direct_transition": "Examination"
+    },
+    "Examination": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "examinaiton [action]"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Premature_birth"
+    },
+    "Prescribe_temperature_curve": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "8310-5",
+          "display": "Body temperature\tBody temperature"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Venflon_blood_draw_0"
+    },
+    "vaginal_examination": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 451024007,
+          "display": "Inspection of vagina using vaginal speculum"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Venflon_blood_draw_0"
+    },
+    "Inconspicuous_pregnancy": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Venflon_blood_draw",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Examinations",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Examinations": {
+      "type": "Simple",
+      "direct_transition": "Status"
+    },
+    "Ultrasound_examinations _longer_than_2weeks_ago": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Ultrasound_examination",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Anomalies",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Anomalies": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Venflon_blood_draw_2",
+          "distribution": 0.5
+        },
+        {
+          "transition": "BG_ICT_findings_older_than_1week",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Venflon_blood_draw_2": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Blood_Observation_3"
+    },
+    "Venflon_blood_draw": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Blood_Observation_2"
+    },
+    "Venflon_blood_draw_0": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Blood_Observation"
+    },
+    "Ultrasound_examination": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 45036003,
+          "display": "Ultrasonography of abdomen"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "BG_ICT_findings_older_than_1week"
+    },
+    "BG_ICT_findings_older_than_1week": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Venflon_blood_draw_3",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Record_choice",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Venflon_blood_draw_3": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Blood_Observation_4"
+    },
+    "Record_choice": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Admission_at_the_due_date_with_rupture_of_the_membranes",
+          "distribution": 0.25
+        },
+        {
+          "transition": "Admission_planned_spontaneous_delivery_in_the_ case_of_a_cesarean_section",
+          "distribution": 0.25
+        },
+        {
+          "transition": "admission_to_the_planned_caesarean_section",
+          "distribution": 0.25
+        },
+        {
+          "transition": "admission_for_gestosis _clarification",
+          "distribution": 0.25
+        }
+      ]
+    },
+    "Admission_at_the_due_date_with_rupture_of_the_membranes": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "GBS_pos_membranes_rupture",
+          "distribution": 0.5
+        },
+        {
+          "transition": " <12h",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "GBS_pos_membranes_rupture": {
+      "type": "Simple",
+      "direct_transition": "Antibiotic_administration-Penecillin?"
+    },
+    "Antibiotic_administration-Penecillin?": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Standacillin",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Dalacin",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Venflon_blood_draw_4": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Blood_Observation_5"
+    },
+    "admission_for_gestosis _clarification": {
+      "type": "Simple",
+      "direct_transition": "Urine_collection"
+    },
+    "Admission_planned_spontaneous_delivery_in_the_ case_of_a_cesarean_section": {
+      "type": "Simple",
+      "direct_transition": "First_child?"
+    },
+    "Spontaneous_birth": {
+      "type": "Simple",
+      "direct_transition": "SOP_2"
+    },
+    "Urine_collection": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 2475000,
+          "display": "Urine specimen collection, 24 hours"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Venflon_blood_draw_4"
+    },
+    "Premature_birth": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Prescribe_temperature_curve",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "birth_type",
+            "operator": "==",
+            "value": "premature"
+          }
+        },
+        {
+          "transition": "vaginal_examination"
+        }
+      ]
+    },
+    "stp_Sectio": {
+      "type": "CallSubmodule",
+      "submodule": "gyn/sectio",
+      "direct_transition": "SOP_2"
+    },
+    "pregnant?": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Administrative_recording",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "pregnant",
+            "operator": "==",
+            "value": true
+          }
+        },
+        {
+          "transition": "Terminal"
+        }
+      ]
+    },
+    "Set_pregnant": {
+      "type": "SetAttribute",
+      "attribute": "pregnant",
+      "direct_transition": "Terminal",
+      "value": "false"
+    },
+    "Set_pregnant_2": {
+      "type": "SetAttribute",
+      "attribute": "pregnant",
+      "value": "false",
+      "direct_transition": "Terminal"
+    },
+    "SOP": {
+      "type": "CallSubmodule",
+      "submodule": "gyn/sop",
+      "direct_transition": "Set_pregnant_2"
+    },
+    "SOP_2": {
+      "type": "CallSubmodule",
+      "submodule": "gyn/sop",
+      "direct_transition": "Set_pregnant"
+    },
+    "admission_to_the_planned_caesarean_section": {
+      "type": "Simple",
+      "direct_transition": "SOP Sectio"
+    },
+    "First_child?": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Not_first_Child",
+          "distribution": 0.5
+        },
+        {
+          "transition": "First_Child",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Not_first_Child": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "stp_Sectio",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Spontaneous_birth",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "First_Child": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Spontaneous_birth",
+          "distribution": 0.5
+        },
+        {
+          "transition": "stp_Sectio",
+          "distribution": 0.5
+        }
+      ]
+    }
+  },
+  "gmf_version": 2
+}

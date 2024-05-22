@@ -1,0 +1,71 @@
+{
+  "name": "SOP",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "PPH"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "PPH": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Etiology",
+          "distribution": 0.03
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.97
+        }
+      ]
+    },
+    "TONUS": {
+      "type": "Simple",
+      "direct_transition": "PPH_Management"
+    },
+    "TISSUE": {
+      "type": "Simple",
+      "direct_transition": "PPH_Management"
+    },
+    "TRAUMA": {
+      "type": "Simple",
+      "direct_transition": "PPH_Management"
+    },
+    "THROMBIN": {
+      "type": "Simple",
+      "direct_transition": "PPH_Management"
+    },
+    "Etiology": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "TONUS",
+          "distribution": 0.8
+        },
+        {
+          "transition": "THROMBIN",
+          "distribution": 0.08
+        },
+        {
+          "transition": "TISSUE",
+          "distribution": 0.08
+        },
+        {
+          "transition": "TRAUMA",
+          "distribution": 0.04
+        }
+      ]
+    },
+    "PPH_Management": {
+      "type": "CallSubmodule",
+      "submodule": "gyn/SOP/pph",
+      "direct_transition": "Terminal"
+    }
+  },
+  "gmf_version": 2
+}

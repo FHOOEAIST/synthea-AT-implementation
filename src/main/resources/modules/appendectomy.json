@@ -1,0 +1,229 @@
+{
+  "name": "Appendectomy",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "anamnesis and status"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Abdominal sonography": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 241489004,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Anesthesia assesment"
+    },
+    "Anesthesia assesment": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "CT Scan",
+          "distribution": 0.1
+        },
+        {
+          "transition": "Appendectomy operation",
+          "distribution": 0.9
+        }
+      ]
+    },
+    "CT Scan": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 169072007,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 30,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Chest X-ray"
+    },
+    "Chest X-ray": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 399208008,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Appendectomy operation"
+    },
+    "Appendectomy operation": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 80146002,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 75,
+          "low": 45
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "Infusion therapy",
+          "distribution": 0.3
+        },
+        {
+          "transition": "delay",
+          "distribution": 0.7
+        }
+      ]
+    },
+    "Infusion therapy": {
+      "type": "CarePlanStart",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 387760006,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "delay post op day"
+    },
+    "Discharge": {
+      "type": "Simple",
+      "direct_transition": "delay for suture removal"
+    },
+    "Delay to discharge": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Discharge"
+    },
+    "delay for suture removal": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 5
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Suture removal"
+    },
+    "Suture removal": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 30549001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 15,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Rest"
+    },
+    "Rest": {
+      "type": "CarePlanStart",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 258157001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "rest delay"
+    },
+    "rest delay": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 2
+        }
+      },
+      "unit": "weeks",
+      "direct_transition": "end rest"
+    },
+    "end rest": {
+      "type": "CarePlanEnd",
+      "direct_transition": "Terminal",
+      "careplan": "Rest"
+    },
+    "delay post op day": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "end infusion therapy"
+    },
+    "end infusion therapy": {
+      "type": "CarePlanEnd",
+      "direct_transition": "Delay to discharge",
+      "careplan": "Infusion therapy"
+    },
+    "delay": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 2
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Discharge"
+    },
+    "anamnesis and status": {
+      "type": "CallSubmodule",
+      "submodule": "anamnesis/anamnesis_and_status",
+      "direct_transition": "Abdominal sonography"
+    }
+  },
+  "gmf_version": 2
+}

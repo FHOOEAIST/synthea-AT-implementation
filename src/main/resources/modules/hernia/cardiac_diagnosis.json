@@ -1,0 +1,93 @@
+{
+  "name": "Cardiac Diagnosis",
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Anamnesis"
+    },
+    "Cardiac Diagnosis Completed": {
+      "type": "Terminal"
+    },
+    "Anamnesis": {
+      "type": "CallSubmodule",
+      "submodule": "anamnesis/anamnesis_medical_status",
+      "direct_transition": "Successful_Anamnesis"
+    },
+    "Cardiology": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 310036006,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 8,
+          "low": 4
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "Cardiac_Findings"
+    },
+    "Successful_Anamnesis": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Cardiac Diagnosis Completed",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Amnesis",
+            "operator": "==",
+            "value": "No"
+          }
+        },
+        {
+          "transition": "Cardiology"
+        }
+      ]
+    },
+    "Cardiac_Findings": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": 301095005,
+          "display": "LOINC Code"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Discharge_from_cardiology"
+    },
+    "Discharge_from_cardiology": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 306574008,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Cardiac Diagnosis Completed"
+    }
+  },
+  "gmf_version": 2
+}

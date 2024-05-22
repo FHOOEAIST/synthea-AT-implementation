@@ -1,0 +1,175 @@
+{
+  "name": "Elective gallbladder removal",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Ultrasound of gallbladder"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Ultrasound of gallbladder": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 169250003,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "ERCP",
+          "distribution": 0.5
+        },
+        {
+          "transition": "MRCP",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "ERCP": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 386718000,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 90,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "Operation",
+          "distribution": 0.8
+        },
+        {
+          "transition": "Conservative therapy",
+          "distribution": 0.19999999999999996
+        }
+      ]
+    },
+    "MRCP": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 314635004,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 80,
+          "low": 40
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "Operation",
+          "distribution": 0.8
+        },
+        {
+          "transition": "Conservative therapy",
+          "distribution": 0.19999999999999996
+        }
+      ]
+    },
+    "Conservative therapy": {
+      "type": "CarePlanStart",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 281131004,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "End conservative therapy"
+    },
+    "End conservative therapy": {
+      "type": "CarePlanEnd",
+      "careplan": "Conservative therapy",
+      "distributed_transition": [
+        {
+          "transition": "Terminal",
+          "distribution": 0.2
+        },
+        {
+          "transition": "Operation",
+          "distribution": 0.8
+        }
+      ]
+    },
+    "Operation": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 14861000,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "post operation"
+    },
+    "Suture removal": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 118292001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 15,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Terminal"
+    },
+    "post operation": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 7,
+          "low": 5
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Suture removal"
+    }
+  },
+  "gmf_version": 2
+}

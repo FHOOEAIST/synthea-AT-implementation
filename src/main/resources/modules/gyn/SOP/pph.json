@@ -1,0 +1,303 @@
+{
+  "name": "PPH",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Measure_blood_loss"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Disposable_catheter": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 704878009,
+          "display": "Needleless transurethral injection system catheter"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Heat_protection_against_hypothermia"
+    },
+    "Heat_protection_against_hypothermia": {
+      "type": "Simple",
+      "direct_transition": "Monitor_vital_signs"
+    },
+    "get_blood_bag": {
+      "type": "Simple",
+      "direct_transition": "Shock_positioning"
+    },
+    "Shock_positioning": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 34106002,
+          "display": "Trendelenburg position"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Peripherally_inserted_central_catheter"
+    },
+    "Peripherally_inserted_central_catheter": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 398176008,
+          "display": "Peripherally inserted central catheter"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Draw_blood",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 30,
+          "high": 60
+        }
+      }
+    },
+    "Monitor_vital_signs": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 304495004,
+          "display": "Monitoring of blood pressure, temperature, pulse rate and respiratory rate"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "get_blood_bag"
+    },
+    "Draw_blood": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Observation_Blood",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 2,
+          "high": 3
+        }
+      }
+    },
+    "Ice_bag": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 59102007,
+          "display": "Ice bag"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Bimanual_uterine_compression"
+    },
+    "Observation_Blood": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        },
+        {
+          "system": "LOINC",
+          "code": "52773-9",
+          "display": "Clotting time.extrinsic coagulation system activated of Blood by Rotational TEG"
+        },
+        {
+          "system": "LOINC",
+          "code": "3184-9",
+          "display": "Activated clotting time (ACT) of Blood by Coagulation assay"
+        },
+        {
+          "system": "LOINC",
+          "code": "34531-4",
+          "display": "Blood type and Crossmatch panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Ice_bag"
+    },
+    "Bimanual_uterine_compression": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 1173981003,
+          "display": "Compression suture of uterus for postpartum hemorrhage"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Sonography",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 8,
+          "high": 10
+        }
+      }
+    },
+    "Med-therapy": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 10808521,
+          "display": "Oxytocin-containing product in parenteral dose form",
+          "value_set": "30IE"
+        },
+        {
+          "system": "RxNorm",
+          "code": 773523,
+          "display": "7735232\tSulprostone",
+          "value_set": "0,5mg"
+        },
+        {
+          "system": "RxNorm",
+          "code": 12253973,
+          "display": "tranexamic acid",
+          "value_set": "1g"
+        },
+        {
+          "system": "RxNorm",
+          "code": 10305108,
+          "display": "Product containing carbetocin (medicinal product)",
+          "value_set": "100μg"
+        },
+        {
+          "system": "RxNorm",
+          "code": 12363510,
+          "display": "misoprostol 0.2 MG Oral Tablet [Cytotec]"
+        },
+        {
+          "system": "RxNorm",
+          "code": 10807091,
+          "display": "Methylergometrine-containing product in oral dose form",
+          "value_set": "0,1 mg"
+        }
+      ],
+      "direct_transition": "Terminal"
+    },
+    "Fundus_touch/hold/massage": {
+      "type": "Simple",
+      "direct_transition": "Disposable_catheter"
+    },
+    "Measure_blood_loss": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "81661-1",
+          "display": "Blood loss [Volume] Measured"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Fundus_touch/hold/massage"
+    },
+    "Sonography": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 241489004,
+          "display": "HYCOSY - Hysterosalpingo contrast sonography"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "specula_examination",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 20,
+          "high": 30
+        }
+      }
+    },
+    "specula_examination": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 451024007,
+          "display": "Inspection of vagina using vaginal speculum"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Cavum_tamponade",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 8,
+          "high": 12
+        }
+      }
+    },
+    "Cavum_tamponade": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Celox_tamponade",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Bakri_balloon",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Celox_tamponade": {
+      "type": "Simple",
+      "direct_transition": "Med-therapy"
+    },
+    "Bakri_balloon": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 1179010002,
+          "display": "Uterine balloon tamponade for postpartum hemorrhage"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Med-therapy"
+    }
+  },
+  "gmf_version": 2
+}

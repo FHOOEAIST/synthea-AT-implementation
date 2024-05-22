@@ -1,0 +1,93 @@
+{
+  "name": "Criteria_ambulatory_surgery",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Domestical_patient_care_given"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Domestical_patient_care_given": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Coming_home_without_driving_a_car_for_the_next_24h",
+          "distribution": 0.9
+        },
+        {
+          "transition": "Set_Criteria_False",
+          "distribution": 0.1
+        }
+      ]
+    },
+    "Coming_home_without_driving_a_car_for_the_next_24h": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Set_Criteria_False",
+          "distribution": 0.1
+        },
+        {
+          "transition": "ASA",
+          "distribution": 0.9
+        }
+      ]
+    },
+    "ASA": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Set_Criteria_False",
+          "distribution": 0.1
+        },
+        {
+          "transition": "postsurgical_intensive_care",
+          "distribution": 0.9
+        }
+      ]
+    },
+    "postsurgical_intensive_care": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Contraindic_ation_against_ambulatory_surgery",
+          "distribution": 0.9
+        },
+        {
+          "transition": "Set_Criteria_False",
+          "distribution": 0.1
+        }
+      ]
+    },
+    "Contraindic_ation_against_ambulatory_surgery": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Set_Criteria_True",
+          "distribution": 0.9
+        },
+        {
+          "transition": "Set_Criteria_False",
+          "distribution": 0.1
+        }
+      ]
+    },
+    "Set_Criteria_True": {
+      "type": "SetAttribute",
+      "attribute": "Criteria",
+      "direct_transition": "Terminal",
+      "value": "no"
+    },
+    "Set_Criteria_False": {
+      "type": "SetAttribute",
+      "attribute": "Criteria",
+      "direct_transition": "Terminal",
+      "value": "yes"
+    }
+  },
+  "gmf_version": 2
+}

@@ -1,0 +1,306 @@
+{
+  "name": "outpatient_birth",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Pregnant?"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "SO2>94%": {
+      "type": "Simple",
+      "direct_transition": "Gestational_age_38-42GW"
+    },
+    "SO2<94%": {
+      "type": "Simple",
+      "direct_transition": "No_Discharge"
+    },
+    "Pediatric_examination": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "examinaiton [action]"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Mother_BG/Rhesus",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 15,
+          "high": 30
+        }
+      }
+    },
+    "weight": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "normal_weight",
+          "distribution": 0.5
+        },
+        {
+          "transition": "SGA_or_LGA",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Mother_GBS-Screening": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Child_percentiles(NapH/NvpH_from_NS-Astrup)",
+          "distribution": 0.5
+        },
+        {
+          "transition": "No_Discharge",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Mother_HbS-Ag": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Mother_GBS-Screening",
+          "distribution": 0.5
+        },
+        {
+          "transition": "No_Discharge",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Mother_BG/Rhesus": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Mother_HbS-Ag",
+          "distribution": 0.5
+        },
+        {
+          "transition": "No_Discharge",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Discharge": {
+      "type": "SetAttribute",
+      "attribute": "discharge",
+      "direct_transition": "Set_pregnant",
+      "value": "yes"
+    },
+    "No_Discharge": {
+      "type": "SetAttribute",
+      "attribute": "discharge",
+      "direct_transition": "Set_pregnant",
+      "value": "no"
+    },
+    "normal_weight": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 47340003,
+          "display": "Birth weight finding"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "cardiorespiratory_stable?"
+    },
+    "SGA_or_LGA": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 199616008,
+          "display": "Large for gestation age fetus"
+        },
+        {
+          "system": "SNOMED-CT",
+          "code": 267258002,
+          "display": "Small for gestational age fetus"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "No_Discharge",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 3,
+          "high": 6
+        }
+      }
+    },
+    "cardiorespiratory_stable?": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "2713-6",
+          "display": "Oxygen saturation Calculated from oxygen partial pressure in Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "distributed_transition": [
+        {
+          "transition": "SO2>94%",
+          "distribution": 0.5
+        },
+        {
+          "transition": "SO2<94%",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Normal_pregnancy_Normal_spontaneous_vaginal_birth": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 267325009,
+          "display": "Normal pregnancy &/or delivery (& [spontaneous vaginal delivery])"
+        }
+      ],
+      "unit": "hours",
+      "distributed_transition": [
+        {
+          "transition": "weight",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Discharge",
+          "distribution": 0.5
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 12,
+          "high": 18
+        }
+      }
+    },
+    "Gestational_age_38-42GW": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 1156738004,
+          "display": "Fetal gestational age in weeks and days"
+        }
+      ],
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "Pediatric_examination",
+          "distribution": 0.5
+        },
+        {
+          "transition": "No_Discharge",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Child_percentiles(NapH/NvpH_from_NS-Astrup)": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "No_Discharge",
+          "distribution": 0.5
+        },
+        {
+          "transition": "inconspicuous_examination_status?",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "inconspicuous_examination_status?": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "examinaiton [action]"
+        }
+      ],
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "Discharge",
+          "distribution": 0.5
+        },
+        {
+          "transition": "No_Discharge",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Pregnant?": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Normal_pregnancy",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "pregnant",
+            "operator": "==",
+            "value": true
+          }
+        },
+        {
+          "transition": "Terminal"
+        }
+      ]
+    },
+    "Normal_pregnancy": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Normal_pregnancy_Normal_spontaneous_vaginal_birth",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "birth_type",
+            "operator": "==",
+            "value": "normal"
+          }
+        },
+        {
+          "transition": "Terminal",
+          "condition": {
+            "condition_type": "Age",
+            "operator": ">",
+            "quantity": 0,
+            "unit": "years"
+          }
+        }
+      ]
+    },
+    "Set_pregnant": {
+      "type": "SetAttribute",
+      "attribute": "pregnant",
+      "direct_transition": "sop",
+      "value": "false"
+    },
+    "sop": {
+      "type": "CallSubmodule",
+      "submodule": "gyn/sop",
+      "direct_transition": "Terminal"
+    }
+  },
+  "gmf_version": 2
+}

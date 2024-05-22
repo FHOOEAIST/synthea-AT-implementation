@@ -1,0 +1,93 @@
+{
+  "name": "Radiology_report",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Radiology"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Perform scintigraphy": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 444629008,
+          "display": "Radiolabeled serum amyloid P component scintigraphy"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Radiology_End"
+    },
+    "Perform standard test_X-ray": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 168504009,
+          "display": "Radiology in X-ray department"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Decision"
+    },
+    "Decision": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Perform CT",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Perform_MRT",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Perform CT": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 77477000,
+          "display": "Computed tomography"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Perform scintigraphy"
+    },
+    "Perform_MRT": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 462824008,
+          "display": "PET/MRI system"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Perform scintigraphy"
+    },
+    "Radiology": {
+      "type": "Encounter",
+      "telemedicine_possibility": "none",
+      "direct_transition": "Perform standard test_X-ray",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 363680008,
+          "display": "Radiographic imaging procedure"
+        }
+      ]
+    },
+    "Radiology_End": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal"
+    }
+  },
+  "gmf_version": 2
+}

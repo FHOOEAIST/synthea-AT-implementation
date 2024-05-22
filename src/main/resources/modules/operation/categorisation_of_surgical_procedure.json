@@ -1,0 +1,77 @@
+{
+  "name": "Categorisation of Surgical Procedure",
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Procedure Categorisation Start"
+    },
+    "Procedure Categorisation Start": {
+      "type": "Simple",
+      "direct_transition": "Duration"
+    },
+    "Duration": {
+      "type": "Observation",
+      "category": "procedure",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "67453-1",
+          "display": "LOINC Code"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Blood Loss"
+    },
+    "Blood Loss": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": 50960005,
+          "display": "LOINC Code"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Anatomical Region"
+    },
+    "Anatomical Region": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "65737-9",
+          "display": "LOINC Code"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Procedure Categorisation Completed"
+    },
+    "Procedure Categorisation Completed": {
+      "type": "Terminal"
+    }
+  },
+  "gmf_version": 2
+}

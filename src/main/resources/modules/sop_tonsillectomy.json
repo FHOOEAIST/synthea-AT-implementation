@@ -1,0 +1,134 @@
+{
+  "name": "SOP Tonsillectomy",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "small blood count"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "small blood count": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 88308000,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 10,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "liver check"
+    },
+    "liver check": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 26958001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "possible tachycarded",
+          "distribution": 0.13
+        },
+        {
+          "transition": "Anesthesia",
+          "distribution": 0.8700000000000001
+        }
+      ]
+    },
+    "possible tachycarded": {
+      "type": "Simple",
+      "direct_transition": "Anesthesiologist may request further examinations"
+    },
+    "mouth operation": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 384676001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 40,
+          "low": 20
+        }
+      },
+      "unit": "minutes",
+      "conditional_transition": [
+        {
+          "transition": "Terminal",
+          "condition": {
+            "condition_type": "Age",
+            "operator": ">=",
+            "quantity": 16,
+            "unit": "years",
+            "value": 0
+          }
+        },
+        {
+          "transition": "stay in hospital"
+        }
+      ]
+    },
+    "Anesthesia": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 386761002,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 10,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "mouth operation"
+    },
+    "stay in hospital": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Terminal"
+    },
+    "Anesthesiologist may request further examinations": {
+      "type": "Simple",
+      "direct_transition": "Anesthesia"
+    }
+  },
+  "gmf_version": 2
+}

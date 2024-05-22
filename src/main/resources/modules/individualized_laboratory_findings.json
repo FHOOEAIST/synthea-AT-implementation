@@ -1,0 +1,92 @@
+{
+  "name": "Individualized Laboratory Findings",
+  "states": {
+    "StartOfLaboratoryReporting": {
+      "type": "Simple",
+      "direct_transition": "Anamnesis"
+    },
+    "BloodDraw": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 171231001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Lab investegation"
+    },
+    "LaboratoryAssessmentCompleted": {
+      "type": "Terminal"
+    },
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "StartOfLaboratoryReporting"
+    },
+    "Request blood test": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 413672003,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 6,
+          "low": 3
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "BloodDraw"
+    },
+    "Anamnesis": {
+      "type": "CallSubmodule",
+      "submodule": "anamnesis/anamnesis_and_status",
+      "direct_transition": "Request blood test"
+    },
+    "Lab investegation": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 24,
+          "low": 1
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "LaboratoryResults"
+    },
+    "LaboratoryResults": {
+      "type": "Observation",
+      "category": "laboratory",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "11502-2",
+          "display": "LOINC Code"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "LaboratoryAssessmentCompleted"
+    }
+  },
+  "gmf_version": 2
+}

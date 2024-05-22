@@ -1,0 +1,117 @@
+{
+  "name": "SOP for Circumcision",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "No Laboratory, Radiology, or Special Services Required"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "No Laboratory, Radiology, or Special Services Required": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "local anesthesia",
+          "condition": {
+            "condition_type": "Age",
+            "operator": ">=",
+            "quantity": 18,
+            "unit": "years",
+            "value": 0
+          }
+        },
+        {
+          "transition": "General anesthesia",
+          "condition": {
+            "condition_type": "Age",
+            "operator": "<",
+            "quantity": 18,
+            "unit": "years",
+            "value": 0
+          }
+        }
+      ]
+    },
+    "local anesthesia": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 386761002,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 10,
+          "low": 4
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "electrocautery"
+    },
+    "General anesthesia": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 241687005,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 1
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "electrocautery"
+    },
+    "electrocautery": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 307272003,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "GAUSSIAN",
+        "parameters": {
+          "mean": 20,
+          "standardDeviation": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Pressure dressing"
+    },
+    "Pressure dressing": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 26906007,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "GAUSSIAN",
+        "parameters": {
+          "mean": 2,
+          "standardDeviation": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Terminal"
+    }
+  },
+  "gmf_version": 2
+}

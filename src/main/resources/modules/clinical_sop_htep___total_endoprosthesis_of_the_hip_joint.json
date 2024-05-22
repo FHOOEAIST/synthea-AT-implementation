@@ -1,0 +1,474 @@
+{
+  "name": "Clinical SOP HTEP - Total Endoprosthesis of the Hip Joint",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "distributed_transition": [
+        {
+          "transition": "clinical examination",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Medical history and status",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Medical history and status": {
+      "type": "Simple",
+      "direct_transition": "Pelvis x-ray"
+    },
+    "clinical examination": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 5880005,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Pelvis x-ray"
+    },
+    "Pelvis x-ray": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 268425006,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Hip x-ray"
+    },
+    "Hip x-ray": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 408740001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "BG",
+          "distribution": 0.11
+        },
+        {
+          "transition": "No obesity route",
+          "distribution": 0.8899999999999999
+        }
+      ]
+    },
+    "BG": {
+      "type": "Simple",
+      "direct_transition": "HbA1c"
+    },
+    "HbA1c": {
+      "type": "Observation",
+      "category": "exam",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "96070-8",
+          "display": "LOINC Code"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "distributed_transition": [
+        {
+          "transition": "scintigraphy",
+          "distribution": 0.04
+        },
+        {
+          "transition": "MRI",
+          "distribution": 0.04
+        },
+        {
+          "transition": "Full leg x-ray",
+          "distribution": 0.04
+        },
+        {
+          "transition": "Hip Operation",
+          "distribution": 0.88
+        }
+      ]
+    },
+    "Full leg x-ray": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 168658009,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Hip Operation"
+    },
+    "MRI": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 113091000,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Hip Operation"
+    },
+    "scintigraphy": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 373205008,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 1
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "MRI"
+    },
+    "No obesity route": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Hip Operation",
+          "distribution": 0.88
+        },
+        {
+          "transition": "Full leg x-ray",
+          "distribution": 0.04
+        },
+        {
+          "transition": "scintigraphy",
+          "distribution": 0.04
+        },
+        {
+          "transition": "MRI",
+          "distribution": 0.04
+        }
+      ]
+    },
+    "Antibiotic pophylaxis": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 422181004,
+          "display": "RxNorm Code"
+        }
+      ],
+      "direct_transition": "Dressing change"
+    },
+    "indomethacin": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 373513008,
+          "display": "RxNorm Code"
+        }
+      ],
+      "direct_transition": "Antibiotic pophylaxis"
+    },
+    "Head type": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Metal prosthesis",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Ceramic prosthesis",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Ceramic prosthesis": {
+      "type": "Device",
+      "code": {
+        "system": "SNOMED-CT",
+        "code": 468102004,
+        "display": "SNOMED Code"
+      },
+      "direct_transition": "Dismissal"
+    },
+    "Metal prosthesis": {
+      "type": "Device",
+      "code": {
+        "system": "SNOMED-CT",
+        "code": 467847002,
+        "display": "SNOMED Code"
+      },
+      "direct_transition": "Dismissal"
+    },
+    "Dismissal": {
+      "type": "Simple",
+      "direct_transition": "Thrombosis prophylaxis"
+    },
+    "Dressing change": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 18949003,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 15,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "delay"
+    },
+    "delay": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 14,
+          "low": 10
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Suture removal by family doctor"
+    },
+    "Suture removal by family doctor": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 30549001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "year delay"
+    },
+    "Thrombosis prophylaxis": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 421728001,
+          "display": "RxNorm Code"
+        }
+      ],
+      "direct_transition": "indomethacin"
+    },
+    "year delay": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 1.5,
+          "low": 1
+        }
+      },
+      "unit": "years",
+      "direct_transition": "x-ray check up"
+    },
+    "x-ray check up": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 408740001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "3 yearly delay"
+    },
+    "3 yearly delay": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 3
+        }
+      },
+      "unit": "years",
+      "direct_transition": "x_ray_check_up"
+    },
+    "x_ray_check_up": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 408740001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 20,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "conditional_transition": [
+        {
+          "transition": "older",
+          "condition": {
+            "condition_type": "Age",
+            "operator": ">=",
+            "quantity": 65,
+            "unit": "years",
+            "value": 0
+          }
+        },
+        {
+          "transition": "younger"
+        }
+      ]
+    },
+    "Hip Operation": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 28181007,
+          "display": "SNOMED Code"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "conditional_transition": [
+        {
+          "transition": "Head type",
+          "condition": {
+            "condition_type": "Age",
+            "operator": ">=",
+            "quantity": 75,
+            "unit": "years",
+            "value": 0
+          }
+        },
+        {
+          "transition": "Ceramic prosthesis"
+        }
+      ]
+    },
+    "older": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "3 yearly delay",
+          "distribution": 0.66
+        },
+        {
+          "transition": "death",
+          "distribution": 0.33999999999999986
+        }
+      ]
+    },
+    "younger": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "3 yearly delay",
+          "distribution": 0.9400000000000001
+        },
+        {
+          "transition": "death",
+          "distribution": 0.06
+        }
+      ]
+    },
+    "death": {
+      "type": "Death",
+      "exact": {
+        "quantity": 1,
+        "unit": "days"
+      },
+      "direct_transition": "Terminal"
+    }
+  },
+  "gmf_version": 2
+}

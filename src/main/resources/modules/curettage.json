@@ -1,0 +1,114 @@
+{
+  "name": "Curettage",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Curettage?"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "draw_blood": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Observation_Blood",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 2,
+          "high": 3
+        }
+      }
+    },
+    "Observation_Blood": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        },
+        {
+          "system": "LOINC",
+          "code": "71426-1",
+          "display": "C reactive protein [Mass/volume] in Blood by High sensitivity method"
+        },
+        {
+          "system": "LOINC",
+          "code": "66747-7",
+          "display": "Clotting time of Blood by Heparin protamine titration"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Operation_day"
+    },
+    "Antibiotics?": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Post-Operation",
+          "distribution": 0.5
+        },
+        {
+          "transition": "get_Antibiotic",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "get_Antibiotic": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": "23658-8",
+          "display": "Other Antibiotic [Susceptibility]"
+        }
+      ],
+      "direct_transition": "Post-Operation"
+    },
+    "Pre-Operation": {
+      "type": "Simple",
+      "direct_transition": "draw_blood"
+    },
+    "Operation_day": {
+      "type": "Simple",
+      "direct_transition": "Antibiotics?"
+    },
+    "Post-Operation": {
+      "type": "Simple",
+      "direct_transition": "Terminal"
+    },
+    "Curettage?": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Pre-Operation",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.5
+        }
+      ]
+    }
+  },
+  "gmf_version": 2
+}

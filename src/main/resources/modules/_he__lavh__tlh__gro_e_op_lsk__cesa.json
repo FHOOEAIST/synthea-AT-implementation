@@ -1,0 +1,240 @@
+{
+  "name": " HE, LAVH, TLH, große op.LSK, CESA",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Preoperative"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "2_Clysmol": {
+      "type": "Simple",
+      "direct_transition": "shave"
+    },
+    "OP-Day": {
+      "type": "Simple",
+      "direct_transition": "Antibiotic_allergy"
+    },
+    "Clindamycin": {
+      "type": "Simple",
+      "direct_transition": "Postoperativ_Op-Tag"
+    },
+    "Postoperativ_Op-Tag": {
+      "type": "Simple",
+      "direct_transition": "1000mlElomel"
+    },
+    "1-PostOPDay": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "500ml–1000ml_Elomel"
+    },
+    "BB": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Obeservation_BB",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 2,
+          "high": 3
+        }
+      }
+    },
+    "2PostOPDay": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Clysmol"
+    },
+    "Clysmol": {
+      "type": "Simple",
+      "direct_transition": "Terminal"
+    },
+    "Lovenox": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 3839737,
+          "display": "Lovenox Injectable Product"
+        }
+      ],
+      "direct_transition": "Ariline_supp_evening_before"
+    },
+    "shave": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 705739006,
+          "display": "Shaver system"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "OP-Day"
+    },
+    "Obeservation_BB": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Electrolytes"
+    },
+    "Preoperative": {
+      "type": "Simple",
+      "direct_transition": "Laying_Veflon"
+    },
+    "Laying_Veflon": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Renal_ultrasonography_after_incision",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 2,
+          "high": 3
+        }
+      }
+    },
+    "Renal_ultrasonography_after_incision": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 715968006,
+          "display": "Doppler ultrasonography of renal vessel"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "GB_ict",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 30,
+          "high": 60
+        }
+      }
+    },
+    "Ariline_supp_evening_before": {
+      "type": "Simple",
+      "direct_transition": "2_Clysmol"
+    },
+    "1000mlElomel": {
+      "type": "Simple",
+      "direct_transition": "1-PostOPDay"
+    },
+    "Removal_of_the_vaginal_strip_and_indwelling_catheter": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 266768004,
+          "display": "Indwelling catheter removed"
+        }
+      ],
+      "unit": "seconds",
+      "direct_transition": "BB",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 2,
+          "high": 4
+        }
+      }
+    },
+    "Electrolytes": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 1887875,
+          "display": "Intravenous fluids and electrolytes"
+        }
+      ],
+      "direct_transition": "2PostOPDay"
+    },
+    "500ml–1000ml_Elomel": {
+      "type": "Simple",
+      "direct_transition": "Removal_of_the_vaginal_strip_and_indwelling_catheter"
+    },
+    "GB_ict": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 225302006,
+          "display": "conventional insulin therapy"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Lovenox"
+    },
+    "Antibiotic_allergy": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Clindamycin",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Antibiotics_prophylaxis",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Antibiotics_prophylaxis": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 2383934,
+          "display": "Cytotoxic antibiotic"
+        }
+      ],
+      "direct_transition": "Postoperativ_Op-Tag"
+    }
+  },
+  "gmf_version": 2
+}

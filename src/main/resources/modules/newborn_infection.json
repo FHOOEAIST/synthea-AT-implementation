@@ -1,0 +1,294 @@
+{
+  "name": "newborn_infection",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Age"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "BB": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "CRP"
+    },
+    "CRP": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "11039-5",
+          "display": "reactive protein [Presence] in Serum or Plasma"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "IL-6"
+    },
+    "IL-6": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "44322-6",
+          "display": "Interleukin 6 [Presence] in Serum or Plasma"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Clinical_conspicuous"
+    },
+    "Delay-36h": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 36
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "PKU_Infection_laboratory"
+    },
+    "Delay-24h": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 24
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "Clinical_control_without_laboratory"
+    },
+    "Initial_examination": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 79536006,
+          "display": "Physical medicine, initial examination, evaluation and treatment program planning"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Conspicuousness_Infection"
+    },
+    "Conspicuousness_Infection": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Relocation_Neo",
+          "distribution": 0.005
+        },
+        {
+          "transition": "GBS_positive_mother",
+          "distribution": 0.995
+        }
+      ]
+    },
+    "Relocation_Neo": {
+      "type": "Simple",
+      "direct_transition": "Blood_culture "
+    },
+    "Re-presentation": {
+      "type": "Simple",
+      "direct_transition": "Infection?"
+    },
+    "Infection?": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Relocation_Neo",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Hypoglycemia",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "GBS_positive_mother": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "VBS>18h+fruit water_miscolored",
+          "distribution": 0.75
+        },
+        {
+          "transition": "Counting_breathing_frequency",
+          "distribution": 0.25
+        }
+      ]
+    },
+    "VBS>18h+fruit water_miscolored": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Delay-24h",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Counting_breathing_frequency": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "9289-0",
+          "display": "Respiratory rate 24 hou"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 2
+        }
+      },
+      "direct_transition": "Hypoglycemia_respiratory_adaptation_disorder_mother"
+    },
+    "Blood_culture ": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 30088009,
+          "display": "Blood culture"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "BB"
+    },
+    "Hypoglycemia": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 68581004,
+          "display": "Hypoglycemia of childhood"
+        }
+      ],
+      "distributed_transition": [
+        {
+          "transition": "BB",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Clinical_conspicuous": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Re-presentation",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Therapy",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "PKU_Infection_laboratory": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "46746-4",
+          "display": "Phenylketonuria and variants/Biopterin defects newborn screen interpretation"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Re-presentation"
+    },
+    "Clinical_control_without_laboratory": {
+      "type": "Simple",
+      "direct_transition": "Re-presentation"
+    },
+    "Therapy": {
+      "type": "Simple",
+      "direct_transition": "Re-presentation"
+    },
+    "Hypoglycemia_respiratory_adaptation_disorder_mother": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Delay-24h",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Delay-36h",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Age": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Initial_examination",
+          "condition": {
+            "condition_type": "Age",
+            "operator": "<",
+            "quantity": 1,
+            "unit": "months",
+            "value": 0
+          }
+        },
+        {
+          "transition": "Terminal"
+        }
+      ]
+    }
+  },
+  "gmf_version": 2
+}

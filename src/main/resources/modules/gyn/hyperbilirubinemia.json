@@ -1,0 +1,375 @@
+{
+  "name": "Hyperbilirubinemia ",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Age"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Ikterus": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "trascutaneous_bilirubnin_measurement",
+          "distribution": 0.9
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.1
+        }
+      ]
+    },
+    "Treatment": {
+      "type": "Simple",
+      "direct_transition": "blood_draw"
+    },
+    "Delay 12h": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 12
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "capital_bilirubin_control"
+    },
+    "Delay_4h": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 4
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "capillary_bilirubin_control"
+    },
+    "Delay_12h": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 12
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "controls"
+    },
+    "End_Fototherapie": {
+      "type": "CarePlanEnd",
+      "direct_transition": "Delay_24h",
+      "careplan": "Phototherapy"
+    },
+    "Delay_24h": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 24
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "Gaining_weight?"
+    },
+    "trascutaneous_bilirubnin_measurement": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "50189-0",
+          "display": "Neonatal bilirubin panel [Mass/volume] - Serum or Plasma LHC-Forms"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Bilirubin_mg/dl"
+    },
+    "capillary bilirubin_levels": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 1738009,
+          "display": "Bilirubin, neonatal measurement"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Phototherapy_Bili>"
+    },
+    "Phototherapy_Bili>": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "blood_draw",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Gaining_weight?",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "capital_bilirubin_control": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": 1738009,
+          "display": "Bilirubin, neonatal measurement"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Ikterus_praecox"
+    },
+    "controls": {
+      "type": "Simple",
+      "direct_transition": "End_Fototherapie"
+    },
+    "Phototherapy": {
+      "type": "CarePlanStart",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 35683002,
+          "display": "Phototherapy"
+        }
+      ],
+      "direct_transition": "Delay 12h"
+    },
+    "Gaining_weight?": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Breastfeeding+nutrition_management",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Discharge",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Discharge": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 183665006,
+          "display": "Discharged from hospital"
+        }
+      ],
+      "direct_transition": "Weight gain between_7%-10%_too_little"
+    },
+    "Breastfeeding+nutrition_management": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 406213009,
+          "display": "Breastfeeding performance"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Gaining_weight?"
+    },
+    "Outpatient_bilirubin_control": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 1738009,
+          "display": "Bilirubin, neonatal measurement"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Terminal"
+    },
+    "Bilirubin_mg/dl": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "capillary bilirubin_levels",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Observation_blood": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood LHC-Forms"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Treating_disease"
+    },
+    "blood_draw": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Observation_blood"
+    },
+    "Weight gain between_7%-10%_too_little": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Outpatient_bilirubin_control",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "capillary_bilirubin_control": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": 1738009,
+          "display": "Bilirubin, neonatal measurement"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Delay_12h"
+    },
+    "Ikterus_praecox": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 111470007,
+          "display": "Neonatal jaundice"
+        }
+      ],
+      "distributed_transition": [
+        {
+          "distribution": 0.5,
+          "transition": "Bilirubin_values>20"
+        },
+        {
+          "transition": "Delay_4h",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Treating_disease": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "exceeded_individual_limit",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Treatment",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "exceeded_individual_limit": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Phototherapy",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Gaining_weight?",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Bilirubin_values>20": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Delay_4h",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Gaining_weight?",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Age": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Ikterus",
+          "condition": {
+            "condition_type": "Age",
+            "operator": "<=",
+            "quantity": 1,
+            "unit": "months",
+            "value": 0
+          }
+        },
+        {
+          "transition": "Terminal"
+        }
+      ]
+    }
+  },
+  "gmf_version": 2
+}

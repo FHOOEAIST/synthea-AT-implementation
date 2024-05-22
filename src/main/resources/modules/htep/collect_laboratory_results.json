@@ -1,0 +1,108 @@
+{
+  "name": "Collect_laboratory_results",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Draw_blood"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Collect_blood_count": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "58410-2",
+          "display": "58410-2\tCBC panel - Blood by Automated count"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "CRP_collection"
+    },
+    "CRP_collection": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "71426-1",
+          "display": "C reactive protein [Mass/volume] in Blood by High sensitivity method"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Determine_kidney_function_parameters "
+    },
+    "Determine_kidney_function_parameters ": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "24362-6",
+          "display": "Renal function 2000 panel - Serum or Plasma"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Coagulation"
+    },
+    "Coagulation": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "3184-9",
+          "display": "Activated clotting time (ACT) of Blood by Coagulation assay"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Terminal"
+    },
+    "Draw_blood": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 96543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Collect_blood_count"
+    }
+  },
+  "gmf_version": 2
+}

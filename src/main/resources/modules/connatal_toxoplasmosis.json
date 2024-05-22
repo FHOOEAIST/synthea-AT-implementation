@@ -1,0 +1,427 @@
+{
+  "name": "connatal_toxoplasmosis",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Age"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "CRP": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "11039-5",
+          "display": "reactive protein [Presence] in Serum or Plasma"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "LFP"
+    },
+    "LFP": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 365769003,
+          "display": "Liver enzyme levels - finding"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "NFP"
+    },
+    "NFP": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 182809008,
+          "display": "Renal function monitoring"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Bilirubin"
+    },
+    "ECG": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 164854000,
+          "display": "ECG normal"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 10,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "spiramycin_therapy"
+    },
+    "treatment": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "inadequateTherapy_or_clinical_sign_if_infection",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Delay_6M": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 6
+        }
+      },
+      "unit": "months",
+      "direct_transition": "4-weeks_of_rovamycin_and_combination_therapy"
+    },
+    "Predinsolon": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 3292741,
+          "display": "48 (prednisolone 5 MG Oral Tablet)"
+        }
+      ],
+      "direct_transition": "Delay>=1-year"
+    },
+    "Delay_6Weeks": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 6
+        }
+      },
+      "unit": "weeks",
+      "direct_transition": "6-weeks_of_rovamycin_and_4-weeks_of_combination_therapy"
+    },
+    " serology_of_the_mother": {
+      "type": "Simple",
+      "direct_transition": "clinical_status"
+    },
+    "clinical_status": {
+      "type": "Simple",
+      "direct_transition": "draw_blood"
+    },
+    "draw_blood": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "blood_count_panel"
+    },
+    "blood_count_panel": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "CRP"
+    },
+    "Bilirubin": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "33898-8",
+          "display": "Bilirubin.conjugated+indirect [Mass/volume] in Serum or Plasma"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Mother?"
+    },
+    "cranial_sonography": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 710165007,
+          "display": "Ultrasonography of fetal head"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 30,
+          "low": 10
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "ophthalmologic_examination"
+    },
+    "spiramycin_therapy": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 12293745,
+          "display": "spiramycin Oral Liquid Product"
+        }
+      ],
+      "direct_transition": "treatment"
+    },
+    "clinically_conspicuous": {
+      "type": "Simple",
+      "direct_transition": "Delay_6M"
+    },
+    "clinically_inconspicuous": {
+      "type": "Simple",
+      "direct_transition": "Delay_6Weeks"
+    },
+    "4-weeks_of_rovamycin_and_combination_therapy": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 12293745,
+          "display": "spiramycin Oral Liquid Product"
+        },
+        {
+          "system": "RxNorm",
+          "code": 10811097,
+          "display": "Product containing folinic acid in oral dose form (medicinal product form)"
+        },
+        {
+          "system": "RxNorm",
+          "code": 12353495,
+          "display": "bromhexine / sulfadiazine / tetroxoprim"
+        },
+        {
+          "system": "RxNorm",
+          "code": 3833481,
+          "display": "Daraprim Oral Product"
+        }
+      ],
+      "direct_transition": "Signs_of_inflammation"
+    },
+    "6-weeks_of_rovamycin_and_4-weeks_of_combination_therapy": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 12293745,
+          "display": "spiramycin Oral Liquid Product"
+        },
+        {
+          "system": "RxNorm",
+          "code": 10811097,
+          "display": "Product containing folinic acid in oral dose form (medicinal product form)"
+        },
+        {
+          "system": "RxNorm",
+          "code": 12353495,
+          "display": "bromhexine / sulfadiazine / tetroxoprim"
+        },
+        {
+          "system": "RxNorm",
+          "code": 3833481,
+          "display": "Daraprim Oral Product"
+        }
+      ],
+      "direct_transition": "Delay>=1-year"
+    },
+    "Signs_of_inflammation": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Delay>=1-year",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Predinsolon",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Delay>=1-year": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "years",
+      "direct_transition": "Terminal"
+    },
+    "is_pregnant": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Set_patient",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "pregnant",
+            "operator": "==",
+            "value": true
+          }
+        },
+        {
+          "transition": "Terminal"
+        }
+      ]
+    },
+    "Age": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "toxoplasmosis_serology_from_umbilical_veins_venous_blood_of_the_newborn",
+          "condition": {
+            "condition_type": "Age",
+            "operator": "<=",
+            "quantity": 1,
+            "unit": "months",
+            "value": 0
+          }
+        },
+        {
+          "transition": "is_pregnant"
+        }
+      ]
+    },
+    "toxoplasmosis_serology_from_umbilical_veins": {
+      "type": "Simple",
+      "direct_transition": " serology_of_the_mother"
+    },
+    "toxoplasmosis_serology_from_umbilical_veins_venous_blood_of_the_newborn": {
+      "type": "Simple",
+      "direct_transition": "clinical_status"
+    },
+    "Set_patient": {
+      "type": "SetAttribute",
+      "attribute": "patient",
+      "direct_transition": "toxoplasmosis_serology_from_umbilical_veins",
+      "value": "mother"
+    },
+    "Mother?": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "ECG_2",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "patient",
+            "operator": "==",
+            "value": "mother"
+          }
+        },
+        {
+          "transition": "cranial_sonography"
+        }
+      ]
+    },
+    "ECG_2": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 164854000,
+          "display": "ECG normal"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 10,
+          "low": 5
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Terminal"
+    },
+    "inadequateTherapy_or_clinical_sign_if_infection": {
+      "type": "Simple",
+      "direct_transition": "Congenital-toxoplasmosis"
+    },
+    "Congenital-toxoplasmosis": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "clinically_conspicuous",
+          "distribution": 0.9
+        },
+        {
+          "transition": "clinically_inconspicuous",
+          "distribution": 0.1
+        }
+      ]
+    },
+    "ophthalmologic_examination": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 239005,
+          "display": "Ophthalmologic"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 30,
+          "low": 20
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "ECG"
+    }
+  },
+  "gmf_version": 2
+}

@@ -1,0 +1,438 @@
+{
+  "name": "HTEP",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Perform_orthopaedic_anamnesis"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "No_Surgery": {
+      "type": "Simple",
+      "direct_transition": "Terminal"
+    },
+    "CRP>7days": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Perform_specific_radiological_test",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Examine_CRP",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Operation_release_possible": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Release_Operation",
+          "distribution": 0.5
+        },
+        {
+          "transition": "No_Surgery",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Release_Operation": {
+      "type": "Simple",
+      "direct_transition": "Perform_Operation"
+    },
+    "Perform_Operation": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 260898007,
+          "display": "Operation performed"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "1postOP_Day"
+    },
+    "1postOP_Day": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Hip_comparison"
+    },
+    "4postOP_Day": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 2
+        }
+      },
+      "unit": "days",
+      "direct_transition": "postoperative_labortory_findings_day4"
+    },
+    "2postOP_Day": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Postoperative_laboratory_findings_day2"
+    },
+    "postoperative_labortory_findings_day4": {
+      "type": "Simple",
+      "direct_transition": "more_laboratory_findings_necessary?"
+    },
+    "more_laboratory_findings_necessary?": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Performing_fluoroscopic_Lauenstein_imaging",
+          "distribution": 0.5
+        },
+        {
+          "transition": "collect_further_postOP_laboratory_results",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Performing_fluoroscopic_Lauenstein_imaging": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 399169008,
+          "display": "Lauenstein projection"
+        },
+        {
+          "system": "SNOMED-CT",
+          "code": 312275004,
+          "display": "Fluoroscopic imaging"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Discharge_Home_possible"
+    },
+    "collect_further_postOP_laboratory_results": {
+      "type": "Simple",
+      "direct_transition": "Performing_fluoroscopic_Lauenstein_imaging"
+    },
+    "Initiate_follow-up_treatment": {
+      "type": "Simple",
+      "direct_transition": "Move_patient_to_remo_department"
+    },
+    "Move_patient_to_remo_department": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Transfer_patient_to_another_department",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Transfer_patient_to_remobilization_department",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Transfer_patient_to_another_department": {
+      "type": "Simple",
+      "direct_transition": "Post_OP_recovery_process_successful"
+    },
+    "Transfer_patient_to_remobilization_department": {
+      "type": "Simple",
+      "direct_transition": "Post_OP_recovery_process_successful"
+    },
+    "Post_OP_recovery_process_successful": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Patient_is_dicharged",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Patient_is_dicharged": {
+      "type": "Simple",
+      "direct_transition": "Terminal"
+    },
+    "Perform_orthopaedic_anamnesis": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 113010000,
+          "display": "Orthopedic examination"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Perform_clinical_examination_corresponding_to_HH"
+    },
+    "Hip_comparison": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 252698000,
+          "display": "Test of the hip"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "2postOP_Day"
+    },
+    "Postoperative_laboratory_findings_day2": {
+      "type": "Simple",
+      "direct_transition": "4postOP_Day"
+    },
+    "Discharge_Home_possible": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Initiate_follow-up_treatment",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Patient_is_dicharged",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Perform_clinical_examination_corresponding_to_HH": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 445615000,
+          "display": "Assessment using Harris hip score"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Perform_radiological_test"
+    },
+    "Perform_radiological_test": {
+      "type": "CallSubmodule",
+      "submodule": "htep/radiology_report",
+      "direct_transition": "Perform_laboratory_tests"
+    },
+    "Perform_laboratory_tests": {
+      "type": "CallSubmodule",
+      "submodule": "htep/collect_laboratory_results",
+      "direct_transition": "HTEP_Diagnosis"
+    },
+    "conservative_treatment?": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Initiate_conservative_treatment",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Prepare_surgery_indication",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Initiate_conservative_treatment": {
+      "type": "CallSubmodule",
+      "submodule": "htep/conservative_therapy",
+      "direct_transition": "therapy-resistant_arthrosis"
+    },
+    "therapy-resistant_arthrosis": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Prepare_surgery_indication",
+          "distribution": 0.5
+        },
+        {
+          "transition": "conservative_treatment_successful",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "conservative_treatment_successful": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Prepare_surgery_indication",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Discharge_Home_possible",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Prepare_surgery_indication": {
+      "type": "Simple",
+      "direct_transition": "Register_patient"
+    },
+    "Consent_of_the_patient?": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "hemogram_older_than_7days",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "PatientConsent",
+            "operator": "==",
+            "value": true
+          }
+        },
+        {
+          "transition": "No_Surgery"
+        }
+      ]
+    },
+    "hemogram_older_than_7days": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Examine_hemogram",
+          "distribution": 0.5
+        },
+        {
+          "transition": "CRP>7days",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Examine_hemogram": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "CRP>7days"
+    },
+    "Examine_CRP": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "55429-5",
+          "display": "Short blood count panel - Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Perform_specific_radiological_test"
+    },
+    "Register_patient": {
+      "type": "CallSubmodule",
+      "submodule": "htep/patient_admission",
+      "direct_transition": "Consent_of_the_patient?"
+    },
+    "HTEP_Diagnosis": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "older_than_60",
+          "condition": {
+            "condition_type": "Age",
+            "operator": ">",
+            "quantity": 60,
+            "unit": "years"
+          }
+        },
+        {
+          "transition": "older_than_30",
+          "condition": {
+            "condition_type": "Age",
+            "operator": ">",
+            "quantity": 30,
+            "unit": "years"
+          }
+        },
+        {
+          "transition": "younger_than_30"
+        }
+      ]
+    },
+    "older_than_60": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "conservative_treatment?",
+          "distribution": 0.6
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.3999999999999999
+        }
+      ]
+    },
+    "older_than_30": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "conservative_treatment?",
+          "distribution": 0.3
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.7
+        }
+      ]
+    },
+    "younger_than_30": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "conservative_treatment?",
+          "distribution": 0.1
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.9
+        }
+      ]
+    },
+    "Perform_specific_radiological_test": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 207398007,
+          "display": "[D]Nonspecific x-ray/scan findings (& abnormal)"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Operation_release_possible"
+    }
+  },
+  "gmf_version": 2
+}

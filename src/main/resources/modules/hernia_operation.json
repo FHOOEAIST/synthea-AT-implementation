@@ -1,0 +1,374 @@
+{
+  "name": "Hernia operation",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Set_Attribut_Hernia"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "physical_examination": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 5880005,
+          "display": "Physical examination"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "diagnosis_clear?",
+      "reason": "Surgical_anamnesis",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 25,
+          "high": 35
+        }
+      }
+    },
+    "CT_Abdomen_MRI": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 241621009,
+          "display": "MRI"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Hernia_diagnosed",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 15,
+          "high": 90
+        }
+      }
+    },
+    "Operation_TK": {
+      "type": "CallSubmodule",
+      "submodule": "hernia/criteria_ambulatory_surgery",
+      "direct_transition": "Check_criteria"
+    },
+    "1_tag_post_OP": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "Post_op_wound_inspection"
+    },
+    "ultrasound": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 14601000087101,
+          "display": "Ultrasonography of abdomen, pelvis and bilateral lower extremities"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "ultrasound_inclusive ",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 25,
+          "high": 30
+        }
+      }
+    },
+    "ultrasound_inclusive ": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "CT_Abdomen_MRI",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Hernia_diagnosed",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Hernia_diagnosed": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Male",
+          "condition": {
+            "condition_type": "Gender",
+            "gender": "M"
+          }
+        },
+        {
+          "transition": "Female",
+          "condition": {
+            "condition_type": "Gender",
+            "gender": "F"
+          }
+        }
+      ]
+    },
+    "Other_examinations": {
+      "type": "Simple",
+      "direct_transition": "Set_Attrilbut_Hernia_End"
+    },
+    "Consent": {
+      "type": "SetAttribute",
+      "attribute": "Consent",
+      "direct_transition": "Patient_OP_Consent",
+      "value": true
+    },
+    "Patient_OP_Consent": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Get_operation_release",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "PatientConsent",
+            "operator": "==",
+            "value": true
+          }
+        },
+        {
+          "transition": "No_Operation"
+        }
+      ]
+    },
+    "Get_operation_release": {
+      "type": "Simple",
+      "direct_transition": "Anesthesia"
+    },
+    "Operation_release": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "No_Operation",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Operation_TK",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Hernia_operation_performed": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 48114000,
+          "display": "Operation on esophagus"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Operation_day_clinical",
+      "reason": "Hernia",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 40,
+          "high": 50
+        }
+      }
+    },
+    "Operation_day_clinical": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "1_tag_post_OP",
+          "distribution": 0.25
+        },
+        {
+          "transition": "4h_post _OP",
+          "distribution": 0.75
+        }
+      ]
+    },
+    "4h_post _OP": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 4
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "Post_op_wound_inspection"
+    },
+    "Post_op_wound_inspection": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 226007004,
+          "display": "Post-surgical wound care"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "End_Hernia_operation_Encounter",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 5,
+          "high": 30
+        }
+      }
+    },
+    "Patient_discharged": {
+      "type": "Simple",
+      "direct_transition": "Set_Attrilbut_Hernia_End"
+    },
+    "Hernia": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 300296006,
+          "display": "Lesion of stomach"
+        }
+      ],
+      "direct_transition": "decide_consent"
+    },
+    "No_Operation": {
+      "type": "Simple",
+      "direct_transition": "Set_Attrilbut_Hernia_End"
+    },
+    "End_Hernia_operation_Encounter": {
+      "type": "EncounterEnd",
+      "direct_transition": "Patient_discharged",
+      "discharge_disposition": {
+        "system": "NUBC",
+        "code": 48114000,
+        "display": "Operation on esophagus"
+      }
+    },
+    "Hernia_operation_Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "Hernia",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 48114000,
+          "display": "Operation on esophagus"
+        }
+      ],
+      "direct_transition": "Hernia_operation_performed"
+    },
+    "Surgical_anamnesis": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 161533003,
+          "display": "H/O: abdominal hernia"
+        }
+      ],
+      "direct_transition": "physical_examination"
+    },
+    "Anesthesia": {
+      "type": "CallSubmodule",
+      "submodule": "surgery/general_anesthesia",
+      "direct_transition": "Operation_release"
+    },
+    "Set_Attribut_Hernia": {
+      "type": "SetAttribute",
+      "attribute": "HerniaTherapy",
+      "direct_transition": "Surgical_anamnesis",
+      "value": "Start"
+    },
+    "Set_Attrilbut_Hernia_End": {
+      "type": "SetAttribute",
+      "attribute": "HerniaTherapy",
+      "direct_transition": "Terminal",
+      "value": "End"
+    },
+    "Check_criteria": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Hernia_operation_Encounter",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Criteria",
+            "operator": "==",
+            "value": "yes"
+          }
+        },
+        {
+          "transition": "No_Operation",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Criteria",
+            "operator": "==",
+            "value": "no"
+          }
+        }
+      ]
+    },
+    "diagnosis_clear?": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "ultrasound",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Hernia_diagnosed",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Female": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Hernia",
+          "distribution": 0.03
+        },
+        {
+          "transition": "Other_examinations",
+          "distribution": 0.97
+        }
+      ]
+    },
+    "Male": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Hernia",
+          "distribution": 0.27
+        },
+        {
+          "transition": "Other_examinations",
+          "distribution": 0.73
+        }
+      ]
+    },
+    "decide_consent": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Consent",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Patient_OP_Consent",
+          "distribution": 0.5
+        }
+      ]
+    }
+  },
+  "gmf_version": 2
+}

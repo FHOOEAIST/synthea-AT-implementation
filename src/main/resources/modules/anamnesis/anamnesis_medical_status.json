@@ -1,0 +1,64 @@
+{
+  "name": "Anamnesis_medical_status",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Amnesis_feasible"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Perform_anamnesis": {
+      "type": "Simple",
+      "direct_transition": "Perform_medical_check"
+    },
+    "Perform_medical_check": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 386053000,
+          "display": "Evaluation procedure"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 15
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Terminal"
+    },
+    "Amnesis_feasible": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Set_Attribute_Amnesis_Yes",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Set_Attribute_Amnesis_No",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Set_Attribute_Amnesis_Yes": {
+      "type": "SetAttribute",
+      "attribute": "Amnesis",
+      "direct_transition": "Perform_anamnesis",
+      "value": "Yes"
+    },
+    "Set_Attribute_Amnesis_No": {
+      "type": "SetAttribute",
+      "attribute": "Amnesis",
+      "value": "No",
+      "direct_transition": "Terminal"
+    }
+  },
+  "gmf_version": 2
+}

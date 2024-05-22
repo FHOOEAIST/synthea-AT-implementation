@@ -1,0 +1,51 @@
+{
+  "name": "Conservative_therapy",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Initiate_appropriate_medication"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Muscle_Strengthening": {
+      "type": "Simple",
+      "direct_transition": "Leg_axis_training_initiate"
+    },
+    "Initiate_appropriate_medication": {
+      "type": "Simple",
+      "direct_transition": "Muscle_Strengthening"
+    },
+    "Leg_axis_training_initiate": {
+      "type": "Simple",
+      "direct_transition": "Perform_patella_centering"
+    },
+    "Perform_patella_centering": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 18033002,
+          "display": "Structure of patellar ligament"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Initiate_patient_weight_reduction",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "low": 30,
+          "high": 60
+        }
+      }
+    },
+    "Initiate_patient_weight_reduction": {
+      "type": "Simple",
+      "direct_transition": "Terminal"
+    }
+  },
+  "gmf_version": 2
+}

@@ -1,0 +1,109 @@
+{
+  "name": "thyroid_mother",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Age"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Taking_Thyroid_hormones": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Terminal",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Umbilical_cord_blood",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Umbilical_cord_blood": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 1230332003,
+          "display": "Collection of blood from umbilical cord immediately after delivery"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Observation_blood"
+    },
+    "Anamnesis": {
+      "type": "CallSubmodule",
+      "submodule": "anamnesis/anamnesis_medical_status",
+      "distributed_transition": [
+        {
+          "transition": "Mother_Thyroidectomy",
+          "distribution": 0.33
+        },
+        {
+          "transition": "Mother_Taking_thyroid-inhibiting_medication",
+          "distribution": 0.33
+        },
+        {
+          "transition": "Mother_Radioiodine_therapy",
+          "distribution": 0.33999999999999997
+        }
+      ]
+    },
+    "Observation_blood": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "69561-9",
+          "display": "Thyrotropin [Units/volume] in Cord blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Terminal"
+    },
+    "Mother_Radioiodine_therapy": {
+      "type": "Simple",
+      "direct_transition": "Taking_Thyroid_hormones"
+    },
+    "Mother_Thyroidectomy": {
+      "type": "Simple",
+      "direct_transition": "Taking_Thyroid_hormones"
+    },
+    "Mother_Taking_thyroid-inhibiting_medication": {
+      "type": "Simple",
+      "direct_transition": "Taking_Thyroid_hormones"
+    },
+    "Age": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Anamnesis",
+          "condition": {
+            "condition_type": "Age",
+            "operator": "<=",
+            "quantity": 1,
+            "unit": "months",
+            "value": 0
+          }
+        },
+        {
+          "transition": "Terminal"
+        }
+      ]
+    }
+  },
+  "gmf_version": 2
+}

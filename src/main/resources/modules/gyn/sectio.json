@@ -1,0 +1,413 @@
+{
+  "name": "Sectio",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Delivery_procedure "
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "ICT": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 225302006,
+          "display": "Insulin regime"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Gestosis_laboratory"
+    },
+    "Preoperative_outpatient_clinic": {
+      "type": "Simple",
+      "direct_transition": "draw_blood"
+    },
+    "Planning_outpatient": {
+      "type": "Simple",
+      "direct_transition": "Preoperative_outpatient_clinic"
+    },
+    "Venflon ": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Preoperative_infusion_therapy"
+    },
+    "Post_OP": {
+      "type": "Simple",
+      "direct_transition": "Spinal_anesthesia_or_PDA"
+    },
+    "Admission_circle_room": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 236973005,
+          "display": "Vaginal delivery of fetus"
+        }
+      ],
+      "direct_transition": "Indwelling_catheter "
+    },
+    "Indwelling_catheter ": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 23973005,
+          "display": "Indwelling urinary catheter"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Venflon "
+    },
+    "Lovenox_6h_posOp": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": 3839737,
+          "display": "Lovenox Injectable Product"
+        }
+      ],
+      "direct_transition": "Checks_in_the_recovery_room_approximately_every_30_minutes "
+    },
+    "Delay_1h": {
+      "type": "Simple",
+      "direct_transition": "every_half_hour"
+    },
+    "Preoperative_infusion_therapy": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 387760006,
+          "display": "Infusion care"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Perioperative"
+    },
+    "Delivery_procedure ": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 84195007,
+          "display": "Classical cesarean section"
+        }
+      ],
+      "direct_transition": "Planning_outpatient"
+    },
+    "Gestosis_laboratory": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 398254007,
+          "display": "Pre-eclampsia"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Preoperative"
+    },
+    "Spinal_anesthesia_or_PDA": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 79945003,
+          "display": "Intrathecal injection"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Breathing_Pulse_RR_Control_1"
+    },
+    "Delay_4h": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 4
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "peripheral_deafness_or_motor_impairment"
+    },
+    "peripheral_deafness_or_motor_impairment": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 273872001,
+          "display": "Test of motor impairment - Stott-Moyes-Henderson"
+        },
+        {
+          "system": "SNOMED-CT",
+          "code": 15188001,
+          "display": "Hearing loss"
+        }
+      ],
+      "unit": "minutes",
+      "distributed_transition": [
+        {
+          "transition": "Breathing_Pulse_RR_Control_1",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Fundus_bleeding_control",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Fundus_bleeding_control": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 386219007,
+          "display": "Control of hemorrhage in postpartum uterus"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Lovenox_6h_posOp"
+    },
+    "Checks_in_the_recovery_room_approximately_every_30_minutes ": {
+      "type": "Simple",
+      "direct_transition": "500-1000ml_liquid"
+    },
+    "500-1000ml_liquid": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 1231713000,
+          "display": "Oral pure liquid"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Checks_in_the_delivery_room "
+    },
+    "Checks_in_the_delivery_room ": {
+      "type": "Simple",
+      "direct_transition": "Temperature"
+    },
+    "Temperature": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 386725007,
+          "display": "Body temperature"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Fundus_bleeding_control_2"
+    },
+    "Fundus_bleeding_control_2": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 386219007,
+          "display": "Control of hemorrhage in postpartum uterus"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Breathing_Pulse_RR_Control_2"
+    },
+    "Fundus_bleeding_control_3": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 386219007,
+          "display": "Control of hemorrhage in postpartum uterus"
+        }
+      ],
+      "unit": "minutes",
+      "direct_transition": "Transfer_to_ward"
+    },
+    "every_half_hour": {
+      "type": "Simple",
+      "direct_transition": "Breathing_Pulse_RR_Control_3"
+    },
+    "Breathing_Pulse_RR_Control_2": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "8889-8",
+          "display": "Heart rate by Pulse oximetry"
+        },
+        {
+          "system": "LOINC",
+          "code": "96608-5",
+          "display": "Systolic blood pressure mean"
+        },
+        {
+          "system": "LOINC",
+          "code": "96609-3",
+          "display": "Diastolic blood pressure mean"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Delay_1h"
+    },
+    "Breathing_Pulse_RR_Control_3": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "8889-8",
+          "display": "Heart rate by Pulse oximetry"
+        },
+        {
+          "system": "LOINC",
+          "code": "96608-5",
+          "display": "Systolic blood pressure mean"
+        },
+        {
+          "system": "LOINC",
+          "code": "96609-3",
+          "display": "Diastolic blood pressure mean"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Fundus_bleeding_control_3"
+    },
+    "Breathing_Pulse_RR_Control_1": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "80319-7",
+          "display": "Breath sounds by Auscultation"
+        },
+        {
+          "system": "LOINC",
+          "code": "8889-8",
+          "display": "Heart rate by Pulse oximetry"
+        },
+        {
+          "system": "LOINC",
+          "code": "96608-5",
+          "display": "Systolic blood pressure mean"
+        },
+        {
+          "system": "LOINC",
+          "code": "96609-3",
+          "display": "Diastolic blood pressure mean"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "Delay_4h"
+    },
+    "Transfer_to_ward": {
+      "type": "Simple",
+      "direct_transition": "Checks_on_the_postnatal_ward (DGKP)"
+    },
+    "Checks_on_the_postnatal_ward (DGKP)": {
+      "type": "Simple",
+      "direct_transition": "Terminal"
+    },
+    "Blood_group": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "883-9",
+          "display": "ABO group [Type] in Blood"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "ICT"
+    },
+    "draw_blood": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Blood draw via femoral vein"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 3,
+          "low": 2
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Blood_group"
+    },
+    "Preoperative": {
+      "type": "Simple",
+      "direct_transition": "Admission_circle_room"
+    },
+    "Perioperative": {
+      "type": "MedicationOrder",
+      "codes": [
+        {
+          "system": "RxNorm",
+          "code": "23658-8",
+          "display": "Other Antibiotic [Susceptibility]"
+        }
+      ],
+      "direct_transition": "Post_OP"
+    }
+  },
+  "gmf_version": 2
+}

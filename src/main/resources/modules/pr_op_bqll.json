@@ -1,0 +1,137 @@
+{
+  "name": "PräOp BQLL",
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Encounter for Pre Operative BQLL"
+    },
+    "Indication_for_Surgery": {
+      "type": "CallSubmodule",
+      "submodule": "operation/categorisation_of_surgical_procedure",
+      "direct_transition": "Anamnesis_and_Status"
+    },
+    "Anamnesis_and_Status": {
+      "type": "CallSubmodule",
+      "submodule": "anamnesis/anamnesis_medical_status",
+      "conditional_transition": [
+        {
+          "transition": "Assessment of findings",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Amnesis",
+            "operator": "==",
+            "value": "Yes"
+          }
+        },
+        {
+          "transition": "Further_Diagnosis_with_Therapy_Care",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Amnesis",
+            "operator": "==",
+            "value": "No"
+          }
+        }
+      ]
+    },
+    "Further_Diagnosis_with_Therapy_Care": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Assessment of findings",
+          "distribution": 0.95
+        },
+        {
+          "transition": "Do_Not_Perform_Surgery",
+          "distribution": 0.05
+        }
+      ]
+    },
+    "Do_Not_Perform_Surgery": {
+      "type": "Terminal"
+    },
+    "Operation_Clearance": {
+      "type": "CallSubmodule",
+      "submodule": "operation/operation_clearance",
+      "direct_transition": "Operation clear condition"
+    },
+    "BQLL_End": {
+      "type": "Terminal"
+    },
+    "Assessment of findings": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": 129265001,
+          "display": "LOINC Code"
+        }
+      ],
+      "distribution": {
+        "kind": "EXACT",
+        "round": false,
+        "parameters": {
+          "value": 1
+        }
+      },
+      "direct_transition": "need further diagnostic"
+    },
+    "need further diagnostic": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Operation_Clearance",
+          "distribution": 0.95
+        },
+        {
+          "transition": "Further_Diagnosis_with_Therapy_Care",
+          "distribution": 0.050000000000000044
+        }
+      ]
+    },
+    "Operation clear condition": {
+      "type": "Simple",
+      "direct_transition": "End Pre Operqtive BQLL Encounter"
+    },
+    "Encounter for Pre Operative BQLL": {
+      "type": "Encounter",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "direct_transition": "Indication_for_Surgery",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 308335008,
+          "display": "SNOMED Code"
+        }
+      ],
+      "encounter_class": "ambulatory"
+    },
+    "End Pre Operqtive BQLL Encounter": {
+      "type": "EncounterEnd",
+      "conditional_transition": [
+        {
+          "transition": "BQLL_End",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Op_Clearance",
+            "operator": "==",
+            "value": "Yes"
+          }
+        },
+        {
+          "transition": "Do_Not_Perform_Surgery",
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "Op_Clearance",
+            "operator": "==",
+            "value": "No"
+          }
+        }
+      ]
+    }
+  },
+  "gmf_version": 2
+}
