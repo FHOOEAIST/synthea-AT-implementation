@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "No Laboratory, Radiology, or Special Services Required"
+      "direct_transition": "SOP for Circumcision Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -42,7 +42,7 @@
         {
           "system": "SNOMED-CT",
           "code": 386761002,
-          "display": "SNOMED Code"
+          "display": "local anesthesia"
         }
       ],
       "distribution": {
@@ -61,7 +61,7 @@
         {
           "system": "SNOMED-CT",
           "code": 241687005,
-          "display": "SNOMED Code"
+          "display": "General anesthesia"
         }
       ],
       "distribution": {
@@ -80,7 +80,7 @@
         {
           "system": "SNOMED-CT",
           "code": 307272003,
-          "display": "SNOMED Code"
+          "display": "electrocautery"
         }
       ],
       "distribution": {
@@ -99,7 +99,7 @@
         {
           "system": "SNOMED-CT",
           "code": 26906007,
-          "display": "SNOMED Code"
+          "display": "Pressure dressing"
         }
       ],
       "distribution": {
@@ -110,6 +110,28 @@
         }
       },
       "unit": "minutes",
+      "direct_transition": "SOP for Circumcision EncounterEnd"
+    },
+    "SOP for Circumcision Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 307272003,
+          "display": "SOP for Circumcision Encounter"
+        }
+      ],
+      "direct_transition": "No Laboratory, Radiology, or Special Services Required"
+    },
+    "SOP for Circumcision EncounterEnd": {
+      "type": "EncounterEnd",
+      "remarks": [
+        "SOP for Circumcision EncounterEnd",
+        ""
+      ],
       "direct_transition": "Terminal"
     }
   },

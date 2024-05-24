@@ -6,14 +6,10 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "No Radiology or Special Services Required"
+      "direct_transition": "Urology Standard Operating Procedure Encounter"
     },
     "Terminal": {
       "type": "Terminal"
-    },
-    "No Radiology or Special Services Required": {
-      "type": "Simple",
-      "direct_transition": "Transurethral Resection of the Bladder (TURB)"
     },
     "flush out any potential bleeding": {
       "type": "Delay",
@@ -32,7 +28,7 @@
         {
           "system": "SNOMED-CT",
           "code": 386792000,
-          "display": "SNOMED Code"
+          "display": "Transurethral Resection of the Bladder (TURB)"
         }
       ],
       "distribution": {
@@ -51,7 +47,7 @@
         {
           "system": "SNOMED-CT",
           "code": 45211000,
-          "display": "SNOMED Code"
+          "display": "Placement of a Triple-Lumen Catheter"
         }
       ],
       "distribution": {
@@ -62,6 +58,24 @@
         }
       },
       "unit": "minutes",
+      "direct_transition": "Urology Standard Operating Procedure EncounterEnd"
+    },
+    "Urology Standard Operating Procedure Encounter": {
+      "type": "Encounter",
+      "encounter_class": "inpatient",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 773593000,
+          "display": "Urology Standard Operating Procedure Encounter"
+        }
+      ],
+      "direct_transition": "Transurethral Resection of the Bladder (TURB)"
+    },
+    "Urology Standard Operating Procedure EncounterEnd": {
+      "type": "EncounterEnd",
       "direct_transition": "flush out any potential bleeding"
     }
   },

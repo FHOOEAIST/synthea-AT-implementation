@@ -86,7 +86,7 @@
     },
     "Pre-Operation": {
       "type": "Simple",
-      "direct_transition": "draw_blood"
+      "direct_transition": "Curettage Encounter"
     },
     "Operation_day": {
       "type": "Simple",
@@ -94,7 +94,7 @@
     },
     "Post-Operation": {
       "type": "Simple",
-      "direct_transition": "Terminal"
+      "direct_transition": "Curettage Encounter End"
     },
     "Curettage?": {
       "type": "Simple",
@@ -107,6 +107,29 @@
           "transition": "Terminal",
           "distribution": 0.5
         }
+      ]
+    },
+    "Curettage Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 396543007,
+          "display": "Curettage Encounter"
+        }
+      ],
+      "direct_transition": "draw_blood",
+      "remarks": [
+        "Curettage Encounter"
+      ]
+    },
+    "Curettage Encounter End": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Curettage Encounter End"
       ]
     }
   },

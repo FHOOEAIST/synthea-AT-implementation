@@ -4,10 +4,6 @@
     "A blank module"
   ],
   "states": {
-    "Initial": {
-      "type": "Initial",
-      "direct_transition": "Preoperative"
-    },
     "Terminal": {
       "type": "Terminal"
     },
@@ -70,7 +66,7 @@
     },
     "Clysmol": {
       "type": "Simple",
-      "direct_transition": "Terminal"
+      "direct_transition": " HE, LAVH, TLH, große opLSK, CESA EncounterEnd"
     },
     "Lovenox": {
       "type": "MedicationOrder",
@@ -234,6 +230,34 @@
         }
       ],
       "direct_transition": "Postoperativ_Op-Tag"
+    },
+    " HE, LAVH, TLH, große opLSK, CESA EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        " HE, LAVH, TLH, große opLSK, CESA EncounterEnd"
+      ]
+    },
+    "HE LAVH TLH große opLSK CESA Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 715968006,
+          "display": 715968006
+        }
+      ],
+      "direct_transition": "Preoperative",
+      "remarks": [
+        " HE, LAVH, TLH, große opLSK, CESA Encounter"
+      ]
+    },
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "HE LAVH TLH große opLSK CESA Encounter"
     }
   },
   "gmf_version": 2

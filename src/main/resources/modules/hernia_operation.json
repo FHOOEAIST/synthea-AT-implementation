@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Set_Attribut_Hernia"
+      "direct_transition": "Hernia operation Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -291,7 +291,7 @@
     "Set_Attrilbut_Hernia_End": {
       "type": "SetAttribute",
       "attribute": "HerniaTherapy",
-      "direct_transition": "Terminal",
+      "direct_transition": "Hernia operation EncounterEnd",
       "value": "End"
     },
     "Check_criteria": {
@@ -367,6 +367,30 @@
           "transition": "Patient_OP_Consent",
           "distribution": 0.5
         }
+      ]
+    },
+    "Hernia operation Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 48114000,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "Set_Attribut_Hernia",
+      "remarks": [
+        "Hernia operation Encounter"
+      ]
+    },
+    "Hernia operation EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Hernia operation EncounterEnd"
       ]
     }
   },

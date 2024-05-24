@@ -107,7 +107,7 @@
           "display": "48 (prednisolone 5 MG Oral Tablet)"
         }
       ],
-      "direct_transition": "Delay>=1-year"
+      "direct_transition": "connatal_toxoplasmosis EncounterEnd"
     },
     "Delay_6Weeks": {
       "type": "Delay",
@@ -126,7 +126,7 @@
     },
     "clinical_status": {
       "type": "Simple",
-      "direct_transition": "draw_blood"
+      "direct_transition": "connatal_toxoplasmosis Encounter"
     },
     "draw_blood": {
       "type": "Procedure",
@@ -275,13 +275,13 @@
           "display": "Daraprim Oral Product"
         }
       ],
-      "direct_transition": "Delay>=1-year"
+      "direct_transition": "connatal_toxoplasmosis EncounterEnd"
     },
     "Signs_of_inflammation": {
       "type": "Simple",
       "distributed_transition": [
         {
-          "transition": "Delay>=1-year",
+          "transition": "connatal_toxoplasmosis EncounterEnd",
           "distribution": 0.5
         },
         {
@@ -301,23 +301,6 @@
       "unit": "years",
       "direct_transition": "Terminal"
     },
-    "is_pregnant": {
-      "type": "Simple",
-      "conditional_transition": [
-        {
-          "transition": "Set_patient",
-          "condition": {
-            "condition_type": "Attribute",
-            "attribute": "pregnant",
-            "operator": "==",
-            "value": true
-          }
-        },
-        {
-          "transition": "Terminal"
-        }
-      ]
-    },
     "Age": {
       "type": "Simple",
       "conditional_transition": [
@@ -332,7 +315,7 @@
           }
         },
         {
-          "transition": "is_pregnant"
+          "transition": "is_female"
         }
       ]
     },
@@ -421,6 +404,58 @@
       },
       "unit": "minutes",
       "direct_transition": "ECG"
+    },
+    "is_female": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Is pregnant",
+          "condition": {
+            "condition_type": "Gender",
+            "gender": "F"
+          }
+        },
+        {
+          "transition": "Terminal"
+        }
+      ]
+    },
+    "Is pregnant": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Set_patient",
+          "distribution": 0.15
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.8500000000000001
+        }
+      ]
+    },
+    "connatal_toxoplasmosis Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 239005,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "draw_blood",
+      "remarks": [
+        "connatal_toxoplasmosis Encounter"
+      ]
+    },
+    "connatal_toxoplasmosis EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Delay>=1-year",
+      "remarks": [
+        "connatal_toxoplasmosis EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Draw_blood"
+      "direct_transition": "Collect_laboratory_results Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -89,7 +89,7 @@
           "value": 1
         }
       },
-      "direct_transition": "Terminal"
+      "direct_transition": "Collect_laboratory_results EncounterEnd"
     },
     "Draw_blood": {
       "type": "Procedure",
@@ -101,14 +101,31 @@
         }
       ],
       "unit": "minutes",
-      "direct_transition": "Collect_blood_count",
-      "distribution": {
-        "kind": "UNIFORM",
-        "parameters": {
-          "low": 2,
-          "high": 3
+      "direct_transition": "Collect_blood_count"
+    },
+    "Collect_laboratory_results Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 96543007,
+          "display": "Collect_laboratory_results Encounter"
         }
-      }
+      ],
+      "direct_transition": "Draw_blood",
+      "remarks": [
+        "Collect_laboratory_results Encounter"
+      ]
+    },
+    "Collect_laboratory_results EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Collect_laboratory_results EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

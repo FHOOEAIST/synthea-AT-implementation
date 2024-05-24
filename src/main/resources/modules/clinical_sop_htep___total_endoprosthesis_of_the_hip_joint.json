@@ -6,22 +6,14 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "distributed_transition": [
-        {
-          "transition": "clinical examination",
-          "distribution": 0.5
-        },
-        {
-          "transition": "Medical history and status",
-          "distribution": 0.5
-        }
-      ]
+      "direct_transition": "Clinical SOP HTEP - Total Endoprosthesis of the Hip Joint Encounter"
     },
     "Terminal": {
       "type": "Terminal"
     },
     "Medical history and status": {
-      "type": "Simple",
+      "type": "CallSubmodule",
+      "submodule": "anamnesis/anamnesis_medical_status",
       "direct_transition": "Pelvis x-ray"
     },
     "clinical examination": {
@@ -30,7 +22,7 @@
         {
           "system": "SNOMED-CT",
           "code": 5880005,
-          "display": "SNOMED Code"
+          "display": "clinical examination"
         }
       ],
       "distribution": {
@@ -49,7 +41,7 @@
         {
           "system": "SNOMED-CT",
           "code": 268425006,
-          "display": "SNOMED Code"
+          "display": "Pelvis x-ray"
         }
       ],
       "distribution": {
@@ -68,7 +60,7 @@
         {
           "system": "SNOMED-CT",
           "code": 408740001,
-          "display": "SNOMED Code"
+          "display": "Hip x-ray"
         }
       ],
       "distribution": {
@@ -102,7 +94,7 @@
         {
           "system": "LOINC",
           "code": "96070-8",
-          "display": "LOINC Code"
+          "display": "HbA1c"
         }
       ],
       "distribution": {
@@ -137,7 +129,7 @@
         {
           "system": "SNOMED-CT",
           "code": 168658009,
-          "display": "SNOMED Code"
+          "display": "Full leg x-ray"
         }
       ],
       "distribution": {
@@ -156,7 +148,7 @@
         {
           "system": "SNOMED-CT",
           "code": 113091000,
-          "display": "SNOMED Code"
+          "display": "MRI"
         }
       ],
       "distribution": {
@@ -175,7 +167,7 @@
         {
           "system": "SNOMED-CT",
           "code": 373205008,
-          "display": "SNOMED Code"
+          "display": "scintigraphy"
         }
       ],
       "distribution": {
@@ -215,7 +207,7 @@
         {
           "system": "RxNorm",
           "code": 422181004,
-          "display": "RxNorm Code"
+          "display": "Antibiotic pophylaxis"
         }
       ],
       "direct_transition": "Dressing change"
@@ -226,7 +218,7 @@
         {
           "system": "RxNorm",
           "code": 373513008,
-          "display": "RxNorm Code"
+          "display": "indomethacin"
         }
       ],
       "direct_transition": "Antibiotic pophylaxis"
@@ -249,7 +241,7 @@
       "code": {
         "system": "SNOMED-CT",
         "code": 468102004,
-        "display": "SNOMED Code"
+        "display": "Ceramic prosthesis"
       },
       "direct_transition": "Dismissal"
     },
@@ -258,7 +250,7 @@
       "code": {
         "system": "SNOMED-CT",
         "code": 467847002,
-        "display": "SNOMED Code"
+        "display": "Metal prosthesis"
       },
       "direct_transition": "Dismissal"
     },
@@ -272,7 +264,7 @@
         {
           "system": "SNOMED-CT",
           "code": 18949003,
-          "display": "SNOMED Code"
+          "display": "Dressing change"
         }
       ],
       "distribution": {
@@ -283,7 +275,7 @@
         }
       },
       "unit": "minutes",
-      "direct_transition": "delay"
+      "direct_transition": "Clinical SOP HTEP - Total Endoprosthesis of the Hip Joint EncounterEnd"
     },
     "delay": {
       "type": "Delay",
@@ -295,7 +287,7 @@
         }
       },
       "unit": "days",
-      "direct_transition": "Suture removal by family doctor"
+      "direct_transition": "Suture removal by family doctor encounter"
     },
     "Suture removal by family doctor": {
       "type": "Procedure",
@@ -303,7 +295,7 @@
         {
           "system": "SNOMED-CT",
           "code": 30549001,
-          "display": "SNOMED Code"
+          "display": "Suture removal by family doctor"
         }
       ],
       "distribution": {
@@ -314,7 +306,7 @@
         }
       },
       "unit": "minutes",
-      "direct_transition": "year delay"
+      "direct_transition": "Suture removal by family doctor encounterEnd"
     },
     "Thrombosis prophylaxis": {
       "type": "MedicationOrder",
@@ -322,7 +314,7 @@
         {
           "system": "RxNorm",
           "code": 421728001,
-          "display": "RxNorm Code"
+          "display": "Thrombosis prophylaxis"
         }
       ],
       "direct_transition": "indomethacin"
@@ -337,7 +329,7 @@
         }
       },
       "unit": "years",
-      "direct_transition": "x-ray check up"
+      "direct_transition": "x-ray check up encounter"
     },
     "x-ray check up": {
       "type": "Procedure",
@@ -345,7 +337,7 @@
         {
           "system": "SNOMED-CT",
           "code": 408740001,
-          "display": "SNOMED Code"
+          "display": "x-ray check up"
         }
       ],
       "distribution": {
@@ -356,7 +348,7 @@
         }
       },
       "unit": "minutes",
-      "direct_transition": "3 yearly delay"
+      "direct_transition": "x-ray check up encounterEnd"
     },
     "3 yearly delay": {
       "type": "Delay",
@@ -367,7 +359,7 @@
         }
       },
       "unit": "years",
-      "direct_transition": "x_ray_check_up"
+      "direct_transition": "x_ray_check_up Encounter"
     },
     "x_ray_check_up": {
       "type": "Procedure",
@@ -375,7 +367,7 @@
         {
           "system": "SNOMED-CT",
           "code": 408740001,
-          "display": "SNOMED Code"
+          "display": "x_ray_check_up"
         }
       ],
       "distribution": {
@@ -386,21 +378,7 @@
         }
       },
       "unit": "minutes",
-      "conditional_transition": [
-        {
-          "transition": "older",
-          "condition": {
-            "condition_type": "Age",
-            "operator": ">=",
-            "quantity": 65,
-            "unit": "years",
-            "value": 0
-          }
-        },
-        {
-          "transition": "younger"
-        }
-      ]
+      "direct_transition": "x_ray_check_up EncounterEnd"
     },
     "Hip Operation": {
       "type": "Procedure",
@@ -408,7 +386,7 @@
         {
           "system": "SNOMED-CT",
           "code": 28181007,
-          "display": "SNOMED Code"
+          "display": "Hip Operation"
         }
       ],
       "distribution": {
@@ -468,6 +446,109 @@
         "unit": "days"
       },
       "direct_transition": "Terminal"
+    },
+    "Clinical SOP HTEP - Total Endoprosthesis of the Hip Joint Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 28181007,
+          "display": "Clinical SOP HTEP - Total Endoprosthesis of the Hip Joint Encounter"
+        }
+      ],
+      "distributed_transition": [
+        {
+          "transition": "clinical examination",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Medical history and status",
+          "distribution": 0.5
+        }
+      ],
+      "remarks": [
+        "Clinical SOP HTEP - Total Endoprosthesis of the Hip Joint Encounter"
+      ]
+    },
+    "Clinical SOP HTEP - Total Endoprosthesis of the Hip Joint EncounterEnd": {
+      "type": "EncounterEnd",
+      "remarks": [
+        "Clinical SOP HTEP - Total Endoprosthesis of the Hip Joint EncounterEnd"
+      ],
+      "direct_transition": "delay"
+    },
+    "Suture removal by family doctor encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 30549001,
+          "display": "Suture removal by family doctor encounter"
+        }
+      ],
+      "direct_transition": "Suture removal by family doctor",
+      "remarks": [
+        "Suture removal by family doctor encounter"
+      ]
+    },
+    "Suture removal by family doctor encounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "year delay"
+    },
+    "x-ray check up encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 408740001,
+          "display": "x-ray check up encounter"
+        }
+      ],
+      "direct_transition": "x-ray check up",
+      "remarks": [
+        "x-ray check up encounter"
+      ]
+    },
+    "x-ray check up encounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "3 yearly delay"
+    },
+    "x_ray_check_up Encounter": {
+      "type": "Simple",
+      "direct_transition": "x_ray_check_up",
+      "remarks": [
+        "x_ray_check_up Encounter"
+      ]
+    },
+    "x_ray_check_up EncounterEnd": {
+      "type": "EncounterEnd",
+      "conditional_transition": [
+        {
+          "transition": "older",
+          "condition": {
+            "condition_type": "Age",
+            "operator": ">=",
+            "quantity": 65,
+            "unit": "years",
+            "value": 0
+          }
+        },
+        {
+          "transition": "younger"
+        }
+      ],
+      "remarks": [
+        "x_ray_check_up EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

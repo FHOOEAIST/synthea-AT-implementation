@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "small blood count"
+      "direct_transition": "SOP Tonsillectomy Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -17,7 +17,7 @@
         {
           "system": "SNOMED-CT",
           "code": 88308000,
-          "display": "SNOMED Code"
+          "display": "small blood count"
         }
       ],
       "distribution": {
@@ -36,7 +36,7 @@
         {
           "system": "SNOMED-CT",
           "code": 26958001,
-          "display": "SNOMED Code"
+          "display": "liver check"
         }
       ],
       "distribution": {
@@ -68,7 +68,7 @@
         {
           "system": "SNOMED-CT",
           "code": 384676001,
-          "display": "SNOMED Code"
+          "display": "mouth operation"
         }
       ],
       "distribution": {
@@ -81,7 +81,7 @@
       "unit": "minutes",
       "conditional_transition": [
         {
-          "transition": "Terminal",
+          "transition": "SOP Tonsillectomy EncounterEnd",
           "condition": {
             "condition_type": "Age",
             "operator": ">=",
@@ -101,7 +101,7 @@
         {
           "system": "SNOMED-CT",
           "code": 386761002,
-          "display": "SNOMED Code"
+          "display": "Anesthesia"
         }
       ],
       "distribution": {
@@ -123,11 +123,32 @@
         }
       },
       "unit": "days",
-      "direct_transition": "Terminal"
+      "direct_transition": "SOP Tonsillectomy EncounterEnd"
     },
     "Anesthesiologist may request further examinations": {
       "type": "Simple",
       "direct_transition": "Anesthesia"
+    },
+    "SOP Tonsillectomy Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 384676001,
+          "display": "SOP Tonsillectomy Encounter"
+        }
+      ],
+      "direct_transition": "small blood count",
+      "remarks": [
+        "SOP Tonsillectomy Encounter"
+      ]
+    },
+    "SOP Tonsillectomy EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal"
     }
   },
   "gmf_version": 2

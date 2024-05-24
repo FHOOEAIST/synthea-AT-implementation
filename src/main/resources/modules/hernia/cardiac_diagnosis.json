@@ -3,7 +3,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Anamnesis"
+      "direct_transition": "Cardiac Diagnosis Encounter"
     },
     "Cardiac Diagnosis Completed": {
       "type": "Terminal"
@@ -19,7 +19,7 @@
         {
           "system": "SNOMED-CT",
           "code": 310036006,
-          "display": "SNOMED Code"
+          "display": "Cardiology"
         }
       ],
       "distribution": {
@@ -36,7 +36,7 @@
       "type": "Simple",
       "conditional_transition": [
         {
-          "transition": "Cardiac Diagnosis Completed",
+          "transition": "Cardiac Diagnosis EncounterEnd",
           "condition": {
             "condition_type": "Attribute",
             "attribute": "Amnesis",
@@ -57,7 +57,7 @@
         {
           "system": "LOINC",
           "code": 301095005,
-          "display": "LOINC Code"
+          "display": "Cardiac_Findings"
         }
       ],
       "distribution": {
@@ -75,7 +75,7 @@
         {
           "system": "SNOMED-CT",
           "code": 306574008,
-          "display": "SNOMED Code"
+          "display": "Discharge_from_cardiology"
         }
       ],
       "distribution": {
@@ -86,7 +86,31 @@
         }
       },
       "unit": "minutes",
-      "direct_transition": "Cardiac Diagnosis Completed"
+      "direct_transition": "Cardiac Diagnosis EncounterEnd"
+    },
+    "Cardiac Diagnosis Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 310036006,
+          "display": "Cardiac Diagnosis Encounter"
+        }
+      ],
+      "direct_transition": "Anamnesis",
+      "remarks": [
+        "Cardiac Diagnosis Encounter"
+      ]
+    },
+    "Cardiac Diagnosis EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Cardiac Diagnosis Completed",
+      "remarks": [
+        "Cardiac Diagnosis EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

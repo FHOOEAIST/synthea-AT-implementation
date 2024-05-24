@@ -6,14 +6,14 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Perform_orthopaedic_anamnesis"
+      "direct_transition": "HTEP Encounter"
     },
     "Terminal": {
       "type": "Terminal"
     },
     "No_Surgery": {
       "type": "Simple",
-      "direct_transition": "Terminal"
+      "direct_transition": "HTEP EncounterEnd"
     },
     "CRP>7days": {
       "type": "Simple",
@@ -161,14 +161,14 @@
           "distribution": 0.5
         },
         {
-          "transition": "Terminal",
+          "transition": "HTEP EncounterEnd",
           "distribution": 0.5
         }
       ]
     },
     "Patient_is_dicharged": {
       "type": "Simple",
-      "direct_transition": "Terminal"
+      "direct_transition": "HTEP EncounterEnd"
     },
     "Perform_orthopaedic_anamnesis": {
       "type": "Procedure",
@@ -390,7 +390,7 @@
           "distribution": 0.6
         },
         {
-          "transition": "Terminal",
+          "transition": "HTEP EncounterEnd",
           "distribution": 0.3999999999999999
         }
       ]
@@ -403,7 +403,7 @@
           "distribution": 0.3
         },
         {
-          "transition": "Terminal",
+          "transition": "HTEP EncounterEnd",
           "distribution": 0.7
         }
       ]
@@ -416,7 +416,7 @@
           "distribution": 0.1
         },
         {
-          "transition": "Terminal",
+          "transition": "HTEP EncounterEnd",
           "distribution": 0.9
         }
       ]
@@ -432,6 +432,30 @@
       ],
       "unit": "minutes",
       "direct_transition": "Operation_release_possible"
+    },
+    "HTEP Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 260898007,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "Perform_orthopaedic_anamnesis",
+      "remarks": [
+        "HTEP Encounter"
+      ]
+    },
+    "HTEP EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "HTEP EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

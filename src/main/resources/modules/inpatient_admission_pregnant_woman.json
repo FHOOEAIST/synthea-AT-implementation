@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "pregnant?"
+      "direct_transition": "is female"
     },
     "Terminal": {
       "type": "Terminal"
@@ -116,7 +116,7 @@
           "display": "58085-2"
         }
       ],
-      "direct_transition": "Terminal"
+      "direct_transition": "Inpatient_admission_pregnant_woman EncounterEnd"
     },
     "Dalacin": {
       "type": "MedicationOrder",
@@ -127,7 +127,7 @@
           "display": "Clindamycin [Mass] of Dose"
         }
       ],
-      "direct_transition": "Terminal"
+      "direct_transition": "Inpatient_admission_pregnant_woman EncounterEnd"
     },
     " <12h": {
       "type": "Delay",
@@ -164,11 +164,7 @@
           "value": 1
         }
       },
-      "direct_transition": "Terminal"
-    },
-    "Administrative_recording": {
-      "type": "Simple",
-      "direct_transition": "Medical_admission"
+      "direct_transition": "Inpatient_admission_pregnant_woman EncounterEnd"
     },
     "Medical_admission": {
       "type": "Observation",
@@ -485,32 +481,28 @@
     },
     "pregnant?": {
       "type": "Simple",
-      "conditional_transition": [
+      "distributed_transition": [
         {
-          "transition": "Administrative_recording",
-          "condition": {
-            "condition_type": "Attribute",
-            "attribute": "pregnant",
-            "operator": "==",
-            "value": true
-          }
+          "transition": "Inpatient_admission_pregnant_woman Encounter",
+          "distribution": 0.15
         },
         {
-          "transition": "Terminal"
+          "transition": "Terminal",
+          "distribution": 0.8500000000000001
         }
       ]
     },
     "Set_pregnant": {
       "type": "SetAttribute",
       "attribute": "pregnant",
-      "direct_transition": "Terminal",
+      "direct_transition": "Inpatient_admission_pregnant_woman EncounterEnd",
       "value": "false"
     },
     "Set_pregnant_2": {
       "type": "SetAttribute",
       "attribute": "pregnant",
       "value": "false",
-      "direct_transition": "Terminal"
+      "direct_transition": "Inpatient_admission_pregnant_woman EncounterEnd"
     },
     "SOP": {
       "type": "CallSubmodule",
@@ -563,6 +555,45 @@
           "transition": "stp_Sectio",
           "distribution": 0.5
         }
+      ]
+    },
+    "is female": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "pregnant?",
+          "condition": {
+            "condition_type": "Gender",
+            "gender": "F"
+          }
+        },
+        {
+          "transition": "Terminal"
+        }
+      ]
+    },
+    "Inpatient_admission_pregnant_woman Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 302199004,
+          "display": "Inpatient_admission_pregnant_woman Encounter"
+        }
+      ],
+      "direct_transition": "Medical_admission",
+      "remarks": [
+        "Inpatient_admission_pregnant_woman Encounter"
+      ]
+    },
+    "Inpatient_admission_pregnant_woman EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Inpatient_admission_pregnant_woman Encounter"
       ]
     }
   },

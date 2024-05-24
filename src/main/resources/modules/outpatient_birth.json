@@ -252,41 +252,18 @@
     },
     "Pregnant?": {
       "type": "Simple",
-      "conditional_transition": [
-        {
-          "transition": "Normal_pregnancy",
-          "condition": {
-            "condition_type": "Attribute",
-            "attribute": "pregnant",
-            "operator": "==",
-            "value": true
-          }
-        },
-        {
-          "transition": "Terminal"
-        }
-      ]
+      "direct_transition": "Is Female"
     },
     "Normal_pregnancy": {
       "type": "Simple",
-      "conditional_transition": [
+      "distributed_transition": [
         {
-          "transition": "Normal_pregnancy_Normal_spontaneous_vaginal_birth",
-          "condition": {
-            "condition_type": "Attribute",
-            "attribute": "birth_type",
-            "operator": "==",
-            "value": "normal"
-          }
+          "transition": "Pregnancy encounter",
+          "distribution": 0.7
         },
         {
           "transition": "Terminal",
-          "condition": {
-            "condition_type": "Age",
-            "operator": ">",
-            "quantity": 0,
-            "unit": "years"
-          }
+          "distribution": 0.30000000000000004
         }
       ]
     },
@@ -299,7 +276,60 @@
     "sop": {
       "type": "CallSubmodule",
       "submodule": "gyn/sop",
-      "direct_transition": "Terminal"
+      "direct_transition": "Pregnancy encounterEnd"
+    },
+    "Is Pregnant": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Normal_pregnancy",
+          "distribution": 0.15
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.8500000000000001
+        }
+      ]
+    },
+    "Is Female": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Is Pregnant",
+          "condition": {
+            "condition_type": "Gender",
+            "gender": "F"
+          }
+        },
+        {
+          "transition": "Terminal"
+        }
+      ]
+    },
+    "Pregnancy encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 267325009,
+          "display": "Pregnancy encounter"
+        }
+      ],
+      "direct_transition": "Normal_pregnancy_Normal_spontaneous_vaginal_birth",
+      "remarks": [
+        "Pregnancy encounter"
+      ]
+    },
+    "Pregnancy encounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Pregnancy encounterEnd",
+        ""
+      ]
     }
   },
   "gmf_version": 2

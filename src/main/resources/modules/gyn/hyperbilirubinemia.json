@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Age"
+      "direct_transition": "Hyperbilirubinemia Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -19,7 +19,7 @@
           "distribution": 0.9
         },
         {
-          "transition": "Terminal",
+          "transition": "Hyperbilirubinemia EncounterEnd",
           "distribution": 0.1
         }
       ]
@@ -206,7 +206,7 @@
         }
       ],
       "unit": "minutes",
-      "direct_transition": "Terminal"
+      "direct_transition": "Hyperbilirubinemia EncounterEnd"
     },
     "Bilirubin_mg/dl": {
       "type": "Simple",
@@ -216,7 +216,7 @@
           "distribution": 0.5
         },
         {
-          "transition": "Terminal",
+          "transition": "Hyperbilirubinemia EncounterEnd",
           "distribution": 0.5
         }
       ]
@@ -268,7 +268,7 @@
           "distribution": 0.5
         },
         {
-          "transition": "Terminal",
+          "transition": "Hyperbilirubinemia EncounterEnd",
           "distribution": 0.5
         }
       ]
@@ -366,8 +366,32 @@
           }
         },
         {
-          "transition": "Terminal"
+          "transition": "Hyperbilirubinemia EncounterEnd"
         }
+      ]
+    },
+    "Hyperbilirubinemia Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 35683002,
+          "display": "Hyperbilirubinemia Encounter"
+        }
+      ],
+      "direct_transition": "Age",
+      "remarks": [
+        "Hyperbilirubinemia Encounter"
+      ]
+    },
+    "Hyperbilirubinemia EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Hyperbilirubinemia EncounterEnd"
       ]
     }
   },

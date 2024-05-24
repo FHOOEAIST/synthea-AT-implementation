@@ -1,17 +1,13 @@
 {
   "name": "Individualized Laboratory Findings",
   "states": {
-    "StartOfLaboratoryReporting": {
-      "type": "Simple",
-      "direct_transition": "Anamnesis"
-    },
     "BloodDraw": {
       "type": "Procedure",
       "codes": [
         {
           "system": "SNOMED-CT",
           "code": 171231001,
-          "display": "SNOMED Code"
+          "display": "BloodDraw"
         }
       ],
       "distribution": {
@@ -29,7 +25,7 @@
     },
     "Initial": {
       "type": "Initial",
-      "direct_transition": "StartOfLaboratoryReporting"
+      "direct_transition": "LaboratoryReporting Encounter"
     },
     "Request blood test": {
       "type": "Procedure",
@@ -37,7 +33,7 @@
         {
           "system": "SNOMED-CT",
           "code": 413672003,
-          "display": "SNOMED Code"
+          "display": "Request blood test"
         }
       ],
       "distribution": {
@@ -85,7 +81,31 @@
           "value": 1
         }
       },
-      "direct_transition": "LaboratoryAssessmentCompleted"
+      "direct_transition": "LaboratoryReporting EncounterEnd"
+    },
+    "LaboratoryReporting Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 413672003,
+          "display": "LaboratoryReporting Encounter"
+        }
+      ],
+      "direct_transition": "Anamnesis",
+      "remarks": [
+        "StartOfLaboratoryReporting Encounter"
+      ]
+    },
+    "LaboratoryReporting EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "LaboratoryAssessmentCompleted",
+      "remarks": [
+        "LaboratoryReporting EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

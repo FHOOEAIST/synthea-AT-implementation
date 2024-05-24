@@ -3,21 +3,17 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Procedure Categorisation Start"
-    },
-    "Procedure Categorisation Start": {
-      "type": "Simple",
-      "direct_transition": "Duration"
+      "direct_transition": "Procedure Categorisation Encounter"
     },
     "Duration": {
       "type": "Observation",
-      "category": "procedure",
+      "category": "vital-signs",
       "unit": "",
       "codes": [
         {
           "system": "LOINC",
           "code": "67453-1",
-          "display": "LOINC Code"
+          "display": "Duration"
         }
       ],
       "distribution": {
@@ -37,7 +33,7 @@
         {
           "system": "LOINC",
           "code": 50960005,
-          "display": "LOINC Code"
+          "display": "Blood Loss"
         }
       ],
       "distribution": {
@@ -57,7 +53,7 @@
         {
           "system": "LOINC",
           "code": "65737-9",
-          "display": "LOINC Code"
+          "display": "Anatomical Region"
         }
       ],
       "distribution": {
@@ -67,10 +63,34 @@
           "value": 1
         }
       },
-      "direct_transition": "Procedure Categorisation Completed"
+      "direct_transition": "Procedure Categorisation EncounterEnd"
     },
     "Procedure Categorisation Completed": {
       "type": "Terminal"
+    },
+    "Procedure Categorisation Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 71388002,
+          "display": "Procedure Categorisation Encounter"
+        }
+      ],
+      "direct_transition": "Duration",
+      "remarks": [
+        "Procedure Categorisation Encounter"
+      ]
+    },
+    "Procedure Categorisation EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Procedure Categorisation Completed",
+      "remarks": [
+        "Procedure Categorisation EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

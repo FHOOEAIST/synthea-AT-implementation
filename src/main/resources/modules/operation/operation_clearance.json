@@ -3,11 +3,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Anesthesiologist Control Surgical Clearance Start"
-    },
-    "Anesthesiologist Control Surgical Clearance Start": {
-      "type": "Simple",
-      "direct_transition": "Start Airway Control"
+      "direct_transition": "Operation Clearance Encounter"
     },
     "Thyromental Distance": {
       "type": "Procedure",
@@ -15,7 +11,7 @@
         {
           "system": "SNOMED-CT",
           "code": 427422008,
-          "display": "SNOMED Code"
+          "display": "Thyromental Distance"
         }
       ],
       "distribution": {
@@ -43,7 +39,7 @@
         {
           "system": "SNOMED-CT",
           "code": 273585005,
-          "display": "SNOMED Code"
+          "display": "MellampatiScore"
         }
       ],
       "distribution": {
@@ -71,7 +67,7 @@
         {
           "system": "SNOMED-CT",
           "code": 426915001,
-          "display": "SNOMED Code"
+          "display": "Mandibular Protrusion Test"
         }
       ],
       "distribution": {
@@ -99,7 +95,7 @@
         {
           "system": "SNOMED-CT",
           "code": 39868003,
-          "display": "SNOMED Code"
+          "display": "Orientation Assessment of Tooth Status"
         }
       ],
       "distribution": {
@@ -127,7 +123,7 @@
         {
           "system": "SNOMED-CT",
           "code": 32750006,
-          "display": "SNOMED Code"
+          "display": "Inspection of Appropriate Anatomical Region"
         }
       ],
       "distribution": {
@@ -159,14 +155,35 @@
     "Operation clear": {
       "type": "SetAttribute",
       "attribute": "Op_Clearance",
-      "direct_transition": "Anesthesiologist Control Surgery Release End",
+      "direct_transition": "Operation Clearance EncounterEnd",
       "value": "Yes"
     },
     "Operation not clear": {
       "type": "SetAttribute",
       "attribute": "Op_Clearance",
       "value": "No",
-      "direct_transition": "Anesthesiologist Control Surgery Release End"
+      "direct_transition": "Operation Clearance EncounterEnd"
+    },
+    "Operation Clearance Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 427422008,
+          "display": "Operation Clearance Encounter"
+        }
+      ],
+      "direct_transition": "Start Airway Control"
+    },
+    "Operation Clearance EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Anesthesiologist Control Surgery Release End",
+      "remarks": [
+        "Operation Clearance EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

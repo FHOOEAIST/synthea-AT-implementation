@@ -6,13 +6,28 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Initiate_appropriate_medication"
+      "direct_transition": "Conservative_therapy Encounter"
     },
     "Terminal": {
       "type": "Terminal"
     },
     "Muscle_Strengthening": {
-      "type": "Simple",
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 266741004,
+          "display": "Muscle_Strengthening"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 2,
+          "low": 1
+        }
+      },
+      "unit": "weeks",
       "direct_transition": "Leg_axis_training_initiate"
     },
     "Initiate_appropriate_medication": {
@@ -20,7 +35,22 @@
       "direct_transition": "Muscle_Strengthening"
     },
     "Leg_axis_training_initiate": {
-      "type": "Simple",
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 229152003,
+          "display": "Leg_axis_training_initiate"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 2,
+          "low": 1
+        }
+      },
+      "unit": "weeks",
       "direct_transition": "Perform_patella_centering"
     },
     "Perform_patella_centering": {
@@ -43,8 +73,48 @@
       }
     },
     "Initiate_patient_weight_reduction": {
-      "type": "Simple",
-      "direct_transition": "Terminal"
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 388976009,
+          "display": "patient_weight_reduction regime"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Conservative_therapy EncounterEnd"
+    },
+    "Conservative_therapy Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 266741004,
+          "display": "Conservative_therapy Encounter"
+        }
+      ],
+      "direct_transition": "Initiate_appropriate_medication",
+      "remarks": [
+        "Conservative_therapy Encounter"
+      ]
+    },
+    "Conservative_therapy EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Conservative_therapy EncounterEnd",
+        ""
+      ]
     }
   },
   "gmf_version": 2

@@ -42,13 +42,10 @@
           "distribution": 0.95
         },
         {
-          "transition": "Do_Not_Perform_Surgery",
+          "transition": "End Pre Operqtive BQLL Encounter",
           "distribution": 0.05
         }
       ]
-    },
-    "Do_Not_Perform_Surgery": {
-      "type": "Terminal"
     },
     "Operation_Clearance": {
       "type": "CallSubmodule",
@@ -66,7 +63,7 @@
         {
           "system": "LOINC",
           "code": 129265001,
-          "display": "LOINC Code"
+          "display": "Assessment of findings"
         }
       ],
       "distribution": {
@@ -111,26 +108,7 @@
     },
     "End Pre Operqtive BQLL Encounter": {
       "type": "EncounterEnd",
-      "conditional_transition": [
-        {
-          "transition": "BQLL_End",
-          "condition": {
-            "condition_type": "Attribute",
-            "attribute": "Op_Clearance",
-            "operator": "==",
-            "value": "Yes"
-          }
-        },
-        {
-          "transition": "Do_Not_Perform_Surgery",
-          "condition": {
-            "condition_type": "Attribute",
-            "attribute": "Op_Clearance",
-            "operator": "==",
-            "value": "No"
-          }
-        }
-      ]
+      "direct_transition": "BQLL_End"
     }
   },
   "gmf_version": 2

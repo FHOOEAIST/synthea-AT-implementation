@@ -6,14 +6,29 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Planning operation"
+      "direct_transition": "SOP Arthroscopic Surgery of the Shoulder Joint planning Encounter"
     },
     "Terminal": {
       "type": "Terminal"
     },
     "Planning operation": {
-      "type": "Simple",
-      "direct_transition": "Waiting time"
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 75480003,
+          "display": "Planning operation"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "SOP Arthroscopic Surgery of the Shoulder Joint planning EncounterEnd"
     },
     "Waiting time": {
       "type": "Delay",
@@ -24,7 +39,7 @@
         }
       },
       "unit": "months",
-      "direct_transition": "X ray"
+      "direct_transition": "SOP Arthroscopic Surgery of the Shoulder Joint Encounter"
     },
     "X ray": {
       "type": "Procedure",
@@ -32,7 +47,7 @@
         {
           "system": "SNOMED-CT",
           "code": 363680008,
-          "display": "SNOMED Code"
+          "display": "X ray"
         }
       ],
       "distribution": {
@@ -51,7 +66,7 @@
         {
           "system": "SNOMED-CT",
           "code": 241633004,
-          "display": "SNOMED Code"
+          "display": "shoulder MRI"
         }
       ],
       "distribution": {
@@ -79,7 +94,7 @@
         {
           "system": "SNOMED-CT",
           "code": 77477000,
-          "display": "SNOMED Code"
+          "display": "CT scan"
         }
       ],
       "distribution": {
@@ -98,7 +113,7 @@
         {
           "system": "SNOMED-CT",
           "code": 112698002,
-          "display": "SNOMED Code"
+          "display": "Operation"
         }
       ],
       "distribution": {
@@ -117,7 +132,7 @@
         {
           "system": "SNOMED-CT",
           "code": 363680008,
-          "display": "SNOMED Code"
+          "display": "X_ray"
         }
       ],
       "distribution": {
@@ -128,7 +143,55 @@
         }
       },
       "unit": "minutes",
+      "direct_transition": "SOP Arthroscopic Surgery of the Shoulder Joint EncounterEnd"
+    },
+    "SOP Arthroscopic Surgery of the Shoulder Joint EncounterEnd": {
+      "type": "EncounterEnd",
+      "remarks": [
+        "SOP Arthroscopic Surgery of the Shoulder Joint EncounterEnd"
+      ],
       "direct_transition": "Terminal"
+    },
+    "SOP Arthroscopic Surgery of the Shoulder Joint planning Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 112698002,
+          "display": "SOP Arthroscopic Surgery of the Shoulder Joint planning Encounter"
+        }
+      ],
+      "direct_transition": "Planning operation",
+      "remarks": [
+        "SOP Arthroscopic Surgery of the Shoulder Joint "
+      ]
+    },
+    "SOP Arthroscopic Surgery of the Shoulder Joint planning EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Waiting time",
+      "remarks": [
+        "SOP Arthroscopic Surgery of the Shoulder Joint planning Encounter"
+      ]
+    },
+    "SOP Arthroscopic Surgery of the Shoulder Joint Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 112698002,
+          "display": "SOP Arthroscopic Surgery of the Shoulder Joint Encounter"
+        }
+      ],
+      "direct_transition": "X ray",
+      "remarks": [
+        "SOP Arthroscopic Surgery of the Shoulder Joint Encounter"
+      ]
     }
   },
   "gmf_version": 2

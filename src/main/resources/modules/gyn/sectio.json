@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Delivery_procedure "
+      "direct_transition": "Sectio Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -352,7 +352,7 @@
     },
     "Checks_on_the_postnatal_ward (DGKP)": {
       "type": "Simple",
-      "direct_transition": "Terminal"
+      "direct_transition": "Sectio EncounterEnd"
     },
     "Blood_group": {
       "type": "Observation",
@@ -407,6 +407,30 @@
         }
       ],
       "direct_transition": "Post_OP"
+    },
+    "Sectio Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 387760006,
+          "display": "Sectio Encounter"
+        }
+      ],
+      "direct_transition": "Delivery_procedure ",
+      "remarks": [
+        "Sectio Encounter"
+      ]
+    },
+    "Sectio EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Sectio EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

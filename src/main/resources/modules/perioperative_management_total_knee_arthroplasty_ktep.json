@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "interview"
+      "direct_transition": "Interview Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -17,7 +17,7 @@
         {
           "system": "SNOMED-CT",
           "code": 168669007,
-          "display": "SNOMED Code"
+          "display": "x-ray patella tang"
         }
       ],
       "distribution": {
@@ -36,7 +36,7 @@
         {
           "system": "SNOMED-CT",
           "code": 74016001,
-          "display": "SNOMED Code"
+          "display": "x-ray knee"
         }
       ],
       "distribution": {
@@ -55,7 +55,7 @@
         {
           "system": "SNOMED-CT",
           "code": 91251008,
-          "display": "SNOMED Code"
+          "display": "postoperative physiotherapy"
         }
       ],
       "distribution": {
@@ -74,7 +74,7 @@
         {
           "system": "SNOMED-CT",
           "code": 396540005,
-          "display": "SNOMED Code"
+          "display": "Blood draw"
         }
       ],
       "distribution": {
@@ -93,7 +93,7 @@
         {
           "system": "SNOMED-CT",
           "code": 363215001,
-          "display": "SNOMED Code"
+          "display": "orthopedic examination"
         }
       ],
       "distribution": {
@@ -112,7 +112,7 @@
         {
           "system": "SNOMED-CT",
           "code": 225135006,
-          "display": "SNOMED Code"
+          "display": "Marking of the affected limb"
         }
       ],
       "distribution": {
@@ -131,7 +131,7 @@
         {
           "system": "RxNorm",
           "code": 372525000,
-          "display": "RxNorm Code"
+          "display": "Proton pump inhibitors"
         }
       ],
       "remarks": [
@@ -159,7 +159,7 @@
         {
           "system": "RxNorm",
           "code": 255631004,
-          "display": "RxNorm Code"
+          "display": "Antibiotic"
         }
       ],
       "direct_transition": "Drug thrombosis prophylaxis",
@@ -182,7 +182,7 @@
         {
           "system": "RxNorm",
           "code": 421728001,
-          "display": "RxNorm Code"
+          "display": "Drug thrombosis prophylaxis"
         }
       ],
       "direct_transition": "anesthesia",
@@ -205,7 +205,7 @@
         {
           "system": "RxNorm",
           "code": 7034005,
-          "display": "RxNorm Code"
+          "display": "NSAIDs (Diclofenac Kps 100 mg retard)"
         }
       ],
       "direct_transition": "Vital sign control",
@@ -228,7 +228,7 @@
         {
           "system": "RxNorm",
           "code": 372525000,
-          "display": "RxNorm Code"
+          "display": "Proton pump inhibitors day 1"
         }
       ],
       "remarks": [
@@ -256,7 +256,7 @@
         {
           "system": "RxNorm",
           "code": 7034005,
-          "display": "RxNorm Code"
+          "display": "NSAIDs Diclofenac Kps 50 mg retard day 1"
         }
       ],
       "prescription": {
@@ -279,7 +279,7 @@
         {
           "system": "RxNorm",
           "code": 387517004,
-          "display": "RxNorm Code"
+          "display": "paracetamol"
         }
       ],
       "prescription": {
@@ -302,7 +302,7 @@
         {
           "system": "RxNorm",
           "code": 387517004,
-          "display": "RxNorm Code"
+          "display": "paracetamol day 1-2"
         }
       ],
       "direct_transition": "lactate day 1",
@@ -325,7 +325,7 @@
         {
           "system": "RxNorm",
           "code": 387517004,
-          "display": "RxNorm Code"
+          "display": "paracetamol day 3"
         }
       ],
       "direct_transition": "Dressing change",
@@ -348,7 +348,7 @@
         {
           "system": "RxNorm",
           "code": 387517004,
-          "display": "RxNorm Code"
+          "display": "paracetamol day 4"
         }
       ],
       "prescription": {
@@ -371,7 +371,7 @@
         {
           "system": "RxNorm",
           "code": 83036002,
-          "display": "RxNorm Code"
+          "display": "lactate"
         }
       ],
       "direct_transition": "NSAIDs (Diclofenac Kps 100 mg retard)",
@@ -394,7 +394,7 @@
         {
           "system": "RxNorm",
           "code": 83036002,
-          "display": "RxNorm Code"
+          "display": "lactate day 1"
         }
       ],
       "prescription": {
@@ -417,7 +417,7 @@
         {
           "system": "SNOMED-CT",
           "code": 50697003,
-          "display": "SNOMED Code"
+          "display": "anesthesia"
         }
       ],
       "distribution": {
@@ -436,7 +436,7 @@
         {
           "system": "SNOMED-CT",
           "code": 179342005,
-          "display": "SNOMED Code"
+          "display": "Perform operation"
         }
       ],
       "distribution": {
@@ -455,7 +455,7 @@
         {
           "system": "SNOMED-CT",
           "code": 74016001,
-          "display": "SNOMED Code"
+          "display": "Control x ray"
         }
       ],
       "distribution": {
@@ -474,7 +474,7 @@
         {
           "system": "SNOMED-CT",
           "code": 410188000,
-          "display": "SNOMED Code"
+          "display": "Vital sign control"
         }
       ],
       "distribution": {
@@ -502,7 +502,7 @@
         {
           "system": "SNOMED-CT",
           "code": 74016001,
-          "display": "SNOMED Code"
+          "display": "Control x ray day 5"
         }
       ],
       "distribution": {
@@ -536,7 +536,7 @@
         {
           "system": "SNOMED-CT",
           "code": 396540005,
-          "display": "SNOMED Code"
+          "display": "blood draw day 1"
         }
       ],
       "distribution": {
@@ -568,7 +568,7 @@
         {
           "system": "SNOMED-CT",
           "code": 91251008,
-          "display": "SNOMED Code"
+          "display": "Physiotherapy"
         }
       ],
       "distribution": {
@@ -602,7 +602,7 @@
         {
           "system": "SNOMED-CT",
           "code": 18949003,
-          "display": "SNOMED Code"
+          "display": "Dressing change"
         }
       ],
       "distribution": {
@@ -632,7 +632,7 @@
         {
           "system": "SNOMED-CT",
           "code": 396540005,
-          "display": "SNOMED Code"
+          "display": "Blood draw day 4"
         }
       ],
       "distribution": {
@@ -662,7 +662,7 @@
         {
           "system": "SNOMED-CT",
           "code": 35963001,
-          "display": "SNOMED Code"
+          "display": "Removal of staples"
         }
       ],
       "distribution": {
@@ -677,7 +677,7 @@
     },
     "Dismissal": {
       "type": "Simple",
-      "direct_transition": "postoperative physiotherapy"
+      "direct_transition": "PERIOPERATIVE MANAGEMENT TOTAL KNEE ARTHROPLASTY (= KTEP) EncounterEnd"
     },
     "delay to dismissal": {
       "type": "Delay",
@@ -704,7 +704,7 @@
         }
       },
       "unit": "years",
-      "direct_transition": "x-ray check up after 3 years"
+      "direct_transition": "First CheckUp Encounter"
     },
     "x-ray check up after 3 years": {
       "type": "Procedure",
@@ -712,7 +712,7 @@
         {
           "system": "SNOMED-CT",
           "code": 74016001,
-          "display": "SNOMED Code"
+          "display": "x-ray check up after 3 years"
         }
       ],
       "distribution": {
@@ -723,7 +723,7 @@
         }
       },
       "unit": "minutes",
-      "direct_transition": "delay 2 years"
+      "direct_transition": "First CheckUp EncounterEnd"
     },
     "delay 2 years": {
       "type": "Delay",
@@ -734,7 +734,7 @@
         }
       },
       "unit": "years",
-      "direct_transition": "x-ray check up after 5 years"
+      "direct_transition": "Second CheckUp Encounter"
     },
     "x-ray check up after 5 years": {
       "type": "Procedure",
@@ -742,7 +742,7 @@
         {
           "system": "SNOMED-CT",
           "code": 74016001,
-          "display": "SNOMED Code"
+          "display": "x-ray check up after 5 years"
         }
       ],
       "distribution": {
@@ -753,7 +753,7 @@
         }
       },
       "unit": "minutes",
-      "direct_transition": "Terminal"
+      "direct_transition": "Second CheckUp EncounterEnd"
     },
     "Orthopaedic check-up": {
       "type": "Simple",
@@ -769,7 +769,7 @@
         }
       },
       "unit": "weeks",
-      "direct_transition": "Follow-up appointment"
+      "direct_transition": "Physio EncounterEnd"
     },
     "Delay interview -> procedure": {
       "type": "Delay",
@@ -781,11 +781,137 @@
         }
       },
       "unit": "days",
-      "direct_transition": "x-ray patella tang"
+      "direct_transition": "PERIOPERATIVE MANAGEMENT TOTAL KNEE ARTHROPLASTY (= KTEP) Encounter"
     },
     "interview": {
+      "type": "Procedure",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 84100007,
+          "display": "interview"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
+      "direct_transition": "Interview EncounterEnd"
+    },
+    "Interview Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 84100007,
+          "display": "Interview"
+        }
+      ],
+      "direct_transition": "interview",
+      "remarks": [
+        "PERIOPERATIVE MANAGEMENT TOTAL KNEE ARTHROPLASTY (= KTEP) CarePlan interview"
+      ]
+    },
+    "Interview EncounterEnd": {
       "type": "Simple",
-      "direct_transition": "Delay interview -> procedure"
+      "direct_transition": "Delay interview -> procedure",
+      "remarks": [
+        "Interview EncounterEnd"
+      ]
+    },
+    "PERIOPERATIVE MANAGEMENT TOTAL KNEE ARTHROPLASTY (= KTEP) Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 179342005,
+          "display": "PERIOPERATIVE MANAGEMENT TOTAL KNEE ARTHROPLASTY (= KTEP) Encounter"
+        }
+      ],
+      "direct_transition": "x-ray patella tang"
+    },
+    "PERIOPERATIVE MANAGEMENT TOTAL KNEE ARTHROPLASTY (= KTEP) EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Physio Encounter",
+      "remarks": [
+        "PERIOPERATIVE MANAGEMENT TOTAL KNEE ARTHROPLASTY (= KTEP) EncounterEnd "
+      ]
+    },
+    "Physio Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 91251008,
+          "display": "Physio Encounter"
+        }
+      ],
+      "direct_transition": "postoperative physiotherapy",
+      "remarks": [
+        "Physio Encounter "
+      ]
+    },
+    "Physio EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Follow-up appointment"
+    },
+    "First CheckUp Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 74016001,
+          "display": "First CheckUp Encounter"
+        }
+      ],
+      "direct_transition": "x-ray check up after 3 years",
+      "remarks": [
+        "First CheckUp Encounter"
+      ]
+    },
+    "First CheckUp EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "delay 2 years"
+    },
+    "Second CheckUp Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 74016001,
+          "display": "Second CheckUp Encounter"
+        }
+      ],
+      "direct_transition": "x-ray check up after 5 years",
+      "remarks": [
+        "Second CheckUp Encounter "
+      ]
+    },
+    "Second CheckUp EncounterEnd": {
+      "type": "EncounterEnd",
+      "remarks": [
+        "Second CheckUp Encounter"
+      ],
+      "direct_transition": "Terminal"
     }
   },
   "gmf_version": 2

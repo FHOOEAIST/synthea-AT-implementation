@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "PPH"
+      "direct_transition": "GYN SOP Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -19,7 +19,7 @@
           "distribution": 0.03
         },
         {
-          "transition": "Terminal",
+          "transition": "GYN SOP EncounterEnd",
           "distribution": 0.97
         }
       ]
@@ -64,7 +64,31 @@
     "PPH_Management": {
       "type": "CallSubmodule",
       "submodule": "gyn/SOP/pph",
-      "direct_transition": "Terminal"
+      "direct_transition": "GYN SOP EncounterEnd"
+    },
+    "GYN SOP Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 54487005,
+          "display": "GYN SOP Encounter"
+        }
+      ],
+      "direct_transition": "PPH",
+      "remarks": [
+        "GYN SOP Encounter"
+      ]
+    },
+    "GYN SOP EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "GYN SOP EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

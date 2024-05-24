@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Measure_blood_loss"
+      "direct_transition": "PPH Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -198,7 +198,7 @@
           "value_set": "0,1 mg"
         }
       ],
-      "direct_transition": "Terminal"
+      "direct_transition": "PPH EncounterEnd"
     },
     "Fundus_touch/hold/massage": {
       "type": "Simple",
@@ -297,6 +297,30 @@
       },
       "unit": "minutes",
       "direct_transition": "Med-therapy"
+    },
+    "PPH Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 241489004,
+          "display": 241489004
+        }
+      ],
+      "direct_transition": "Measure_blood_loss",
+      "remarks": [
+        "PPH Encounter"
+      ]
+    },
+    "PPH EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "PPH EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

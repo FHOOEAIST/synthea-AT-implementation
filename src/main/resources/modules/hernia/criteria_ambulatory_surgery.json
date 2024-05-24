@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Domestical_patient_care_given"
+      "direct_transition": "Criteria_ambulatory_surgery Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -79,14 +79,38 @@
     "Set_Criteria_True": {
       "type": "SetAttribute",
       "attribute": "Criteria",
-      "direct_transition": "Terminal",
+      "direct_transition": "Criteria_ambulatory_surgery EncounterEnd",
       "value": "no"
     },
     "Set_Criteria_False": {
       "type": "SetAttribute",
       "attribute": "Criteria",
-      "direct_transition": "Terminal",
+      "direct_transition": "Criteria_ambulatory_surgery EncounterEnd",
       "value": "yes"
+    },
+    "Criteria_ambulatory_surgery EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Criteria_ambulatory_surgery EncounterEnd"
+      ]
+    },
+    "Criteria_ambulatory_surgery Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 387713003,
+          "display": "Criteria_ambulatory_surgery Encounter"
+        }
+      ],
+      "direct_transition": "Domestical_patient_care_given",
+      "remarks": [
+        "Criteria_ambulatory_surgery Encounter"
+      ]
     }
   },
   "gmf_version": 2

@@ -11,10 +11,6 @@
     "Terminal": {
       "type": "Terminal"
     },
-    "Diagnosis": {
-      "type": "Simple",
-      "direct_transition": "Respiratory_disorder"
-    },
     "Respiratory_disorder": {
       "type": "Simple",
       "distributed_transition": [
@@ -817,7 +813,7 @@
           "distribution": 0.5
         },
         {
-          "transition": "Terminal",
+          "transition": "Standkind EncounterEnd",
           "distribution": 0.5
         }
       ]
@@ -852,7 +848,7 @@
           "value": 1
         }
       },
-      "direct_transition": "Terminal"
+      "direct_transition": "Standkind EncounterEnd"
     },
     "Blood_glucose_5": {
       "type": "Observation",
@@ -1349,14 +1345,14 @@
       "type": "Simple",
       "conditional_transition": [
         {
-          "transition": "Diagnosis",
           "condition": {
             "condition_type": "Age",
             "operator": "<=",
             "quantity": 1,
             "unit": "months",
             "value": 0
-          }
+          },
+          "transition": "Standkind Encounter"
         },
         {
           "transition": "Terminal"
@@ -1374,6 +1370,24 @@
       ],
       "unit": "minutes",
       "direct_transition": "Withdrawal_symptoms(nicotine)"
+    },
+    "Standkind Encounter": {
+      "type": "Encounter",
+      "encounter_class": "inpatient",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 113010000,
+          "display": "Standkind Encounter"
+        }
+      ],
+      "direct_transition": "Respiratory_disorder"
+    },
+    "Standkind EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal"
     }
   },
   "gmf_version": 2

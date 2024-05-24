@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Penicillin_Allergy"
+      "direct_transition": "Drug_Allergies Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -659,7 +659,7 @@
           "distribution": 0.1148
         },
         {
-          "transition": "Terminal",
+          "transition": "Drug_Allergies EncounterEnd",
           "distribution": 0.8852
         }
       ]
@@ -805,7 +805,28 @@
           ]
         }
       ],
-      "direct_transition": "Terminal"
+      "direct_transition": "Drug_Allergies EncounterEnd"
+    },
+    "Drug_Allergies Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 252380005,
+          "display": "Allergy profile"
+        }
+      ],
+      "direct_transition": "Penicillin_Allergy"
+    },
+    "Drug_Allergies EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Drug_Allergies EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

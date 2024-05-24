@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Ultrasound of gallbladder"
+      "direct_transition": "Elective gallbladder removal Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -17,7 +17,7 @@
         {
           "system": "SNOMED-CT",
           "code": 169250003,
-          "display": "SNOMED Code"
+          "display": "Ultrasound of gallbladder"
         }
       ],
       "distribution": {
@@ -45,7 +45,7 @@
         {
           "system": "SNOMED-CT",
           "code": 386718000,
-          "display": "SNOMED Code"
+          "display": "ERCP"
         }
       ],
       "distribution": {
@@ -73,7 +73,7 @@
         {
           "system": "SNOMED-CT",
           "code": 314635004,
-          "display": "SNOMED Code"
+          "display": "MRCP"
         }
       ],
       "distribution": {
@@ -96,22 +96,29 @@
       ]
     },
     "Conservative therapy": {
-      "type": "CarePlanStart",
+      "type": "Procedure",
       "codes": [
         {
           "system": "SNOMED-CT",
           "code": 281131004,
-          "display": "SNOMED Code"
+          "display": "Conservative therapy"
         }
       ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "minutes",
       "direct_transition": "End conservative therapy"
     },
     "End conservative therapy": {
-      "type": "CarePlanEnd",
-      "careplan": "Conservative therapy",
+      "type": "Simple",
       "distributed_transition": [
         {
-          "transition": "Terminal",
+          "transition": "Elective gallbladder removal EncounterEnd",
           "distribution": 0.2
         },
         {
@@ -126,7 +133,7 @@
         {
           "system": "SNOMED-CT",
           "code": 14861000,
-          "display": "SNOMED Code"
+          "display": "Operation"
         }
       ],
       "distribution": {
@@ -145,7 +152,7 @@
         {
           "system": "SNOMED-CT",
           "code": 118292001,
-          "display": "SNOMED Code"
+          "display": "Suture removal"
         }
       ],
       "distribution": {
@@ -156,7 +163,7 @@
         }
       },
       "unit": "minutes",
-      "direct_transition": "Terminal"
+      "direct_transition": "Elective gallbladder removal EncounterEnd"
     },
     "post operation": {
       "type": "Delay",
@@ -169,6 +176,30 @@
       },
       "unit": "days",
       "direct_transition": "Suture removal"
+    },
+    "Elective gallbladder removal Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 14861000,
+          "display": 14861000
+        }
+      ],
+      "direct_transition": "Ultrasound of gallbladder",
+      "remarks": [
+        "Elective gallbladder removal Encounter"
+      ]
+    },
+    "Elective gallbladder removal EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Elective gallbladder removal EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

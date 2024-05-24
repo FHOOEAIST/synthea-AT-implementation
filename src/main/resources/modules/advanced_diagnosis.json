@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Perform_labooratorytests"
+      "direct_transition": "Advanced_diagnosis Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -52,8 +52,29 @@
     "Set_Advanced_Diagnosis": {
       "type": "SetAttribute",
       "attribute": "advancedDiagnosis",
-      "direct_transition": "Terminal",
+      "direct_transition": "Advanced_diagnosis EncounterEnd",
       "value": true
+    },
+    "Advanced_diagnosis Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 439401001,
+          "display": 439401001
+        }
+      ],
+      "direct_transition": "Perform_labooratorytests"
+    },
+    "Advanced_diagnosis EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "Advanced_diagnosis EncounterEnd"
+      ]
     }
   },
   "gmf_version": 2

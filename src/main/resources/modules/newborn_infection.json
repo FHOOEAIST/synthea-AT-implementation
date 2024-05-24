@@ -160,7 +160,7 @@
           "distribution": 0.5
         },
         {
-          "transition": "Terminal",
+          "transition": "newborn_infection EncounterEnd",
           "distribution": 0.5
         }
       ]
@@ -212,7 +212,7 @@
           "distribution": 0.5
         },
         {
-          "transition": "Terminal",
+          "transition": "newborn_infection EncounterEnd",
           "distribution": 0.5
         }
       ]
@@ -275,7 +275,7 @@
       "type": "Simple",
       "conditional_transition": [
         {
-          "transition": "Initial_examination",
+          "transition": "newborn_infection Encounter",
           "condition": {
             "condition_type": "Age",
             "operator": "<",
@@ -287,6 +287,30 @@
         {
           "transition": "Terminal"
         }
+      ]
+    },
+    "newborn_infection Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 79536006,
+          "display": "newborn_infection Encounter"
+        }
+      ],
+      "direct_transition": "Initial_examination",
+      "remarks": [
+        "newborn_infection CarePlan"
+      ]
+    },
+    "newborn_infection EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal",
+      "remarks": [
+        "newborn_infection EncounterEnd"
       ]
     }
   },

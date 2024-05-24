@@ -6,7 +6,7 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "anamnesis and status"
+      "direct_transition": "Appendectomy Encounter"
     },
     "Terminal": {
       "type": "Terminal"
@@ -17,7 +17,7 @@
         {
           "system": "SNOMED-CT",
           "code": 241489004,
-          "display": "SNOMED Code"
+          "display": "Abdominal sonography"
         }
       ],
       "distribution": {
@@ -49,7 +49,7 @@
         {
           "system": "SNOMED-CT",
           "code": 169072007,
-          "display": "SNOMED Code"
+          "display": "CT Scan"
         }
       ],
       "distribution": {
@@ -68,7 +68,7 @@
         {
           "system": "SNOMED-CT",
           "code": 399208008,
-          "display": "SNOMED Code"
+          "display": "Chest X-ray"
         }
       ],
       "distribution": {
@@ -87,7 +87,7 @@
         {
           "system": "SNOMED-CT",
           "code": 80146002,
-          "display": "SNOMED Code"
+          "display": "Appendectomy operation"
         }
       ],
       "distribution": {
@@ -110,30 +110,27 @@
       ]
     },
     "Infusion therapy": {
-      "type": "CarePlanStart",
+      "type": "Procedure",
       "codes": [
         {
           "system": "SNOMED-CT",
           "code": 387760006,
-          "display": "SNOMED Code"
+          "display": "Infusion therapy"
         }
       ],
-      "direct_transition": "delay post op day"
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 60,
+          "low": 30
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "delay"
     },
     "Discharge": {
       "type": "Simple",
-      "direct_transition": "delay for suture removal"
-    },
-    "Delay to discharge": {
-      "type": "Delay",
-      "distribution": {
-        "kind": "EXACT",
-        "parameters": {
-          "value": 1
-        }
-      },
-      "unit": "days",
-      "direct_transition": "Discharge"
+      "direct_transition": "Appendectomy EncounterEnd"
     },
     "delay for suture removal": {
       "type": "Delay",
@@ -144,7 +141,7 @@
         }
       },
       "unit": "days",
-      "direct_transition": "Suture removal"
+      "direct_transition": "Suture removel and rest encounter"
     },
     "Suture removal": {
       "type": "Procedure",
@@ -166,18 +163,14 @@
       "direct_transition": "Rest"
     },
     "Rest": {
-      "type": "CarePlanStart",
+      "type": "Procedure",
       "codes": [
         {
           "system": "SNOMED-CT",
           "code": 258157001,
-          "display": "SNOMED Code"
+          "display": "Rest"
         }
       ],
-      "direct_transition": "rest delay"
-    },
-    "rest delay": {
-      "type": "Delay",
       "distribution": {
         "kind": "EXACT",
         "parameters": {
@@ -185,28 +178,7 @@
         }
       },
       "unit": "weeks",
-      "direct_transition": "end rest"
-    },
-    "end rest": {
-      "type": "CarePlanEnd",
-      "direct_transition": "Terminal",
-      "careplan": "Rest"
-    },
-    "delay post op day": {
-      "type": "Delay",
-      "distribution": {
-        "kind": "EXACT",
-        "parameters": {
-          "value": 1
-        }
-      },
-      "unit": "days",
-      "direct_transition": "end infusion therapy"
-    },
-    "end infusion therapy": {
-      "type": "CarePlanEnd",
-      "direct_transition": "Delay to discharge",
-      "careplan": "Infusion therapy"
+      "direct_transition": "Suture removel and rest encounterEnd"
     },
     "delay": {
       "type": "Delay",
@@ -223,6 +195,51 @@
       "type": "CallSubmodule",
       "submodule": "anamnesis/anamnesis_and_status",
       "direct_transition": "Abdominal sonography"
+    },
+    "Appendectomy Encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 80146002,
+          "display": 80146002
+        }
+      ],
+      "direct_transition": "anamnesis and status",
+      "remarks": [
+        "Appendectomy Encounter"
+      ]
+    },
+    "Appendectomy EncounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "delay for suture removal",
+      "remarks": [
+        "Appendectomy EncounterEnd"
+      ]
+    },
+    "Suture removel and rest encounter": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "telemedicine_possibility": "none",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 258157001,
+          "display": "Suture removel and rest encounter"
+        }
+      ],
+      "direct_transition": "Suture removal",
+      "remarks": [
+        "Suture removel and rest encounter"
+      ]
+    },
+    "Suture removel and rest encounterEnd": {
+      "type": "EncounterEnd",
+      "direct_transition": "Terminal"
     }
   },
   "gmf_version": 2
