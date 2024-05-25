@@ -129,18 +129,6 @@
       ],
       "direct_transition": "Inpatient_admission_pregnant_woman EncounterEnd"
     },
-    " <12h": {
-      "type": "Delay",
-      "distribution": {
-        "kind": "UNIFORM",
-        "parameters": {
-          "high": 12,
-          "low": 0
-        }
-      },
-      "unit": "hours",
-      "direct_transition": "Antibiotic_administration-Penecillin?"
-    },
     "SOP Sectio": {
       "type": "CallSubmodule",
       "submodule": "gyn/sectio",
@@ -399,7 +387,7 @@
           "distribution": 0.5
         },
         {
-          "transition": " <12h",
+          "transition": "12h",
           "distribution": 0.5
         }
       ]
@@ -595,6 +583,18 @@
       "remarks": [
         "Inpatient_admission_pregnant_woman Encounter"
       ]
+    },
+    "12h": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 12,
+          "low": 0
+        }
+      },
+      "unit": "hours",
+      "direct_transition": "Antibiotic_administration-Penecillin?"
     }
   },
   "gmf_version": 2

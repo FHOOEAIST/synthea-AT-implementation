@@ -1,5 +1,5 @@
 {
-  "name": "Hyperbilirubinemia ",
+  "name": "Hyperbilirubinemia",
   "remarks": [
     "A blank module"
   ],
@@ -107,20 +107,7 @@
         }
       ],
       "unit": "minutes",
-      "direct_transition": "Phototherapy_Bili>"
-    },
-    "Phototherapy_Bili>": {
-      "type": "Simple",
-      "distributed_transition": [
-        {
-          "transition": "blood_draw",
-          "distribution": 0.5
-        },
-        {
-          "transition": "Gaining_weight?",
-          "distribution": 0.5
-        }
-      ]
+      "direct_transition": "Phototherapy_Bili"
     },
     "capital_bilirubin_control": {
       "type": "Observation",
@@ -305,7 +292,7 @@
       "distributed_transition": [
         {
           "distribution": 0.5,
-          "transition": "Bilirubin_values>20"
+          "transition": "Bilirubin_values"
         },
         {
           "transition": "Delay_4h",
@@ -331,19 +318,6 @@
       "distributed_transition": [
         {
           "transition": "Phototherapy",
-          "distribution": 0.5
-        },
-        {
-          "transition": "Gaining_weight?",
-          "distribution": 0.5
-        }
-      ]
-    },
-    "Bilirubin_values>20": {
-      "type": "Simple",
-      "distributed_transition": [
-        {
-          "transition": "Delay_4h",
           "distribution": 0.5
         },
         {
@@ -392,6 +366,32 @@
       "direct_transition": "Terminal",
       "remarks": [
         "Hyperbilirubinemia EncounterEnd"
+      ]
+    },
+    "Bilirubin_values": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Delay_4h",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Gaining_weight?",
+          "distribution": 0.5
+        }
+      ]
+    },
+    "Phototherapy_Bili": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "blood_draw",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Gaining_weight?",
+          "distribution": 0.5
+        }
       ]
     }
   },

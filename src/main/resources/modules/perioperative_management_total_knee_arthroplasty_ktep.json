@@ -771,18 +771,6 @@
       "unit": "weeks",
       "direct_transition": "Physio EncounterEnd"
     },
-    "Delay interview -> procedure": {
-      "type": "Delay",
-      "distribution": {
-        "kind": "UNIFORM",
-        "parameters": {
-          "high": 93,
-          "low": 1
-        }
-      },
-      "unit": "days",
-      "direct_transition": "PERIOPERATIVE MANAGEMENT TOTAL KNEE ARTHROPLASTY (= KTEP) Encounter"
-    },
     "interview": {
       "type": "Procedure",
       "codes": [
@@ -821,7 +809,7 @@
     },
     "Interview EncounterEnd": {
       "type": "Simple",
-      "direct_transition": "Delay interview -> procedure",
+      "direct_transition": "Delay interview to procedure",
       "remarks": [
         "Interview EncounterEnd"
       ]
@@ -912,6 +900,18 @@
         "Second CheckUp Encounter"
       ],
       "direct_transition": "Terminal"
+    },
+    "Delay interview to procedure": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "UNIFORM",
+        "parameters": {
+          "high": 93,
+          "low": 1
+        }
+      },
+      "unit": "days",
+      "direct_transition": "PERIOPERATIVE MANAGEMENT TOTAL KNEE ARTHROPLASTY (= KTEP) Encounter"
     }
   },
   "gmf_version": 2

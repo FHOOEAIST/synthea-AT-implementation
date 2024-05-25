@@ -290,17 +290,6 @@
         }
       ]
     },
-    "Delay>=1-year": {
-      "type": "Delay",
-      "distribution": {
-        "kind": "EXACT",
-        "parameters": {
-          "value": 1
-        }
-      },
-      "unit": "years",
-      "direct_transition": "Terminal"
-    },
     "Age": {
       "type": "Simple",
       "conditional_transition": [
@@ -452,10 +441,21 @@
     },
     "connatal_toxoplasmosis EncounterEnd": {
       "type": "EncounterEnd",
-      "direct_transition": "Delay>=1-year",
+      "direct_transition": "Delay 1 year",
       "remarks": [
         "connatal_toxoplasmosis EncounterEnd"
       ]
+    },
+    "Delay 1 year": {
+      "type": "Delay",
+      "distribution": {
+        "kind": "EXACT",
+        "parameters": {
+          "value": 1
+        }
+      },
+      "unit": "years",
+      "direct_transition": "Terminal"
     }
   },
   "gmf_version": 2

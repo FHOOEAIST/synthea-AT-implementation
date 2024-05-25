@@ -159,7 +159,7 @@
           "distribution": 0.04
         },
         {
-          "transition": "Dehydration_birth_weight_loss>10%",
+          "transition": "Dehydration_birth_weight_loss 0%",
           "distribution": 0.96
         }
       ]
@@ -893,19 +893,6 @@
       "unit": "minutes",
       "direct_transition": "blood-tests"
     },
-    "Dehydration_birth_weight_loss>10%": {
-      "type": "Simple",
-      "distributed_transition": [
-        {
-          "transition": "Re_introduction2",
-          "distribution": 0.5
-        },
-        {
-          "transition": "Down_Syndrom",
-          "distribution": 0.5
-        }
-      ]
-    },
     "Eye_drops": {
       "type": "Procedure",
       "codes": [
@@ -1024,7 +1011,7 @@
     },
     "Cranial_onography_3": {
       "type": "Simple",
-      "direct_transition": "Dehydration_birth_weight_loss>10%"
+      "direct_transition": "Dehydration_birth_weight_loss 0%"
     },
     "draw_blood_5": {
       "type": "Procedure",
@@ -1388,6 +1375,19 @@
     "Standkind EncounterEnd": {
       "type": "EncounterEnd",
       "direct_transition": "Terminal"
+    },
+    "Dehydration_birth_weight_loss 0%": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Re_introduction2",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Down_Syndrom",
+          "distribution": 0.5
+        }
+      ]
     }
   },
   "gmf_version": 2

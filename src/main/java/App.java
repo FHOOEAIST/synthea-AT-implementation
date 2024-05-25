@@ -76,7 +76,7 @@ public class App {
     Generator.GeneratorOptions options = new Generator.GeneratorOptions();
     Exporter.ExporterRuntimeOptions exportOptions = new Exporter.ExporterRuntimeOptions();
     boolean PerformRestCall = false;
-    String restCallUri;
+    String restCallUri = "";
     boolean generateAuditEvents = false;
     boolean validArgs = true;
     boolean overrideFutureDateError = false;
@@ -341,8 +341,12 @@ public class App {
             }
         }
         if (PerformRestCall){
-          FHIRRestCall caller = new FHIRRestCall(restCallUri);
-          caller.call();
+          if (restCallUri == ""){
+            System.out.println("No Valid rest call uri given: No call performed");
+          } else{
+            FHIRRestCall caller = new FHIRRestCall(restCallUri);
+            caller.call();
+          }
         }
    
     }

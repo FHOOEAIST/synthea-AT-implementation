@@ -143,25 +143,12 @@
       "type": "Simple",
       "distributed_transition": [
         {
-          "transition": "VBS>18h+fruit water_miscolored",
+          "transition": "VBS 18h fruit water_miscolored",
           "distribution": 0.75
         },
         {
           "transition": "Counting_breathing_frequency",
           "distribution": 0.25
-        }
-      ]
-    },
-    "VBS>18h+fruit water_miscolored": {
-      "type": "Simple",
-      "distributed_transition": [
-        {
-          "transition": "Delay-24h",
-          "distribution": 0.5
-        },
-        {
-          "transition": "newborn_infection EncounterEnd",
-          "distribution": 0.5
         }
       ]
     },
@@ -311,6 +298,19 @@
       "direct_transition": "Terminal",
       "remarks": [
         "newborn_infection EncounterEnd"
+      ]
+    },
+    "VBS 18h fruit water_miscolored": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Delay-24h",
+          "distribution": 0.5
+        },
+        {
+          "transition": "newborn_infection EncounterEnd",
+          "distribution": 0.5
+        }
       ]
     }
   },

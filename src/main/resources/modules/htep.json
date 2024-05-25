@@ -15,19 +15,6 @@
       "type": "Simple",
       "direct_transition": "HTEP EncounterEnd"
     },
-    "CRP>7days": {
-      "type": "Simple",
-      "distributed_transition": [
-        {
-          "transition": "Perform_specific_radiological_test",
-          "distribution": 0.5
-        },
-        {
-          "transition": "Examine_CRP",
-          "distribution": 0.5
-        }
-      ]
-    },
     "Operation_release_possible": {
       "type": "Simple",
       "distributed_transition": [
@@ -306,7 +293,7 @@
           "distribution": 0.5
         },
         {
-          "transition": "CRP>7days",
+          "transition": "CRP 7days",
           "distribution": 0.5
         }
       ]
@@ -329,7 +316,7 @@
           "value": 1
         }
       },
-      "direct_transition": "CRP>7days"
+      "direct_transition": "CRP 7days"
     },
     "Examine_CRP": {
       "type": "Observation",
@@ -455,6 +442,19 @@
       "direct_transition": "Terminal",
       "remarks": [
         "HTEP EncounterEnd"
+      ]
+    },
+    "CRP 7days": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "transition": "Perform_specific_radiological_test",
+          "distribution": 0.5
+        },
+        {
+          "transition": "Examine_CRP",
+          "distribution": 0.5
+        }
       ]
     }
   },
