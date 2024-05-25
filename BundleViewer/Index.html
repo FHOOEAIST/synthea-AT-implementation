@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FHIR Bundle Viewer</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        background-image: url('https://images.unsplash.com/photo-1561625510-7ccf05c539ff');
+        background-size: cover;
+    }
+    #drop-zone {
+        border: 2px dashed #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.8);
+        margin: 20px auto;
+        width: 80%;
+        max-width: 600px;
+    }
+    .encounter {
+        margin-top: 20px;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .encounter h2 {
+        margin: 0;
+        padding: 10px 20px;
+        border-bottom: 1px solid #ccc;
+        color: #007bff;
+        cursor: pointer;
+        font-size: 18px;
+    }
+    .encounter h2:hover {
+        background-color: #f0f8ff;
+    }
+    .card {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin: 10px;
+        padding: 20px;
+    }
+    .card.patient {
+        background-color: #e0f7fa;
+    }
+    .nested {
+        margin-left: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div id="drop-zone" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
+    <img src="https://img.icons8.com/color/96/000000/hospital-2.png" alt="Medical Icon" style="margin-bottom: 10px;">
+    <p style="font-size: 18px;">Drag & Drop FHIR Bundle JSON file here</p>
+</div>
+
+<div id="result"></div>
+
+<script>
+    function handleDragOver(event) {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "copy";
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        const file = event.dataTransfer.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const json = JSON.parse(e.target.result);
+            displayFHIRBundle(json);
+        };
+
+        reader.readAsText(file);
+    }
+
+    function displayFHIRBundle(bundle) {
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = "";
+
+        if (!bundle || !Array.isArray(bundle.entry) || bundle.entry.length === 0) {
+            resultDiv.innerText = "Invalid or empty FHIR Bundle.";
+            return;
+        }
+
+        const groupedResources = groupResourcesByEncounter(bundle.entry);
+
+        groupedResources.forEach(group => {
+            const encounterDiv = document.createElement("div");
+            encounterDiv.classList.add("encounter");
+
+            const encounterHeader = document.createElement("h2");
+            encounterHeader.textContent = "Encounter: " + group.encounterReference;
+            encounterHeader.addEventListener("click", function() {
+                toggleVisibility(encounterDiv);
+            });
+            encounterDiv.appendChild(encounterHeader);
+
+            group.resources.forEach(resource => {
+                const card = document.createElement("div");
+                card.classList.add("card");
+                if (resource.resourceType === "Patient") {
+                    card.classList.add("patient");
+                }
+                card.innerHTML = renderResource(resource);
+                encounterDiv.appendChild(card);
+            });
+            resultDiv.appendChild(encounterDiv);
+        });
+    }
+
+    function groupResourcesByEncounter(resources) {
+        const groups = [];
+        resources.forEach(resource => {
+            if (resource.resource.resourceType === "Patient") {
+                groups.push({ encounterReference: "Patient", resources: [resource.resource] });
+            } else {
+                const encounterReference = getEncounterReference(resource.resource);
+                let group = groups.find(group => group.encounterReference === encounterReference);
+                if (!group) {
+                    group = { encounterReference: encounterReference + name, resources: [] };
+                    groups.push(group);
+                }
+                group.resources.push(resource.resource);
+            }
+        });
+        groups.splice(1,1)
+        return groups;
+    }
+
+    function getEncounterReference(resource) {
+        if (resource.encounter && resource.encounter.reference) {
+            return resource.encounter.reference;
+        }
+        return "Unknown Encounter";
+    }
+
+    function renderResource(resource) {
+        let html = "<h3>" +resource.resourceType + "</h3>";
+        html += "<ul>";
+        Object.keys(resource).forEach(key => {
+            html += "<li><strong>" + key + ":</strong> " + renderValue(resource[key]) + "</li>";
+        });
+        html += "</ul>";
+        return html;
+    }
+
+    function renderValue(value) {
+        if (typeof value === 'object' && value !== null) {
+            if (Array.isArray(value)) {
+                return renderArray(value);
+            } else {
+                return renderObject(value);
+            }
+        } else {
+            return JSON.stringify(value);
+        }
+    }
+
+    function renderObject(obj) {
+        let html = "<ul class='nested'>";
+        Object.keys(obj).forEach(key => {
+            html += "<li><strong>" + key + ":</strong> " + renderValue(obj[key]) + "</li>";
+        });
+        html += "</ul>";
+        return html;
+    }
+
+    function renderArray(arr) {
+        let html = "<ul class='nested'>";
+        arr.forEach(item => {
+            html += "<li>" + renderValue(item) + "</li>";
+        });
+        html += "</ul>";
+        return html;
+    }
+
+    function toggleVisibility(element) {
+        if (element.classList.contains("collapsed")) {
+            element.classList.remove("collapsed");
+        } else {
+            element.classList.add("collapsed");
+        }
+    }
+</script>
+
+</body>
+</html>
+
