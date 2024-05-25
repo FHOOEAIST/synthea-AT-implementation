@@ -16,13 +16,11 @@ IF "%~1" == "" (
   SET syntheaArgs= 
 
   :loop
-  ECHO ARG = %1
   if "%~1"=="" goto run
   SET syntheaArgs=!syntheaArgs!'%~1',
   shift
   goto loop
 
   :run
-  ECHO syntheaArgs = !syntheaArgs!
   gradlew.bat run -Params="[!syntheaArgs!]"
 )

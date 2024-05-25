@@ -461,7 +461,7 @@ public abstract class Actions {
       } else {
         // unexpected type here - is it even possible to get anything else?
         String type = valueDef == null ? "null" : valueDef.getClass().toGenericString();
-        System.err.println("Unhandled type in createFhirPathMapping: " + type);
+        // System.err.println("Unhandled type in createFhirPathMapping: " + type);
       }
     }
 
@@ -738,7 +738,6 @@ public abstract class Actions {
 
     String flag = StringUtils.substringBetween(valueDef, "$", "(");
     String flagValue = StringUtils.substringBetween(valueDef, "([", "])");
-    System.out.println(valueDef.toString());
     String[] flagValues = flagValue.split(",");
 
 

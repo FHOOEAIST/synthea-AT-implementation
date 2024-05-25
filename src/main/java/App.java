@@ -49,7 +49,7 @@ public class App {
     System.out.println("         [-t updateTimePeriodInDays]");
     System.out.println("         [-f fixedRecordPath]");
     System.out.println("         [-k keepMatchingPatientsPath]");
-    System.out.println("         [-li readImplementationGuidelineForLocalUse]");
+    System.out.println("         [-ae Enabled generation of FHIR AuditEvents based on generated resources in the bundle]");
     System.out.println("         [--config*=value]");
     System.out.println("          * any setting from src/main/resources/synthea.properties");
     System.out.println("Examples:");
@@ -72,7 +72,7 @@ public class App {
   public static void main(String[] args) throws Exception {
     Generator.GeneratorOptions options = new Generator.GeneratorOptions();
     Exporter.ExporterRuntimeOptions exportOptions = new Exporter.ExporterRuntimeOptions();
-
+    boolean generateAuditEvents = false;
     boolean validArgs = true;
     boolean overrideFutureDateError = false;
     if (args != null && args.length > 0) {
@@ -89,8 +89,10 @@ public class App {
             String value = argsQ.poll();
             options.seed = Long.parseLong(value);
           } else if (currArg.equalsIgnoreCase("-cs")) {
+            System.out.println("Generation of FHIR AuditEvents enabled");
             String value = argsQ.poll();
-            options.clinicianSeed = Long.parseLong(value);
+          } else if (currArg.equalsIgnoreCase("-ae")) {
+            generateAuditEvents = true;
           } else if (currArg.equalsIgnoreCase("-ps")) {
             String value = argsQ.poll();
             options.singlePersonSeed = Long.valueOf(value);
@@ -299,43 +301,46 @@ public class App {
       Generator generator = new Generator(options, exportOptions);
       generator.run();
     }
-     // Relative path to the Python script
-        String pythonScriptPath = "src/main/resources/Bundle2AuditEvent.py";
+        if (generateAuditEvents){
+            // Relative path to the Python script
+            String pythonScriptPath = "src/main/resources/Bundle2AuditEvent.py";
 
 
-        // Command to execute the Python script
-        String[] command = {"python", pythonScriptPath};
+            // Command to execute the Python script
+            String[] command = {"python", pythonScriptPath};
 
-        try {
-            // Create a ProcessBuilder
-            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            try {
+                // Create a ProcessBuilder
+                ProcessBuilder processBuilder = new ProcessBuilder(command);
 
-            // Set the working directory (optional, defaults to current directory)
-            // processBuilder.directory(new File("relative/path/to/working/directory"));
+                // Set the working directory (optional, defaults to current directory)
+                // processBuilder.directory(new File("relative/path/to/working/directory"));
 
-            // Start the process
-            Process process = processBuilder.start();
+                // Start the process
+                Process process = processBuilder.start();
 
-            // Capture the output of the process
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                // Capture the output of the process
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+
+                // Capture any errors from the process
+                BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                while ((line = errorReader.readLine()) != null) {
+                    System.err.println(line);
+                }
+
+                // Wait for the process to finish and get the exit code
+                int exitCode = process.waitFor();
+                System.out.println("Process exited with code: " + exitCode);
+
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
             }
-
-            // Capture any errors from the process
-            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            while ((line = errorReader.readLine()) != null) {
-                System.err.println(line);
-            }
-
-            // Wait for the process to finish and get the exit code
-            int exitCode = process.waitFor();
-            System.out.println("Process exited with code: " + exitCode);
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
         }
+   
     }
 
 

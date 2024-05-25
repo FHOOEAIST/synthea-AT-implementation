@@ -48,8 +48,6 @@ actions:
           value: $getField([Patient.gender])
         - location: Patient.birthDate
           value: $getField([Patient.birthDate])
-        - location: Patient.deceased
-          value: $getField([Patient.deceased])
         - location: Patient.address.use
           value: "home"
         - location: Patient.address.line
@@ -78,17 +76,6 @@ actions:
               code: "de"
         - location: Patient.communication.preferred
           value: "true"
-        - location: Patient.generalPractitioner
-          value: $getField([Patient.generalPractitioner])
-        - location: Patient.managingOrganization
-          value: $getField([Patient.managingOrganization])
-        - location: Patient.link
-          value: $getField([Patient.link])
-      writeback:
-        - location: Patient.deceased
-          value: $getField([Patient.deceased])
-        - location: Patient.multipleBirth[x]
-          value: $getField([Patient.multipleBirth[x]])
 
  - name: applyBoolean
    execute_script:
@@ -126,131 +113,110 @@ actions:
      - apply_to: resource
        function_name: applyIdentifier
        function: |
-         function applyIdentifier(resource, bundle) {
-          if(resource.resourceType == "Patient"){
-            var BufferedReader = Java.type("java.io.BufferedReader");
-            var FileReader = Java.type("java.io.FileReader");
-            var Math = Java.type("java.lang.Math")
-            // Create a FileReader to read the JSON file
-            var reader = new BufferedReader(new FileReader("src/main/resources/templates/mappings/AT-identifier.json"));
-            // Read the JSON content
-            var jsonContent = "";
-            var line;
-            while ((line = reader.readLine()) !== null) {
-                jsonContent += line;
+        function applyIdentifier(resource, bundle) {
+            if (resource.resourceType === "Patient") {
+                const BufferedReader = Java.type("java.io.BufferedReader");
+                const FileReader = Java.type("java.io.FileReader");
+                const Math = Java.type("java.lang.Math");
+
+                // Read the JSON file content
+                const reader = new BufferedReader(new FileReader("src/main/resources/templates/mappings/AT-identifier.json"));
+                const jsonContent = reader.lines().toArray().join("");
+                reader.close();
+
+                const jsonObject = JSON.parse(jsonContent);
+
+                const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+                const SocialSecurityNumber = { ...jsonObject[0], value: getRandomNumber(1e9, 1e10 - 1).toString() };
+                const PatientInternalIdentifier = { ...jsonObject[2], value: getRandomNumber(Math.pow(4, 3), Math.pow(4, 4) - 1).toString() };
+
+                resource.identifier = [SocialSecurityNumber, jsonObject[1], PatientInternalIdentifier];
+
+                return resource;
             }
-            var jsonObject = JSON.parse(jsonContent);
-            var min = Math.pow(10, 9);
-            var max = Math.pow(10, 10) - 1; 
-            var number = Math.floor(Math.random() * (max - min + 1)) + min;
-            var SocialSecurityNumber = jsonObject[0]
-            var NationalUniqueIndividualIdentifier = jsonObject[1]
-            var PatientInternalIdentifier = jsonObject[2]
-            SocialSecurityNumber.value = number.toString();
-            min = Math.pow(4, 3);
-            max = Math.pow(4, 4) - 1; 
-            number = Math.floor(Math.random() * (max - min + 1)) + min;
-            PatientInternalIdentifier.value = number.toString();
-            resource.identifier = [SocialSecurityNumber,NationalUniqueIndividualIdentifier,PatientInternalIdentifier]
-            return resource
-          }
-          }
+        }
+
 
  - name: applyExtensions
    execute_script:
      - apply_to: resource
        function_name: applyExtensions
        function: |
-         function applyExtensions(resource, bundle) {
-          var BufferedReader = Java.type("java.io.BufferedReader");
-          var FileReader = Java.type("java.io.FileReader");
-          var Math = Java.type("java.lang.Math")
-          var ArrayList = Java.type("java.util.ArrayList");
-          if(resource.resourceType == "Patient"){
-            var data = new ArrayList();
-            // Create a FileReader to read the JSON file
-            var reader = new BufferedReader(new FileReader("src/main/resources/templates/mappings/AT-extensions.json"));
-            // Read the JSON content
-            var jsonContent = "";
-            var line;
-            while ((line = reader.readLine()) !== null) {
-                jsonContent += line;
-            }
-            var jsonObject = JSON.parse(jsonContent);
-            var PatientReligion = jsonObject[0]
-            var citizenship = jsonObject[1]
-            var reader = new BufferedReader(new FileReader("src/main/resources/AT-religion.csv"));
-            while ((line = reader.readLine()) !== null) {
-                var values = line.split(",");
-                data.add(values);
-            }
-            var religionData = [];
-            for (var i = 0; i < data.size(); i++) {
-                religionData.push(data.get(i));
-            }
-            var randomNumber = Math.random() * 100;
-            var chosenReligion = "Römisch-Katholisch";
-            var chosenReligionCode = 101;
-            var cumulativePercentage = 0;
-            for (var i = 0; i < religionData.length; i++) {
-                cumulativePercentage += parseFloat(religionData[i][2]);
-                if (randomNumber <= cumulativePercentage) {
-                    chosenReligionCode = religionData[i][0];
-                    chosenReligion = religionData[i][1];
-                    break;
+        function applyExtensions(resource, bundle) {
+            const BufferedReader = Java.type("java.io.BufferedReader");
+            const FileReader = Java.type("java.io.FileReader");
+            const ArrayList = Java.type("java.util.ArrayList");
+            const Math = Java.type("java.lang.Math");
+
+            if (resource.resourceType === "Patient") {
+                const data = new ArrayList();
+                
+                // Read JSON content from the extensions file
+                const readJsonFile = (filePath) => {
+                    const reader = new BufferedReader(new FileReader(filePath));
+                    const content = reader.lines().toArray().join("");
+                    reader.close();
+                    return JSON.parse(content);
+                };
+
+                const jsonObject = readJsonFile("src/main/resources/templates/mappings/AT-extensions.json");
+                const [PatientReligion, citizenship] = jsonObject;
+
+                // Read CSV content and populate data
+                const readCsvFile = (filePath) => {
+                    const reader = new BufferedReader(new FileReader(filePath));
+                    const lines = reader.lines().toArray();
+                    reader.close();
+                    return lines.map(line => line.split(","));
+                };
+
+                const religionData = readCsvFile("src/main/resources/AT-religion.csv");
+
+                // Select religion based on random number
+                const randomNumber = Math.random() * 100;
+                let chosenReligion = "Römisch-Katholisch";
+                let chosenReligionCode = 101;
+                let cumulativePercentage = 0;
+
+                for (const [code, name, percentage] of religionData) {
+                    cumulativePercentage += parseFloat(percentage);
+                    if (randomNumber <= cumulativePercentage) {
+                        chosenReligionCode = code;
+                        chosenReligion = name;
+                        break;
+                    }
                 }
+
+                PatientReligion.extension[0].valueCodeableConcept.coding[0].code = chosenReligionCode;
+                PatientReligion.extension[0].valueCodeableConcept.coding[0].display = chosenReligion;
+
+                resource.extension = [PatientReligion, citizenship];
             }
-            PatientReligion.extension[0].valueCodeableConcept.coding[0].code = chosenReligionCode
-            PatientReligion.extension[0].valueCodeableConcept.coding[0].display = chosenReligion
-            PatientRelgigion = {PatientReligion}
-            extension = [PatientReligion,citizenship]	
-            resource.extension = extension
+
+            return resource;
+        }
+
+
+ - name: replaceUSCorePatient
+   execute_script:
+     - apply_to: bundle
+       function_name: replaceUSCorePatient
+       function: |
+          function replaceUSCorePatient(bundle) {
+              const patientEntries = bundle.entry.filter(entry => entry.resource.resourceType === "Patient");
+
+              bundle.entry.forEach((entry, index) => {
+                  if (entry.resource.resourceType === "Patient") {
+                      const nextPatientIndex = patientEntries.indexOf(entry) + 1;
+
+                      if (nextPatientIndex < patientEntries.length) {
+                          entry.resource = patientEntries[nextPatientIndex].resource;
+                      } else {
+                          bundle.entry.splice(index, 1);
+                      }
+                  }
+              });
+
+              return bundle;
           }
-          return resource
-          }
-
-# - name: create AuditEvent
-#   create_resource: 
-#    - resourceType: AuditEvent
-#      based_on:
-#        resource: Encounter
-#      fields:
-#        - location: AuditEvent.action
-#          value: "C"
-#        - location: AuditEvent.recorded
-#          value: $getField([Encounter.period.start])
-#        - location: AuditEvent.occuredDateTime
-#          value: $getField([Encounter.period.start])
-#        - location: AuditEvent.outcome.code
-#          value: "0"
-#        - location: AuditEvent.encounter
-#         value: $getField([Encounter.fullUrl])
-
-# - name: applyReference
-#   execute_script:
-#     - apply_to: resource
-#       function_name: applyReference
-#       function: |
-#         function applyReference(resource, bundle) {
-#          var BufferedReader = Java.type("java.io.BufferedReader");
-#          var FileReader = Java.type("java.io.FileReader");
-#          var Math = Java.type("java.lang.Math")
-#          var ArrayList = Java.type("java.util.ArrayList");
-#          if(resource.resourceType == "AuditEvent"){  
-#            let patientReference;
-#            let type;
-#            for (const ent of bundle.entry){
-#              if (ent.resource.resourceType == "Patient"){
-#                patientReference = ent.fullUrl
-#                console.log("AUDITEVENNTTTT")
-#                break;
-#              }
-#            }
-#            entity = {what:patientReference}
-#            entity = {entity:entity}
-#            resource.entity = entity
-#           console.log(JSON.stringify(resource))
-#         }
-#         return resource
-#         }
-

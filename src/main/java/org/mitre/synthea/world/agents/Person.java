@@ -180,7 +180,6 @@ public class Person implements Serializable, RandomNumberGenerator, QuadTreeElem
     coverage = new CoverageRecord(this);
   }
   public Person(long seed,Map<String, Object> localImplementationMap) {
-    System.out.println(localImplementationMap);
     random = new DefaultRandomNumberGenerator(seed);
     attributes = new ConcurrentHashMap<String, Object>();
     vitalSigns = new ConcurrentHashMap<VitalSign, ValueGenerator>();
