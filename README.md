@@ -73,7 +73,27 @@ Generating the population one at a time following the Austrian implementation gu
 ```
 ./run_synthea -fm MappingFile.yml -ig AT-IG
 ```
+
 Where -fm references a mapping yml file that applies the extensions following the Austrian Core profile. and -ig references the Austrian Core Implementation Guideline.
+
+It is recommeded to run this installation of synthea always with these arguments.
+##### FHIR AuditEvent generation
+
+```
+./run_synthea -fm MappingFile.yml -ig AT-IG -ae
+```
+
+Where -ae enables the generation of the FHIR AuditEvent resource.
+
+##### FHIR restcall
+##### Expiremental feature !!!
+```
+./run_synthea -fm MappingFile.yml -ig AT-IG -ae -post http://uri
+```
+
+Where -post enables the post restcall to a FHIR server.
+
+##### Arguments
 
 Command-line arguments may be provided to specify a state, city, population size, or seed for randomization.
 ```
@@ -100,6 +120,8 @@ Options: [-s seed]
          [-t updateTimePeriodInDays]
          [-f fixedRecordPath]
          [-k keepMatchingPatientsPath]
+         [-ae] Enable generation of the FHIR AuditEvent resource 
+         [-post FHIR server uri] Posts generated fhir bundles to fhir server
          [--config*=value]
           * any setting from src/main/resources/synthea.properties
 
