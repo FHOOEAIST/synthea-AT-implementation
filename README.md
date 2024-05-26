@@ -1,6 +1,7 @@
 # Synthea<sup>TM</sup> Patient Generator with AT Core Profile Implementation ![Build Status](https://github.com/synthetichealth/synthea/workflows/.github/workflows/ci-build-test.yml/badge.svg?branch=master) [![codecov](https://codecov.io/gh/synthetichealth/synthea/branch/master/graph/badge.svg)](https://codecov.io/gh/synthetichealth/synthea)
 
-Synthea<sup>TM</sup> is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats.
+
+The main goal of this research is to expand the capabilities of existing synthetic patient data generation. Aiming to enable them to generate the HL7 FHIR Austria patient profile effectively. Additionally, exploring the feasibility of supporting the generation of the AuditEvent FHIR resource. These enhancements will allow fort he creation of synthetic health data that aligns with local healthcare standards and captures patient clinical histories and pathways accurately.
 
 In the process of reconstructing health data, currently utilizing Synthea-generated FHIR resources. However, these resources do not cover all the necessary information required for a comprehensive reconstruction. Therefore, there is a need to develop custom extensions to these generated FHIR resources. This will ensure that all required information is captured and used effectively.  
 
@@ -21,10 +22,26 @@ In the process of reconstructing health data, currently utilizing Synthea-genera
 
 How can the Synthea Patient Generator be extended with HL7 FHIR implementation guides to enhance its adaptability for local use in different healthcare settings?
 
+#### Goals
+Within this project and research the following 4 goals are set
+##### 1. Ensure Compliance with Austrian Core Implementation Guidelines 
+Generate patient profiles that align with the Austrian Core Implementation guidelines and any associated extensions to ensure regulatory compliance and interoperability within the Austrian healthcare system.
+
+
+##### 2. Utilize Austrian Demographic Data:
+ Incorporate accurate and representative demographic data specific to Austria to enhance the realism and relevance of the generated patient profiles, facilitating more accurate simulations and analysis.
+##### 3. Model Clinical Processes for Local Medical Settings: 
+Develop detailed models of clinical processes tailored to local medical settings, enabling the creation of synthetic patient histories that accurately reflect real-world medical procedures and workflows.
+
+##### 4. Generate FHIR AuditEvent Resources for Process Mining:
+
+Implement the generation of FHIR AuditEvent resources to capture and document healthcare processes, facilitating process mining and analysis for optimization and improvement purposes.
+
 #### Read about Synthea
 
 Read the Synthea [wiki](https://github.com/synthetichealth/synthea/wiki) and [Frequently Asked Questions](https://github.com/synthetichealth/synthea/wiki/Frequently-Asked-Questions) for more information. 
 
+Synthea<sup>TM</sup> is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats.
 
 Currently, Synthea<sup>TM</sup> features include:
 - Birth to Death Lifecycle
@@ -188,6 +205,23 @@ Contributers for this implementation for the Austrian guideline and Generic Fram
 
 - [Mitch van den Broek](https://github.com/Mitchvandenbroek)
 - [Selina Adlberger](https://github.com/SelAB10)
+
+## Conclusion
+### Intoduction
+
+
+In this study, we aimed to explore how the Synthea Patient Generator can be extended with HL7 FHIR implementation guides to enhance its adaptability for local use in different healthcare settings. With four main goals in mind, namely, generating patient profiles adhering to the Austrian Core Implementation Guidelines and its extensions, utilizing Austrian demographic data, modeling clinical processes for specific processes in local medical settings, and generating FHIR AuditEvent resources for process mining purposes, we have made significant progress towards achieving these objectives.
+### Key Findings
+
+#### Generic Modules Framework:
+Synthea's framework is flexible, allowing detailed simulations tailored to local healthcare needs.
+#### Demographic Data:
+Synthea can use accurate Austrian data with some adjustments, ensuring realistic patient profiles.
+#### AT-coreprofile-mapping:
+This config transforms patient data to meet Austrian standards, ensuring compliance.
+#### Post processing for the FHIR AuditEvent Resources:
+Many approaches can be applied to post process genereted data by Synthea to. like using different kind of AI models or rule-based systems to achieve the generation of the FHIR AuditEvent resource
+
 
 # License
 
