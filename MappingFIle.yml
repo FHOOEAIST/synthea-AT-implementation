@@ -9,7 +9,7 @@ actions:
    - profile: https://fhir.hl7.at/r5-core-main/StructureDefinition-at-core-patient.html
      applicability: Patient
 
- - name: testKeepResources
+ - name: KeepResources
    keep_resources:
      - Patient
      - Encounter
