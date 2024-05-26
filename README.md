@@ -83,7 +83,7 @@ Synthea<sup>TM</sup> requires Java JDK 11 or newer. We strongly recommend using 
 
 To clone the Synthea<sup>TM</sup> repo, then build and run the test suite:
 ```
-git clone https://github.com/synthetichealth/synthea.git
+git clone https://github.com/Mitchvandenbroek/synthea-AT-implementation.git
 cd synthea
 ./gradlew build check test
 ```
