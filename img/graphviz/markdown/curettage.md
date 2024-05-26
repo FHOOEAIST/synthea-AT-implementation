@@ -1,0 +1,2 @@
+# curettage
+![curettage](../curettage.png)

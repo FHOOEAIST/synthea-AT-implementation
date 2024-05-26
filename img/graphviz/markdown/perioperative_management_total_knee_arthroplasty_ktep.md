@@ -1,0 +1,2 @@
+# perioperative management total knee arthroplasty ktep
+![perioperative_management_total_knee_arthroplasty_ktep](../perioperative_management_total_knee_arthroplasty_ktep.png)
