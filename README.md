@@ -2,11 +2,24 @@
 
 Synthea<sup>TM</sup> is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats.
 
+In the process of reconstructing health data, currently utilizing Synthea-generated FHIR resources. However, these resources do not cover all the necessary information required for a comprehensive reconstruction. Therefore, there is a need to develop custom extensions to these generated FHIR resources. This will ensure that all required information is captured and used effectively.  
+
 This repository is a fork of the Synthea<sup>TM</sup> Patient Generator, enhanced for the implementation of the AT Core Profile with its extensions and demographic data. It also includes the generation of the AuditEvent FHIR resource for process mining purposes in the PICA project and specific modules for local implementation of medical processes.
+
 
 #### PICA - Process Intelligence and Conformance Auditing.
 
-The project is concerned with the development and establishment of a process analytics connection for medical information systems, which can be used to create a “digital twin” of organizational processes. The development is based on internationally established communication standards in healthcare and in coordination with the Austrian affiliate organization HL7 Austria. Among other things, this will result in a publicly available implementation guideline that will be further developed on an ongoing basis. The implementation guide can be found at [AIST PICA Implementation Guide](https://fhir.hl7.at/r5-pica-5-deployment/index.html) 
+The project is concerned with the development and establishment of a process analytics connection for medical information systems, which can be used to create a “digital twin” of organizational processes. The development is based on internationally established communication standards in healthcare and in coordination with the Austrian affiliate organization HL7 Austria. Among other things, this will result in a publicly available implementation guideline that will be further developed on an ongoing basis. The implementation guide can be found at [AIST PICA Implementation Guide](https://fhir.hl7.at/r5-pica-5-deployment/index.html).
+
+Within the PICA project, there is a need for generating synthetic and realistic patient data. These generated data sets must adhere strictly to the FHIR specification and encompass all the requisite resources to create both a FHIR Patient resource and FHIR AuditEvent resources or flexibility should be built in to enable adaptation for generating FHIR resources as needed
+
+Moreover, the patient generated data must support the modelling of patient care plans and be adaptable to accommodate custom profiles tailored to specific regional requirements or unique use cases. This customization ensures that the generated patient data aligns closely with local healthcare practices. to accommodate the specific requirements and nuances of local healthcare contexts, such as those encountered in Austria. 
+
+In the process of reconstructing health data, currently utilizing Synthea-generated FHIR resources. However, these resources do not cover all the necessary information required for a comprehensive reconstruction. Therefore, there is a need to develop custom extensions to these generated FHIR resources. This will ensure that all required information is captured and used effectively
+
+#### Research question
+
+How can the Synthea Patient Generator be extended with HL7 FHIR implementation guides to enhance its adaptability for local use in different healthcare settings?
 
 #### Read about Synthea
 
@@ -167,6 +180,14 @@ This [link](RuleBasedSystem.md) details the creation of the AuditEvent FHIR reso
 To quickly view a FHIR Bundle and its contents you open the bundleViewer html page in `./BundleViewer/index.html` drag and drop a FHIR resource bundle to view its contents
 This will display a fhir bundle as seen on [link](viewBundle.md)
 This will also reveal the result of the implementation of this project.
+
+## Conclusion of stated resource question
+
+## Implementation contributers
+Contributers for this implementation for the Austrian guideline and Generic Framework Modules.
+
+- [Mitch van den Broek](https://github.com/Mitchvandenbroek)
+- [Selina Adlberger](https://github.com/SelAB10)
 
 # License
 

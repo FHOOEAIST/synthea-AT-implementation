@@ -22,6 +22,11 @@ The PICA project requires an Austrian patient profile instead of the US Core imp
 
 The HL7 FHIR Austrian core implementation of the Patient profile is detailed at the following URL: [AT Core Patient Profile](https://fhir.hl7.at/r5-core-main/StructureDefinition-at-core-patient.html). This profile specifies the structure and constraints on the Patient resource for use within the Austrian healthcare context.
 
+Within the context of the PICA project, the patient resource will be modeled according to the definition of the HL7 Austria FHIR Core Implementation Guide to accurately represent an Austrian patient. This implementation guide ensures that the patient resource aligns with the specific requirements and conventions of Austrian healthcare practices.
+
+In the PICA Core Profile, the Patient resource is essential for reconstructing processes, particularly within a patient-centric view. Serving as a foundational element, it provides crucial information about the individual associated with the process. Without the Patient resource, the reconstruction of processes would lack vital context and specificity, thereby impeding the accuracy and effectiveness of the analysis.
+
+
 ## Usage
 
 Generating the population one at a time following the Austrian implementation guideline...
