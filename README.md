@@ -78,6 +78,29 @@ These instructions are intended for those wishing to examine the Synthea source 
 
 ### Installation
 
+This project requires Python 3. Please follow the instructions below to install Python 3 on your system.
+
+### Windows
+
+1. Download the latest Python 3 installer from the official website: [Python Downloads](https://www.python.org/downloads/).
+2. Run the installer and follow the on-screen instructions. Make sure to check the box that says "Add Python to PATH".
+
+### macOS
+
+Python 3 can be installed using Homebrew, a package manager for macOS.
+
+1. Open Terminal.
+2. Install Homebrew if you haven't already: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+3. Install Python 3: `brew install python`
+
+### Linux
+
+#### Ubuntu/Debian-based systems
+
+1. Open Terminal.
+2. Update package lists: `sudo apt update`
+3. Install Python 3: `sudo apt install python3`
+
 **System Requirements:**
 Synthea<sup>TM</sup> requires Java JDK 11 or newer. We strongly recommend using a Long-Term Support (LTS) release of Java, 11 or 17, as issues may occur with more recent non-LTS versions.
 
