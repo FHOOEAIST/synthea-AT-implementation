@@ -78,7 +78,7 @@ public class Generator {
   private Module keepPatientsModule;
   private Long maxAttemptsToKeepPatient;
   public TransitionMetrics metrics;
-  public static String DEFAULT_STATE = "Oberösterreich";
+  public static String DEFAULT_STATE = "Salzburg";
   private Exporter.ExporterRuntimeOptions exporterRuntimeOptions;
   public static EntityManager entityManager;
   public final int threadPoolSize;
