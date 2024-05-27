@@ -200,12 +200,6 @@ This will also reveal the result of the implementation of this project.
 
 ## Conclusion of stated resource question
 
-## Implementation contributers
-Contributers for this implementation for the Austrian guideline and Generic Framework Modules.
-
-- [Mitch van den Broek](https://github.com/Mitchvandenbroek)
-- [Selina Adlberger](https://github.com/SelAB10)
-
 ## Conclusion
 ### Intoduction
 
@@ -222,6 +216,11 @@ This config transforms patient data to meet Austrian standards, ensuring complia
 #### Post processing for the FHIR AuditEvent Resources:
 Many approaches can be applied to post process genereted data by Synthea to. like using different kind of AI models or rule-based systems to achieve the generation of the FHIR AuditEvent resource
 
+## Implementation contributers
+Contributers for this implementation for the Austrian guideline and Generic Framework Modules.
+
+- [Mitch van den Broek](https://github.com/Mitchvandenbroek)
+- [Selina Adlberger](https://github.com/SelAB10)
 
 # License
 
