@@ -1,2 +1,2 @@
 # pph
-![pph](../gyn/sop/pph.png)
+![pph](../gyn/SOP/pph.png)
