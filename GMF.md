@@ -132,41 +132,41 @@ These modules are structured based on written medical guidelines and business pr
 
 ### All modules
 
-[urology standard operating procedures](./img/graphviz/markdown/urology_standard_operating_procedures.md)
-[standkind](./img/graphviz/markdown/standkind.md)
-[sop](./img/graphviz/markdown/sop.md)
-[sop tonsillectomy](./img/graphviz/markdown/sop_tonsillectomy.md)
-[sop for circumcision](./img/graphviz/markdown/sop_for_circumcision.md)
-[sop arthroscopic surgery of the shoulder joint](./img/graphviz/markdown/sop_arthroscopic_surgery_of_the_shoulder_joint.md)
-[sectio](./img/graphviz/markdown/sectio.md)
-[radiology report](./img/graphviz/markdown/radiology_report.md)
-[pr op bqll](./img/graphviz/markdown/pr_op_bqll.md)
-[pph](./img/graphviz/markdown/pph.md)
-[perioperative management total knee arthroplasty ktep](./img/graphviz/markdown/perioperative_management_total_knee_arthroplasty_ktep.md)
-[patient admission](./img/graphviz/markdown/patient_admission.md)
-[outpatient birth](./img/graphviz/markdown/outpatient_birth.md)
-[operation clearance](./img/graphviz/markdown/operation_clearance.md)
-[newborn infection](./img/graphviz/markdown/newborn_infection.md)
-[inpatient admission pregnant woman](./img/graphviz/markdown/inpatient_admission_pregnant_woman.md)
-[individualized laboratory findings](./img/graphviz/markdown/individualized_laboratory_findings.md)
-[hyperbilirubinemia](./img/graphviz/markdown/hyperbilirubinemia.md)
-[htep](./img/graphviz/markdown/htep.md)
-[hernia operation](./img/graphviz/markdown/hernia_operation.md)
-[he lavh tlh gro e op lsk cesa](./img/graphviz/markdown/he__lavh__tlh__gro_e_op_lsk__cesa.md)
-[general anesthesia](./img/graphviz/markdown/general_anesthesia.md)
-[elective gallbladder removal](./img/graphviz/markdown/elective_gallbladder_removal.md)
-[drug allergies](./img/graphviz/markdown/drug_allergies.md)
-[curettage](./img/graphviz/markdown/curettage.md)
-[criteria ambulatory surgery](./img/graphviz/markdown/criteria_ambulatory_surgery.md)
-[conservative therapy](./img/graphviz/markdown/conservative_therapy.md)
-[connatal toxoplasmosis](./img/graphviz/markdown/connatal_toxoplasmosis.md)
-[collect laboratory results](./img/graphviz/markdown/collect_laboratory_results.md)
-[clinical sop htep total endoprosthesis of the hip joint](./img/graphviz/markdown/clinical_sop_htep___total_endoprosthesis_of_the_hip_joint.md)
-[categorisation of surgical procedure](./img/graphviz/markdown/categorisation_of_surgical_procedure.md)
-[cardiac diagnosis](./img/graphviz/markdown/cardiac_diagnosis.md)
-[appendectomy](./img/graphviz/markdown/appendectomy.md)
-[anamnesis medical status](./img/graphviz/markdown/anamnesis_medical_status.md)
-[advanced diagnosis](./img/graphviz/markdown/advanced_diagnosis.md)
+[urology standard operating procedures](./img/graphviz/markdown/urology_standard_operating_procedures.md)\
+[standkind](./img/graphviz/markdown/standkind.md)\
+[sop](./img/graphviz/markdown/sop.md)\
+[sop tonsillectomy](./img/graphviz/markdown/sop_tonsillectomy.md)\
+[sop for circumcision](./img/graphviz/markdown/sop_for_circumcision.md)\
+[sop arthroscopic surgery of the shoulder joint](./img/graphviz/markdown/sop_arthroscopic_surgery_of_the_shoulder_joint.md)\
+[sectio](./img/graphviz/markdown/sectio.md)\
+[radiology report](./img/graphviz/markdown/radiology_report.md)\
+[pr op bqll](./img/graphviz/markdown/pr_op_bqll.md)\
+[pph](./img/graphviz/markdown/pph.md)\
+[perioperative management total knee arthroplasty ktep](./img/graphviz/markdown/perioperative_management_total_knee_arthroplasty_ktep.md)\
+[patient admission](./img/graphviz/markdown/patient_admission.md)\
+[outpatient birth](./img/graphviz/markdown/outpatient_birth.md)\
+[operation clearance](./img/graphviz/markdown/operation_clearance.md)\
+[newborn infection](./img/graphviz/markdown/newborn_infection.md)\
+[inpatient admission pregnant woman](./img/graphviz/markdown/inpatient_admission_pregnant_woman.md)\
+[individualized laboratory findings](./img/graphviz/markdown/individualized_laboratory_findings.md)\
+[hyperbilirubinemia](./img/graphviz/markdown/hyperbilirubinemia.md)\
+[htep](./img/graphviz/markdown/htep.md)\
+[hernia operation](./img/graphviz/markdown/hernia_operation.md)\
+[he lavh tlh gro e op lsk cesa](./img/graphviz/markdown/he__lavh__tlh__gro_e_op_lsk__cesa.md)\
+[general anesthesia](./img/graphviz/markdown/general_anesthesia.md)\
+[elective gallbladder removal](./img/graphviz/markdown/elective_gallbladder_removal.md)\
+[drug allergies](./img/graphviz/markdown/drug_allergies.md)\
+[curettage](./img/graphviz/markdown/curettage.md)\
+[criteria ambulatory surgery](./img/graphviz/markdown/criteria_ambulatory_surgery.md)\
+[conservative therapy](./img/graphviz/markdown/conservative_therapy.md)\
+[connatal toxoplasmosis](./img/graphviz/markdown/connatal_toxoplasmosis.md)\
+[collect laboratory results](./img/graphviz/markdown/collect_laboratory_results.md)\
+[clinical sop htep total endoprosthesis of the hip joint](./img/graphviz/markdown/clinical_sop_htep___total_endoprosthesis_of_the_hip_joint.md)\
+[categorisation of surgical procedure](./img/graphviz/markdown/categorisation_of_surgical_procedure.md)\
+[cardiac diagnosis](./img/graphviz/markdown/cardiac_diagnosis.md)\
+[appendectomy](./img/graphviz/markdown/appendectomy.md)\
+[anamnesis medical status](./img/graphviz/markdown/anamnesis_medical_status.md)\
+[advanced diagnosis](./img/graphviz/markdown/advanced_diagnosis.md)\
 
 #### Suggestion
 
