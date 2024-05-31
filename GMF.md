@@ -166,7 +166,7 @@ These modules are structured based on written medical guidelines and business pr
 [cardiac diagnosis](./img/graphviz/markdown/cardiac_diagnosis.md)\
 [appendectomy](./img/graphviz/markdown/appendectomy.md)\
 [anamnesis medical status](./img/graphviz/markdown/anamnesis_medical_status.md)\
-[advanced diagnosis](./img/graphviz/markdown/advanced_diagnosis.md)\
+[advanced diagnosis](./img/graphviz/markdown/advanced_diagnosis.md)
 
 #### Suggestion
 
